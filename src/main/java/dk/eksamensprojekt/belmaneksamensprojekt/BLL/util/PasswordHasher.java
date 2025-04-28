@@ -11,8 +11,6 @@ public class PasswordHasher implements IHashing {
 
     @Override
     public boolean compare(String input, String hash) throws Exception {
-        return hashString(input).equals(hash);
+        return BCrypt.verifyer().verify(input.toCharArray(), hash.toCharArray()).verified;
     }
-
-
 }
