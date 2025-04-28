@@ -1,14 +1,16 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL.util;
 
-public class PasswordHasher implements IHashing {
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
+public class PasswordHasher implements IHashing {
     @Override
     public String hashString(String input) throws Exception {
-        return "";
+        return BCrypt.withDefaults().hashToString(12, input.toCharArray());
     }
 
     @Override
     public boolean compare(String input, String hash) throws Exception {
-        return false;
+        return BCrypt.verifyer().verify(input.toCharArray(), hash.toCharArray()).verified;
     }
 }

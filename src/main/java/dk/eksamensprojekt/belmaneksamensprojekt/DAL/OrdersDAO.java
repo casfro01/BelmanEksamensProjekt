@@ -28,7 +28,7 @@ public class OrdersDAO implements Repository<Order, Integer>{
             }
         }
         catch(Exception e){
-            throw new Exception("Fail to get all Orders: " + e.getMessage());
+            throw new Exception("Failed to get all Orders: " + e.getMessage());
         }
         return orders;
     }
