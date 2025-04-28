@@ -9,6 +9,12 @@ public class User {
     private int role;
 
 
+    public User(){
+        id = 0;
+        name = "";
+        role = 0;
+    }
+
     public User(int id, int role, String email, String name) {
         this.role = role;
         this.email = email;
