@@ -1,3 +1,4 @@
+/*
 module dk.eksamensprojekt.belmaneksamensprojekt {
     requires javafx.controls;
     requires javafx.fxml;
@@ -6,3 +7,4 @@ module dk.eksamensprojekt.belmaneksamensprojekt {
     opens dk.eksamensprojekt.belmaneksamensprojekt to javafx.fxml;
     exports dk.eksamensprojekt.belmaneksamensprojekt;
 }
+ */
