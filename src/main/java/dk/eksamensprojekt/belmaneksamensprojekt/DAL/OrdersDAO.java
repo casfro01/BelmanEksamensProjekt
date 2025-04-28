@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersDAO implements Repository<Order, Integer>{
+
     @Override
     public List<Order> getAll() throws Exception{
-        List<Order> orders = new ArrayList<Order>();
+        List<Order> orders = new ArrayList<>();
         String SQL = """
                 SELECT ID, OrderNumber, Order.ReportID FROM Orders
                 INNER JOIN Report ON Order.ReportID = Report.ID;
@@ -20,13 +21,14 @@ public class OrdersDAO implements Repository<Order, Integer>{
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
+                // tilføj billeder her lil' skat
                 Report r = new Report(rs.getInt(3), null);
                 Order current = new Order(rs.getInt(1), rs.getString(2), r);
                 orders.add(current);
             }
         }
         catch(Exception e){
-            throw e;
+            throw new Exception("Fail to get all Orders: " + e.getMessage());
         }
         return orders;
     }
