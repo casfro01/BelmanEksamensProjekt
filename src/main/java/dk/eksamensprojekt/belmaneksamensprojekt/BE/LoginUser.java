@@ -1,11 +1,10 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
-public class LoginUser extends User{
+public class LoginUser{
     private final String email;
     private final String password;
 
     public LoginUser(String email, String password) {
-        super();
         this.email = email;
         this.password = password;
     }
