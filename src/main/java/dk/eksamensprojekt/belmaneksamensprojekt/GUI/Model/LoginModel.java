@@ -9,7 +9,7 @@ public class LoginModel {
         loginManager = new LoginManager();
     }
 
-    public boolean login(String email, String password) {
+    public boolean login(String email, String password) throws Exception {
         return loginManager.login(email, password);
     }
 }
