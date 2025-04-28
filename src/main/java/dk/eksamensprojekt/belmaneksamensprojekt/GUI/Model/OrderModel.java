@@ -12,9 +12,9 @@ public class OrderModel {
         this.orderManager = new OrderManager();
     }
 
-    public ObservableList<Order> getOrderList() {
+    public ObservableList<Order> getOrderList() throws Exception {
         if (orderList.isEmpty()) {
-            orderList = orderManager.getAllOrders();
+            orderList.addAll(orderManager.getAllOrders());
         }
 
         return orderList;
