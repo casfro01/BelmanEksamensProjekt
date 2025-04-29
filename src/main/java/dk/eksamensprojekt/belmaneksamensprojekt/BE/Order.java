@@ -7,6 +7,7 @@ public class Order {
     private int id; // primærenøgle
     private Report report;
     private String orderNumber;
+    private Approved approved;
     private List<Image> images = new ArrayList<>();
 
     public Order(int id, String orderNumber, Report report) {
@@ -25,5 +26,9 @@ public class Order {
 
     public List<Image> getImageList() {
         return images;
+    }
+
+    public Approved isApproved() {
+        return approved;
     }
 }

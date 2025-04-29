@@ -20,4 +20,7 @@ public class Report {
     public User getUser() {
         return user;
     }
+    public int getId() {
+        return id;
+    }
 }
