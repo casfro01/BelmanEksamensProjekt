@@ -4,12 +4,20 @@ public class Report {
     private final String reportPath;
     private final int id;
 
-    public Report(int id, String path) {
+    private User user;
+
+
+    public Report(int id, String path, User user) {
         this.id = id;
         this.reportPath = path;
+        this.user = user;
     }
 
     public String getReportPath() {
         return reportPath;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
