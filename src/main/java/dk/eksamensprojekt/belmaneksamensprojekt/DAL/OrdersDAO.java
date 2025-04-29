@@ -27,7 +27,17 @@ public class OrdersDAO implements Repository<Order, Integer>{
             while(rs.next()){
                 // tilføj billeder her lil' skat
                 Report r = new Report(rs.getInt(3), null, null);
-                Order current = new Order(rs.getInt(1), rs.getString(2), r);
+                Approved approvedEnum;
+                boolean approvedColumn = rs.getBoolean(3);
+                if (rs.wasNull()) {
+                    approvedEnum = Approved.NotReviewed;
+                } else if (approvedColumn) {
+                    approvedEnum = Approved.Approved;
+                } else {
+                    approvedEnum = Approved.NotApproved;
+                }
+
+                Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum);
                 orders.add(current);
             }
         }

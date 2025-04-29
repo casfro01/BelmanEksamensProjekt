@@ -9,11 +9,13 @@ public class Order {
     private String orderNumber;
     private Approved approved;
     private List<Image> images = new ArrayList<>();
+    private Approved isApproved;
 
-    public Order(int id, String orderNumber, Report report) {
+    public Order(int id, String orderNumber, Report report, Approved isApproved) {
         this.id = id;
         this.orderNumber = orderNumber; // setter til denne ? TODO : brug regex ?
         this.report = report;
+        this.isApproved = isApproved;
     }
 
     public int getId() {
@@ -26,6 +28,10 @@ public class Order {
 
     public List<Image> getImageList() {
         return images;
+    }
+
+    public void setApproved(Approved isApproved) {
+        this.isApproved = isApproved;
     }
 
     public Approved isApproved() {

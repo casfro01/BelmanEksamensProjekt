@@ -27,7 +27,15 @@ public class OrderModel {
         }
     }
 
-    public void addPictureClicked() {
+    public void addPictureClicked() throws Exception {
         orderManager.addPicFromFolder(currentOrder);
+    }
+
+    public void saveButtonClicked() throws Exception {
+        orderManager.updateOrder(currentOrder);
+    }
+
+    public void submitButtonClicked() throws Exception {
+        orderManager.submitOrder(currentOrder);
     }
 }
