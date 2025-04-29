@@ -7,6 +7,7 @@ import java.util.Stack;
 
 public class WindowInvoker {
     // command history
+    // TODO : implementér undo bagefter
     private Stack<UndoableCommand> commandHistory = new Stack<>();
 
     public void executeCommand(Command command){

@@ -1,7 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands;
 
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Windows;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
 
 public class SwitchWindowCommand implements Command, UndoableCommand{

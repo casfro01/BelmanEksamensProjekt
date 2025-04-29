@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.BE;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
 public enum Windows {
     LoginWindow("LoginWindow.fxml"),
@@ -14,5 +14,9 @@ public enum Windows {
 
     public String getPath(){
         return path;
+    }
+
+    public String getName(){
+        return name();
     }
 }

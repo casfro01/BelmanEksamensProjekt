@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 public class PhotoDocumentController extends Controller implements Initializable {
     private ModelManager modelManager;
     private OrderModel model;
+    /*
     @Override
     public void initializeComponents(double width, double height) {
         modelManager = ModelManager.getInstance();
@@ -21,9 +22,13 @@ public class PhotoDocumentController extends Controller implements Initializable
         // KALD SUPER INITIALIZECOMPONENTS HER?? ANCHOR PANE???
     }
 
+     */
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeComponents(1920, 1080);
+        modelManager = ModelManager.getInstance();
+        model = modelManager.getOrderModel();
+        //initializeComponents(1920, 1080);
     }
 
     @FXML
