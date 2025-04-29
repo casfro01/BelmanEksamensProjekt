@@ -58,7 +58,7 @@ public class OrdersDAO implements Repository<Order, Integer>{
             ps.setInt(3, entity.getId());
 
             if (entity.isApproved() == Approved.NotReviewed)
-                ps.setNull(1, Types.BIT);
+                ps.setNull(1, Types.BIT); // vi har sat default til null, men dette gøres for at være op den sikre side
             else
                 ps.setBoolean(1,entity.isApproved().toBoolean());
             ps.executeQuery();
