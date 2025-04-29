@@ -21,5 +21,5 @@ public interface IController {
 
     Font getFont(ObservableList<String> style, double newWidth, double newHeight);
 
-    //void setManager(ControllerManager manager);
+    // void setManager(ControllerManager manager);
 }
