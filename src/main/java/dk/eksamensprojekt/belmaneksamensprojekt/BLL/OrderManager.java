@@ -11,7 +11,12 @@ public class OrderManager {
     public OrderManager() {
         this.ordersDAO = new OrdersDAO();
     }
+
     public List<Order> getAllOrders() throws Exception {
         return ordersDAO.getAll();
+    }
+
+    public void updateOrder(Order order) throws Exception {
+        ordersDAO.update(order);
     }
 }
