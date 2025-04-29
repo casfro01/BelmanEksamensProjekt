@@ -33,7 +33,7 @@ public class Order {
     public void setApproved(Approved isApproved) {
         this.isApproved = isApproved;
     }
-    
+
     public Approved isApproved() {
         return approved;
     }

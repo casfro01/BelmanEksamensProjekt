@@ -35,7 +35,7 @@ public class OrderModel {
         orderManager.updateOrder(currentOrder);
     }
 
-    public void submitButtonClicked() {
+    public void submitButtonClicked() throws Exception {
         orderManager.submitOrder(currentOrder);
     }
 }

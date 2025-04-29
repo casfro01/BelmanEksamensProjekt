@@ -59,7 +59,7 @@ public class OrderManager {
         order.getImageList().add(new Image(-1, file.getPath(), Approved.NotReviewed));
     }
 
-    public void submitOrder(Order currentOrder) {
+    public void submitOrder(Order currentOrder) throws Exception {
         currentOrder.setApproved(Approved.Approved);
         ordersDAO.update(currentOrder);
     }
