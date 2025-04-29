@@ -35,4 +35,14 @@ public class PhotoDocumentController extends Controller implements Initializable
     private void addPictureClicked(ActionEvent event) throws Exception {
         model.addPictureClicked();
     }
+
+    @FXML
+    private void saveButtonClicked(ActionEvent event) throws Exception {
+        model.saveButtonClicked();
+    }
+
+    @FXML
+    private void submitButtonClicked(ActionEvent event) throws Exception {
+        model.submitButtonClicked();
+    }
 }
