@@ -22,7 +22,7 @@ public class OrdersDAO implements Repository<Order, Integer>{
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 // tilføj billeder her lil' skat
-                Report r = new Report(rs.getInt(3), null);
+                Report r = new Report(rs.getInt(3), null, null);
                 Order current = new Order(rs.getInt(1), rs.getString(2), r);
                 orders.add(current);
             }
@@ -53,3 +53,4 @@ public class OrdersDAO implements Repository<Order, Integer>{
 
     }
 }
+

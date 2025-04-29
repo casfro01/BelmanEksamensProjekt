@@ -14,4 +14,20 @@ public class User {
         this.name = name;
         this.id = id;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    private String getName() {
+        return name;
+    }
+
+    private String getEmail() {
+        return email;
+    }
+
+    private int getRole() {
+        return role;
+    }
 }
