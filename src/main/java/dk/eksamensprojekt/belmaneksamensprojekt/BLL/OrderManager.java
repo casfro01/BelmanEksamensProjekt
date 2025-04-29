@@ -2,10 +2,8 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrdersDAO;
 
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
@@ -45,9 +43,5 @@ public class OrderManager {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        openCamera(new Order(1, "order-number", new Report(1, "lol/report")));
     }
 }
