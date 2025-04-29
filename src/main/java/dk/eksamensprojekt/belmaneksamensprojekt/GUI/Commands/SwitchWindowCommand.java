@@ -5,14 +5,14 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
 
 public class SwitchWindowCommand implements Command, UndoableCommand{
-    private WindowService windowService;
+    private final WindowService windowService;
     private Windows window;
     public SwitchWindowCommand(WindowService windowService) {
-
+        this.windowService = windowService;
     }
     @Override
     public void execute() {
-
+        windowService.setPane(window);
     }
 
     @Override
