@@ -5,6 +5,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 public class ModelManager {
     private static ModelManager instance;
     private final OrderModel orderModel;
+
     // models
     private ModelManager(){
         this.orderModel = new OrderModel();
