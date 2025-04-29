@@ -1,11 +1,14 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,13 +58,31 @@ public class OrdersDAO implements Repository<Order, Integer>{
     }
 
     @Override
-    public void update(Order entity) {
+    public void update(Order entity) throws Exception {
+        String sql = """
+                UPDATE Orders SET Approve = ? ReportID = ? WHERE ID = ?";"
+                """;
+        DBConnector db = new DBConnector();
+        try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
+            ps.setInt(2, entity.getReport().getId());
+            ps.setInt(3, entity.getId());
 
+            if (entity.isApproved() == Approved.NotReviewed)
+                ps.setNull(1, Types.BIT);
+            else
+                ps.setBoolean(1,entity.isApproved().toBoolean());
+            ps.executeQuery();
+
+        }
+            catch(SQLServerException e){
+            throw new Exception("Failed to update Orders: " + e.getMessage());
+            }
     }
 
     @Override
     public void delete(Order entity) {
 
     }
+
 }
 

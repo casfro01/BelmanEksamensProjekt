@@ -7,6 +7,7 @@ public class Order {
     private int id; // primærenøgle
     private Report report;
     private String orderNumber;
+    private Approved approved;
     private List<Image> images = new ArrayList<>();
     private Approved isApproved;
 
@@ -31,5 +32,7 @@ public class Order {
 
     public void setApproved(Approved isApproved) {
         this.isApproved = isApproved;
+    public Approved isApproved() {
+        return approved;
     }
 }
