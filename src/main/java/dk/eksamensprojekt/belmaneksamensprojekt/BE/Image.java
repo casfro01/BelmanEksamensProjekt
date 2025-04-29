@@ -4,6 +4,8 @@ public class Image {
     private int id;
     private String path;
     private boolean isApproved;
+    private User user;
+    private int orderID;
 
     public Image(int id, String path, boolean isApproved) {
         this.id = id;
@@ -11,19 +13,28 @@ public class Image {
         this.isApproved = isApproved;
     }
 
-    private String getPath() {
+    public String getPath() {
         return path;
     }
 
-    private void setPath(String path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    private boolean isApproved() {
+    public boolean isApproved() {
         return isApproved;
     }
 
-    private void setApproved(boolean approved) {
+    public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+    public int getId() {
+        return id;
+    }
+    public User getUser(){
+        return user;
+    }
+    public int getOrderID() {
+        return orderID;
     }
 }
