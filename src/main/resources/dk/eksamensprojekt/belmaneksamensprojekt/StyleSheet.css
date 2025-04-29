@@ -1,0 +1,29 @@
+.button {
+    -fx-background-color: #004884;
+    -fx-text-fill: white;
+}
+.backgroundLogin {
+    -fx-background-color: #FFFFFF;
+}
+.button:hover {
+    -fx-background-color: #338d71;
+}
+.separator {
+    -fx-text-fill: #c6c6c6;
+}
+.smallText{
+    /* -fx-font-size: 12px;*/
+    -fx-text-fill: #DAD7CD;
+}
+.normalText{
+    /*-fx-font-size: 24px;*/
+    -fx-text-fill: #2a3d34;
+}
+.bigText{
+    /*-fx-font-size: 32px;*/
+    -fx-text-fill: #2a3d34;
+    -fx-font-family: "Helvatica";
+}
+#topBar{
+    -fx-background-color: #004B88;
+}
