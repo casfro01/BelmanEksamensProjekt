@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 public class OrderModel {
     private OrderManager orderManager;
     private ObservableList<Order> orderList;
+    private Order currentOrder;
 
     public OrderModel() {
         this.orderManager = new OrderManager();
@@ -18,5 +19,15 @@ public class OrderModel {
         }
 
         return orderList;
+    }
+
+    public void takePictureClicked() throws Exception {
+        if (currentOrder != null) {
+            orderManager.openCamera(currentOrder);
+        }
+    }
+
+    public void addPictureClicked() {
+        orderManager.addPicFromFolder(currentOrder);
     }
 }
