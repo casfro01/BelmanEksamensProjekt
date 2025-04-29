@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.DAL;'
+package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 
