@@ -1,9 +1,12 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrdersDAO;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.nio.file.*;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class OrderManager {
         ordersDAO.update(order);
     }
 
-    public static void openCamera(Order order) throws Exception {
+    public void openCamera(Order order) throws Exception {
         Runtime.getRuntime().exec("cmd.exe /C start microsoft.windows.camera:");
 
         // Kan være tilfælde hvor brugerens kamera ikke gemmer billeder i denne mappe
@@ -36,12 +39,25 @@ public class OrderManager {
         while ((key = watchService.take()) != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
                 if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE && event.context().toString().endsWith(".jpg")) {
-                    System.out.println("New photo: " + event.context());
-                    order.getImageList().add(new Image(1, "test/image.png", false));
+                    order.getImageList().add(new Image(-1, cameraRoll + "/" + event.context(), Approved.NotReviewed));
+                    ordersDAO.update(order);
+
                     Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
                     key.reset();
                 }
             }
         }
+    }
+
+    public void addPicFromFolder(Order order) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Pictures", "*.jpg"),
+                new FileChooser.ExtensionFilter("Pictures", "*.png")
+        );
+        File file = fileChooser.showOpenDialog(null);
+        order.getImageList().add(new Image(-1, file.getPath(), Approved.NotReviewed));
+        ordersDAO.update(order);
     }
 }

@@ -4,8 +4,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
 import javafx.collections.ObservableList;
 
-import java.io.IOException;
-
 public class OrderModel {
     private OrderManager orderManager;
     private ObservableList<Order> orderList;
@@ -27,5 +25,9 @@ public class OrderModel {
         if (currentOrder != null) {
             orderManager.openCamera(currentOrder);
         }
+    }
+
+    public void addPictureClicked() {
+        orderManager.addPicFromFolder(currentOrder);
     }
 }
