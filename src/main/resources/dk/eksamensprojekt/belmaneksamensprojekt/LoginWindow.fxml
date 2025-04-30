@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginWindowController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginWindowController">
    <children>
       <ScrollPane layoutX="138.0" layoutY="409.0" prefHeight="349.0" prefWidth="620.0">
         <content>
@@ -24,14 +25,14 @@
       <Button fx:id="btnLogin" layoutX="1293.0" layoutY="492.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="185.0" text="Login" AnchorPane.bottomAnchor="407.0" AnchorPane.leftAnchor="1348.0" AnchorPane.rightAnchor="387.0" AnchorPane.topAnchor="606.0" />
       <Separator layoutX="5.0" layoutY="187.0" orientation="VERTICAL" prefHeight="471.0" prefWidth="1.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="952.0" AnchorPane.rightAnchor="956.0" AnchorPane.topAnchor="50.0" />
       <ImageView fx:id="ImgLogo" fitHeight="150.0" fitWidth="200.0" layoutX="187.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="903.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="1720.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="lblUsername" layoutX="1240.8" layoutY="381.6984375" text="Username">
+      <Label fx:id="lblUsername" layoutX="1241.0" layoutY="389.0" text="Username">
          <font>
-            <Font size="24.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="lblPassword" layoutX="1242.0" layoutY="485.0" text="Password">
+      <Label fx:id="lblPassword" layoutX="1241.0" layoutY="494.0" text="Password">
          <font>
-            <Font size="24.0" />
+            <Font size="16.0" />
          </font>
       </Label>
    </children>
