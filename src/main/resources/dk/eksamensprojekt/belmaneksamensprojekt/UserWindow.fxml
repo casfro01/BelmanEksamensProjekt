@@ -55,25 +55,25 @@
       </AnchorPane>
       <AnchorPane id="sideMenu" fx:id="paneBackground" layoutX="407.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="927.0" stylesheets="@StyleSheet.css">
          <children>
-            <TableView layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
+            <TableView layoutX="43.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="842.0" stylesheets="@StyleSheet.css">
                <columns>
                   <TableColumn prefWidth="75.0" text="C1" />
                   <TableColumn prefWidth="75.0" text="C2" />
                </columns>
             </TableView>
-            <TextField fx:id="txtSearchUser" layoutX="5.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in users">
+            <TextField fx:id="txtSearchUser" layoutX="94.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in users">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <ImageView fx:id="imgSearchUser" fitHeight="48.0" fitWidth="48.0" layoutX="761.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgSearchUser" fitHeight="48.0" fitWidth="48.0" layoutX="837.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
       <AnchorPane id="sideMenu" layoutX="1356.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="530.0" stylesheets="@StyleSheet.css">
          <children>
             <TextField fx:id="txtFullName" layoutX="11.0" layoutY="87.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="490.0" />
             <TextField fx:id="txtEmail" layoutX="11.0" layoutY="176.0" prefHeight="48.0" prefWidth="490.0" />
-            <Button fx:id="btnBrowsefile" layoutX="309.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" text="Browse files" />
+            <Button fx:id="btnBrowsefile" layoutX="309.0" layoutY="269.0" mnemonicParsing="false" onAction="#BrowsefilesClicked" prefHeight="38.0" prefWidth="191.0" text="Browse files" />
             <SplitMenuButton fx:id="BtnsplitMenu" layoutX="15.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" text="Role">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
