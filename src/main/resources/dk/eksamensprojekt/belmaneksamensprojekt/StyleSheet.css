@@ -3,7 +3,7 @@
     -fx-text-fill: white;
 }
 .backgroundLogin {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #F2F2F2;
 }
 .button:hover {
     -fx-background-color: #338d71;
@@ -24,6 +24,24 @@
     -fx-text-fill: #2a3d34;
     /*-fx-font-family: "Helvatica";*/
 }
+
 #topBar{
     -fx-background-color: #004B88;
 }
+#sideMenu{
+    -fx-background-color: #E5E5E5;
+    -fx-background-radius: 15px;
+}
+#paneBackground{
+    -fx-background-color: #7FA8C5;
+    -fx-background-radius: 20px;
+}
+#txtSearchOrdernumb{
+    -fx-background-radius: 65px;
+}
+#Buttoncustom{
+    -fx-background-color: #004B88;
+    -fx-background-radius: 65px;
+    -fx-text-fill: white;
+}
+
