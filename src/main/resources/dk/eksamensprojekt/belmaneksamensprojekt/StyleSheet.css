@@ -30,7 +30,18 @@
 }
 #sideMenu{
     -fx-background-color: #E5E5E5;
+    -fx-background-radius: 15px;
 }
 #paneBackground{
     -fx-background-color: #7FA8C5;
+    -fx-background-radius: 20px;
 }
+#txtSearchOrdernumb{
+    -fx-background-radius: 65px;
+}
+#Buttoncustom{
+    -fx-background-color: #004B88;
+    -fx-background-radius: 65px;
+    -fx-text-fill: white;
+}
+
