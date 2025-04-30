@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.MainWindow">
    <children>
@@ -18,8 +18,8 @@
             <AnchorPane id="topBar" layoutX="156.8" layoutY="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1712.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="156.8">
                <children>
                   <ImageView fx:id="imgpicture" fitHeight="50.0" fitWidth="50.0" layoutX="1513.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="1513.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="22.0" />
-                  <Text fx:id="lblName" fill="WHITE" layoutX="1577.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" />
                   <ImageView fx:id="imgLogout" fitHeight="38.0" fitWidth="38.0" layoutX="1640.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblName" layoutX="1574.0" layoutY="20.0" text="Label" textFill="WHITE" />
                </children>
             </AnchorPane>
             <ImageView fx:id="imgLogo" fitHeight="96.0" fitWidth="96.0" layoutX="31.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
@@ -30,32 +30,27 @@
             <Insets right="34.0" />
          </padding>
          <children>
-            <Text fx:id="lblDashboard" layoutX="12.8" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Dashboard" AnchorPane.leftAnchor="12.8">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <Text fx:id="lblManageusers" layoutX="12.8" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Manage users" AnchorPane.leftAnchor="12.8">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <Text fx:id="lblGallery" layoutX="45.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Gallery" wrappingWidth="134.9791259765625" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="154.0">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
             <Separator layoutX="162.0" layoutY="144.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="163.0" />
             <Separator layoutX="162.0" layoutY="256.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="616.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="162.0" layoutY="349.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="555.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="153.0" layoutY="70.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="102.0" />
+            <Label fx:id="lblDashboard" layoutX="12.8" layoutY="111.0" text="Dashboard" AnchorPane.leftAnchor="12.8">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="173.0" text="Manage users" AnchorPane.leftAnchor="12.8">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="229.0" text="Gallery" AnchorPane.leftAnchor="12.8">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <Text fx:id="lblMenu" layoutX="119.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Menu" AnchorPane.leftAnchor="119.0">
-         <font>
-            <Font name="System Bold Italic" size="45.0" />
-         </font>
-      </Text>
       <AnchorPane id="paneBackground" fx:id="paneOrder" layoutX="397.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="927.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="380.0">
          <children>
             <TableView layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
@@ -86,15 +81,20 @@
             <ImageView fx:id="imgSearchApproval" fitHeight="48.0" fitWidth="48.0" layoutX="455.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Text layoutX="833.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Orders">
+      <Label fx:id="lblMenu" layoutX="118.0" layoutY="148.0" text="Menu">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
-      </Text>
-      <Text layoutX="1407.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Orders for approval">
+      </Label>
+      <Label fx:id="lblAllOrders" layoutX="761.0" layoutY="138.0" text="All Orders">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrdersForapproval" layoutX="1414.0" layoutY="136.0" text="Orders for approval">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
-      </Text>
+      </Label>
    </children>
 </AnchorPane>
