@@ -37,4 +37,8 @@ public class Order {
     public Approved isApproved() {
         return approved;
     }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
 }
