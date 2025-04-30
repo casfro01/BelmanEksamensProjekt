@@ -2,12 +2,14 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Collection;
 import java.util.List;
 
-public class ImageDAO implements Repository<Image, Integer>{
+public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     @Override
     public List<Image> getAll() throws Exception {
         return List.of();
@@ -63,7 +65,58 @@ public class ImageDAO implements Repository<Image, Integer>{
         } catch (Exception e) {
             throw new Exception("Could not update image" + e.getMessage());
         }
+    }
 
+    @Override
+    public void updateAll(List<Image> images) throws Exception {
+        String sql = """
+                UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?
+                WHERE ID = ?;
+                """;
+        String sqlCreatepic = """
+                INSERT INTO Pictures (Path, UserID, OrderID) VALUES (?, ?, ?);
+                """;
+        DBConnector connector = new DBConnector();
+        try(Connection conn = connector.getConnection()) {
+            try(PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement psCreatepic = conn.prepareStatement(sqlCreatepic)){
+                // start transaktion
+                conn.setAutoCommit(false);
+                // set update parameters
+                for (Image image : images) {
+                    if (image.getId() > 0){
+                        ps.setString(1, image.getPath());
+                        ps.setInt(2, image.getUser().getId());
+                        ps.setInt(3, image.getOrderID());
+
+                        // set hvor den skal opdateres
+                        ps.setInt(4, image.getId());
+                        ps.addBatch();
+                    }
+                    else{
+                        psCreatepic.setString(1, image.getPath());
+                        psCreatepic.setInt(2, image.getUser().getId());
+                        psCreatepic.setInt(3, image.getOrderID());
+                        psCreatepic.addBatch();
+                    }
+
+                }
+                // udfør batch
+                ps.executeBatch();
+                psCreatepic.executeBatch();
+                // gemme
+                conn.commit();
+            } catch (Exception e) {
+                conn.rollback();
+                throw new Exception("Could not update image" + e.getMessage());
+            }
+            finally {
+                // reset til standard
+                conn.setAutoCommit(true);
+            }
+        } catch (Exception e) {
+            throw new Exception("Could not update image" + e.getMessage());
+        }
     }
 
     @Override
