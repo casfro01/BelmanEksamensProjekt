@@ -7,11 +7,17 @@ import java.util.List;
 
 public class OrderDaoFacade implements Repository<Order, Integer> {
     Repository<Order, Integer> ordersDAO = new OrdersDAO();
-    UpdateAll<Image> imageDAO = new ImageDAO(); // der bruges en specifik metode fra denne som ikke er med i repo
+    ImageDAO imageDAO = new ImageDAO();
 
     @Override
     public List<Order> getAll() throws Exception {
-        return ordersDAO.getAll();
+        List<Order> orders = ordersDAO.getAll();
+        // TODO : kan det gøres bedre - lige nu har vi N + 1 kald af sql sætninger
+        for (Order order : orders) {
+            order.getImageList().addAll(imageDAO.getImageByOrder(order.getId()));
+        }
+
+        return orders;
     }
 
     @Override
