@@ -40,7 +40,6 @@ public class OrderManager {
             for (WatchEvent<?> event : key.pollEvents()) {
                 if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE && event.context().toString().endsWith(".jpg")) {
                     order.getImageList().add(new Image(-1, cameraRoll + "/" + event.context(), Approved.NotReviewed));
-                    ordersDAO.update(order);
 
                     Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
                     key.reset();
@@ -49,7 +48,7 @@ public class OrderManager {
         }
     }
 
-    public void addPicFromFolder(Order order) {
+    public void addPicFromFolder(Order order) throws Exception {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image");
         fileChooser.getExtensionFilters().addAll(
@@ -58,6 +57,10 @@ public class OrderManager {
         );
         File file = fileChooser.showOpenDialog(null);
         order.getImageList().add(new Image(-1, file.getPath(), Approved.NotReviewed));
-        ordersDAO.update(order);
+    }
+
+    public void submitOrder(Order currentOrder) throws Exception {
+        currentOrder.setApproved(Approved.Approved);
+        ordersDAO.update(currentOrder);
     }
 }

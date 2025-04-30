@@ -27,7 +27,6 @@ public abstract class Controller implements IController {
             if (n instanceof AnchorPane a){
                 initializeComponents(a, width, height);
             }
-            // ^^ kalder sig selv - tjek lige om den også bliver tilføjet ig
             if (n instanceof Region region) {
                 windowItems.put(region, new ArrayList<>(){{
                     add(region.getPrefWidth() / width);
@@ -43,6 +42,7 @@ public abstract class Controller implements IController {
                     add(iv.getLayoutY() / height);}});
             }
         }
+
     }
 
     /*
@@ -69,6 +69,7 @@ public abstract class Controller implements IController {
         height -= 30;
         for (Region n : components.keySet()) {
             //n.resize(width * windowItems.get(n).get(0), height * windowItems.get(n).get(1));
+            System.out.println(n instanceof Button ? n.getLayoutY() : 0);
             n.setPrefWidth(width * components.get(n).get(0));
             n.setLayoutX(width * components.get(n).get(2));
 
@@ -87,7 +88,7 @@ public abstract class Controller implements IController {
                 }
             }
         }
-        if (imageComponents == null)
+        if (imageComponents == null || imageComponents.isEmpty())
             return;
 
         // image views

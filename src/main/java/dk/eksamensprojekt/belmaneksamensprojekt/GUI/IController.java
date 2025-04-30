@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IController {
-    void initializeComponents(double width, double height);
+    void initializeComponents(AnchorPane pane, double width, double height);
     void resizeItems(double width, double height);
     void resizeItems(Map<Region, List<Double>> components, Map<ImageView, List<Double>> imageComponents, double width, double height);
 
