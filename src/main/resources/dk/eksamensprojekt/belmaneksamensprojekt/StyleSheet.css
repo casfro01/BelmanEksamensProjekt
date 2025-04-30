@@ -22,7 +22,7 @@
 .bigText{
     /*-fx-font-size: 32px;*/
     -fx-text-fill: #2a3d34;
-    -fx-font-family: "Helvatica";
+    /*-fx-font-family: "Helvatica";*/
 }
 #topBar{
     -fx-background-color: #004B88;
