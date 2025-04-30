@@ -21,8 +21,10 @@ public class OrderDaoFacade implements Repository<Order, Integer> {
     }
 
     @Override
-    public Order getById(Integer integer) throws Exception {
-        return ordersDAO.getById(integer);
+    public Order getById(Integer orderID) throws Exception {
+        Order returnOrder = ordersDAO.getById(orderID);
+        returnOrder.getImageList().addAll(imageDAO.getImageByOrder(orderID));
+        return returnOrder;
     }
 
     @Override
