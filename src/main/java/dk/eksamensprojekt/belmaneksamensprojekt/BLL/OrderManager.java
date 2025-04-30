@@ -3,7 +3,9 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrdersDAO;
+import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -11,10 +13,10 @@ import java.nio.file.*;
 import java.util.List;
 
 public class OrderManager {
-    private final OrdersDAO ordersDAO;
+    private final Repository<Order, Integer> ordersDAO;
 
     public OrderManager() {
-        this.ordersDAO = new OrdersDAO();
+        this.ordersDAO = new OrderDaoFacade();
     }
 
     public List<Order> getAllOrders() throws Exception {
