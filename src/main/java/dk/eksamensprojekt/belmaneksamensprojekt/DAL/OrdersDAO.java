@@ -65,19 +65,15 @@ public class OrdersDAO implements Repository<Order, Integer>{
         DBConnector db = new DBConnector();
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
             ps.setInt(2, entity.getReport().getId());
-            ps.setInt(3, entity.getId());
+            ps.setInt(4, entity.getId());
 
             //Approve
             if (entity.isApproved() == Approved.NotReviewed)
                 ps.setNull(1, Types.BIT); // vi har sat default til null, men dette gøres for at være op den sikre side
             else
-
                 ps.setBoolean(1,entity.isApproved().toBoolean());
-
-            ps.setInt(2, entity.getReport().getId());
-
             //Documented
-            ps.setBoolean(3, true);
+            ps.setBoolean(3, entity.isDocumented());
             ps.executeQuery();
         }
             catch(SQLServerException e){
