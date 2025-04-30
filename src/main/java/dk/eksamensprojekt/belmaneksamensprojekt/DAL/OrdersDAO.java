@@ -60,19 +60,25 @@ public class OrdersDAO implements Repository<Order, Integer>{
     @Override
     public void update(Order entity) throws Exception {
         String sql = """
-                UPDATE Orders SET Approve = ? ReportID = ? WHERE ID = ?";"
+                UPDATE Orders SET Approve = ? ReportID = ?, Documented = ? WHERE ID = ?";"
                 """;
         DBConnector db = new DBConnector();
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
             ps.setInt(2, entity.getReport().getId());
             ps.setInt(3, entity.getId());
 
+            //Approve
             if (entity.isApproved() == Approved.NotReviewed)
                 ps.setNull(1, Types.BIT); // vi har sat default til null, men dette gøres for at være op den sikre side
             else
-                ps.setBoolean(1,entity.isApproved().toBoolean());
-            ps.executeQuery();
 
+                ps.setBoolean(1,entity.isApproved().toBoolean());
+
+            ps.setInt(2, entity.getReport().getId());
+
+            //Documented
+            ps.setBoolean(3, true);
+            ps.executeQuery();
         }
             catch(SQLServerException e){
             throw new Exception("Failed to update Orders: " + e.getMessage());
