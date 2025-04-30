@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitMenuButton?>
@@ -11,8 +12,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.UserWindow">
    <children>
@@ -21,25 +20,25 @@
             <Insets right="34.0" />
          </padding>
          <children>
-            <Text fx:id="lblDashboard" layoutX="12.8" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Dashboard" AnchorPane.leftAnchor="12.8">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <Text fx:id="lblManageusers" layoutX="12.8" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Manage users" AnchorPane.leftAnchor="12.8">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <Text fx:id="lblGallery" layoutX="45.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="normalText" text="Gallery" wrappingWidth="134.9791259765625" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="154.0">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
             <Separator layoutX="162.0" layoutY="144.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="163.0" />
             <Separator layoutX="162.0" layoutY="256.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="616.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="162.0" layoutY="349.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="555.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="153.0" layoutY="70.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="102.0" />
+            <Label fx:id="lblDashboard" layoutX="12.0" layoutY="116.0" text="Dashboard">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblManageusers" layoutX="11.0" layoutY="173.0" text="Manage users">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="234.0" text="Gallery">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="topbar" layoutX="13.0" layoutY="16.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1869.0">
@@ -47,18 +46,13 @@
             <AnchorPane id="topBar" layoutX="156.8" layoutY="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1712.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="156.8">
                <children>
                   <ImageView fx:id="imgpicture" fitHeight="50.0" fitWidth="50.0" layoutX="1513.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="1513.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="22.0" />
-                  <Text fx:id="lblName" fill="WHITE" layoutX="1577.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" />
                   <ImageView fx:id="imgLogout" fitHeight="38.0" fitWidth="38.0" layoutX="1640.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblName" layoutX="1574.0" layoutY="20.0" text="Label" textFill="WHITE" />
                </children>
             </AnchorPane>
             <ImageView fx:id="imgLogo" fitHeight="96.0" fitWidth="96.0" layoutX="31.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Text fx:id="lblMenu" layoutX="119.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="Menu">
-         <font>
-            <Font name="System Bold Italic" size="45.0" />
-         </font>
-      </Text>
       <AnchorPane id="sideMenu" fx:id="paneBackground" layoutX="407.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="927.0" stylesheets="@StyleSheet.css">
          <children>
             <TableView layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="796.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
@@ -79,29 +73,34 @@
          <children>
             <TextField fx:id="txtFullName" layoutX="11.0" layoutY="87.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="490.0" />
             <TextField fx:id="txtEmail" layoutX="11.0" layoutY="176.0" prefHeight="48.0" prefWidth="490.0" />
-            <Text fx:id="lblFullName" layoutX="11.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name" />
-            <Text fx:id="lblEmail" layoutX="11.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
             <Button fx:id="btnBrowsefile" layoutX="309.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" text="Browse files" />
-            <Text fx:id="lblEmail1" layoutX="309.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Picture" />
             <SplitMenuButton fx:id="BtnsplitMenu" layoutX="15.0" layoutY="269.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="191.0" text="Role">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
             </SplitMenuButton>
-            <Text fx:id="lblEmail11" layoutX="15.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role" />
             <AnchorPane fx:id="paneAnchorUploadPhoto" layoutX="305.0" layoutY="321.0" prefHeight="137.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="imgUploadLogo" fitHeight="38.0" fitWidth="38.0" layoutX="81.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
-                  <Text fx:id="lblUploadPhoto" layoutX="63.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload photo" />
+                  <Label fx:id="lblUploadPhoto" layoutX="63.0" layoutY="69.0" text="Upload Photo" />
                </children>
             </AnchorPane>
+            <Label fx:id="lblFullName" layoutX="11.0" layoutY="67.0" text="Full name" />
+            <Label fx:id="lblEmail" layoutX="11.0" layoutY="159.0" text="Email" />
+            <Label fx:id="lblRole" layoutX="15.0" layoutY="252.0" text="Role" />
+            <Label fx:id="lblProfilePicture" layoutX="309.0" layoutY="252.0" text="Profile Picture" />
          </children>
       </AnchorPane>
-      <Text fx:id="lblMenu1" layoutX="1526.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bigText" text="New User">
+      <Label fx:id="lblMenu" layoutX="120.0" layoutY="148.0" text="Menu">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
-      </Text>
+      </Label>
+      <Label fx:id="lblNewUser" layoutX="1525.0" layoutY="148.0" text="New User">
+         <font>
+            <Font name="System Bold Italic" size="45.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
