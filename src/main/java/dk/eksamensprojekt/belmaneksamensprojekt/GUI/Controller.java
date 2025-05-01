@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -22,6 +21,7 @@ public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
     private IController root;
+    private WindowInvoker invoker;
 
     public void initializeComponents(AnchorPane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
@@ -70,7 +70,6 @@ public abstract class Controller implements IController {
         height -= 30;
         for (Region n : components.keySet()) {
             //n.resize(width * windowItems.get(n).get(0), height * windowItems.get(n).get(1));
-            System.out.println(n instanceof Button ? n.getLayoutY() : 0);
             n.setPrefWidth(width * components.get(n).get(0));
             n.setLayoutX(width * components.get(n).get(2));
 
@@ -113,5 +112,11 @@ public abstract class Controller implements IController {
         root = controller;
     }
 
+    /**
+     * Henter invoker - bruges primært i child-klasserne
+     */
+    private WindowInvoker getInvoker() {
+        return invoker;
+    }
 
 }

@@ -6,9 +6,16 @@ public class User {
     private int id;
     private String name;
     private String email;
-    private int role;
+    private UserRole role;
 
     public User(int id, int role, String email, String name) {
+        this.role = UserRole.fromInt(role);
+        this.email = email;
+        this.name = name;
+        this.id = id;
+    }
+
+    public User(int id, UserRole role, String email, String name) {
         this.role = role;
         this.email = email;
         this.name = name;
@@ -19,15 +26,15 @@ public class User {
         return id;
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    private int getRole() {
+    public UserRole getRole() {
         return role;
     }
 }
