@@ -87,6 +87,12 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 conn.setAutoCommit(false);
                 // set update parameters
                 for (Image image : images) {
+                    //hvis den ikke har et ordrenummer
+                    if (image.getOrderID() <= 0)
+                        delete(image);
+                    else if (image.getId() > 0)
+                        continue;
+
                     if (image.getId() > 0){
                         ps.setString(1, image.getPath());
                         ps.setInt(2, image.getUser().getId());
@@ -154,6 +160,16 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
 
     @Override
     public void delete(Image entity) throws Exception {
-
+        String sql = """
+                DELETE FROM Pictures WHERE ID = ?;
+                """;
+        DBConnector connector = new DBConnector();
+        try(PreparedStatement ps = connector.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, entity.getId());
+            ps.executeUpdate();
+        }
+        catch (Exception e) {
+            throw new Exception("Could not delete image" + e.getMessage());
+        }
     }
 }
