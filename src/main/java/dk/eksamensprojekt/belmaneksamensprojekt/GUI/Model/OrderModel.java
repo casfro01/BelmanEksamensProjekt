@@ -38,4 +38,8 @@ public class OrderModel {
     public void submitButtonClicked() throws Exception {
         orderManager.submitOrder(currentOrder);
     }
+
+    public Order getCurrentOrder() {
+        return this.currentOrder;
+    }
 }

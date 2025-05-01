@@ -14,4 +14,8 @@ public enum Approved {
     public boolean toBoolean(){
         return id == 1;
     }
+
+    public static Approved valueOfBoolean(boolean value){
+        return value ? Approved : NotApproved;
+    }
 }

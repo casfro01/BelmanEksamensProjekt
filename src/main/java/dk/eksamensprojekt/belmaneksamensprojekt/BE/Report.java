@@ -3,9 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 public class Report {
     private final String reportPath;
     private final int id;
-
-    private User user;
-
+    private final User user;
 
     public Report(int id, String path, User user) {
         this.id = id;
@@ -13,13 +11,8 @@ public class Report {
         this.user = user;
     }
 
-    public String getReportPath() {
-        return reportPath;
-    }
-
-    public User getUser() {
-        return user;
-    }
+    public String getReportPath() { return reportPath; }
+    public User getUser() { return user; }
     public int getId() {
         return id;
     }

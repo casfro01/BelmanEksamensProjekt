@@ -1,14 +1,17 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 
 public class ModelManager {
     private static ModelManager instance;
     private final OrderModel orderModel;
+    private final UserModel userModel;
 
     // models
     private ModelManager(){
         this.orderModel = new OrderModel();
+        this.userModel = new UserModel();
     }
 
     public static ModelManager getInstance(){
@@ -19,7 +22,6 @@ public class ModelManager {
     }
 
     // getters and setters
-    public OrderModel getOrderModel(){
-        return orderModel;
-    }
+    public OrderModel getOrderModel(){ return orderModel; }
+    public UserModel getUserModel() { return userModel; }
 }

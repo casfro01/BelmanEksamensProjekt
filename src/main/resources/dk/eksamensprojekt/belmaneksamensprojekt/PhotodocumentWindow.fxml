@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
-   <children>
-      <AnchorPane layoutX="152.0" layoutY="79.0" prefHeight="96.0" prefWidth="1867.0" AnchorPane.bottomAnchor="939.1999999999999" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="14.0">
-         <children>
-            <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="-70.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <AnchorPane id="topBar" layoutX="224.0" layoutY="-18.0" prefHeight="126.0" prefWidth="1922.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1321.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="1514.0" AnchorPane.rightAnchor="148.0" AnchorPane.topAnchor="23.0" />
-                  <Text fx:id="lblName" fill="WHITE" layoutX="1731.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="smallText" text="Text" />
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-      <Button layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" text="Add Picture" />
-      <Button layoutX="163.0" layoutY="466.0" mnemonicParsing="false" onAction="#addPictureClicked" prefHeight="115.0" prefWidth="437.0" text="Add from folder" />
-      <Button layoutX="201.0" layoutY="649.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="86.0" prefWidth="156.0" text="Save" />
-      <Button layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" text="Submit" />
-   </children>
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
+    <children>
+        <AnchorPane layoutX="152.0" layoutY="79.0" prefHeight="96.0" prefWidth="1867.0" AnchorPane.bottomAnchor="939.1999999999999" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="14.0">
+            <children>
+                <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="-70.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <AnchorPane id="topBar" layoutX="224.0" layoutY="-18.0" prefHeight="126.0" prefWidth="1922.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1673.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="37.399999999999864" AnchorPane.leftAnchor="1673.0" AnchorPane.rightAnchor="199.4000000000001" AnchorPane.topAnchor="39.0" />
+                  <Label fx:id="lblName" layoutX="1725.0" layoutY="39.0" text="Label" textFill="WHITE" />
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+        <Button id="Buttoncustom" fx:id="btnAddPicture" layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" stylesheets="@StyleSheet.css" text="Take Picture">
+         <font>
+            <Font size="35.0" />
+         </font></Button>
+        <Button id="Buttoncustom" fx:id="btnAddFromFolder" layoutX="163.0" layoutY="466.0" mnemonicParsing="false" onAction="#addPictureClicked" prefHeight="115.0" prefWidth="437.0" stylesheets="@StyleSheet.css" text="Add from folder">
+         <font>
+            <Font size="35.0" />
+         </font></Button>
+        <Button id="Buttoncustom" fx:id="btnSave" layoutX="201.0" layoutY="649.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="86.0" prefWidth="156.0" stylesheets="@StyleSheet.css" text="Save">
+         <font>
+            <Font size="25.0" />
+         </font></Button>
+        <Button id="Buttoncustom" fx:id="btnSubmit" layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" stylesheets="@StyleSheet.css" text="Submit">
+         <font>
+            <Font size="25.0" />
+         </font></Button>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="489.0" layoutY="334.0" pickOnBounds="true" preserveRatio="true" />
+    </children>
 </AnchorPane>
