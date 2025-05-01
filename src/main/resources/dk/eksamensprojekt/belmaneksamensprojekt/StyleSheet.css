@@ -25,6 +25,12 @@
     /*-fx-font-family: "Helvatica";*/
 }
 
+.userPane{
+    -fx-background-radius: 65px;
+    -fx-background-color: #004884;
+    -fx-text-fill: white;
+}
+
 #topBar{
     -fx-background-color: #004B88;
 }

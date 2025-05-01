@@ -21,6 +21,7 @@ public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
     private IController root;
+    private WindowInvoker invoker;
 
     public void initializeComponents(AnchorPane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
@@ -110,6 +111,13 @@ public abstract class Controller implements IController {
     @Override
     public void setControllerRoot(IController controller) {
         root = controller;
+    }
+
+    /**
+     * Henter invoker - bruges primært i child-klasserne
+     */
+    private WindowInvoker getInvoker() {
+        return invoker;
     }
 
 }
