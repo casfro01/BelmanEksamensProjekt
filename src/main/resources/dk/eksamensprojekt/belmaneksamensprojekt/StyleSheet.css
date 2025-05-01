@@ -13,15 +13,15 @@
 }
 .smallText{
     /* -fx-font-size: 12px;*/
-    -fx-text-fill: #DAD7CD;
+    /*-fx-text-fill: #DAD7CD;*/
 }
 .normalText{
     /*-fx-font-size: 24px;*/
-    -fx-text-fill: #2a3d34;
+    /*-fx-text-fill: #2a3d34;*/
 }
 .bigText{
     /*-fx-font-size: 32px;*/
-    -fx-text-fill: #2a3d34;
+    /*-fx-text-fill: #2a3d34;*/
     /*-fx-font-family: "Helvatica";*/
 }
 
