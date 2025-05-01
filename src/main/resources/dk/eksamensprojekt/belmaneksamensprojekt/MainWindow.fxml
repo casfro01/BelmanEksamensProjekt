@@ -34,17 +34,17 @@
             <Separator layoutX="162.0" layoutY="256.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="616.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="162.0" layoutY="349.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="555.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
             <Separator layoutX="153.0" layoutY="70.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="102.0" />
-            <Label fx:id="lblDashboard" layoutX="12.8" layoutY="111.0" text="Dashboard" AnchorPane.leftAnchor="12.8">
+            <Label fx:id="lblDashboard" layoutX="12.8" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" text="Dashboard">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="173.0" text="Manage users" AnchorPane.leftAnchor="12.8">
+            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="173.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" text="Manage users">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label fx:id="lblGallery" layoutX="13.0" layoutY="229.0" text="Gallery" AnchorPane.leftAnchor="12.8">
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="229.0" prefHeight="46.0" prefWidth="214.0" text="Gallery">
                <font>
                   <Font size="30.0" />
                </font>
@@ -81,17 +81,17 @@
             <ImageView fx:id="imgSearchApproval" fitHeight="48.0" fitWidth="48.0" layoutX="437.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Label fx:id="lblMenu" layoutX="118.0" layoutY="148.0" text="Menu">
+      <Label fx:id="lblMenu" alignment="CENTER" layoutX="21.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="286.0" text="Menu">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
       </Label>
-      <Label fx:id="lblAllOrders" layoutX="761.0" layoutY="138.0" text="All Orders">
+      <Label fx:id="lblAllOrders" alignment="CENTER" layoutX="380.0" layoutY="138.0" prefHeight="66.0" prefWidth="926.0" text="All Orders">
          <font>
             <Font size="45.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrdersForapproval" layoutX="1414.0" layoutY="136.0" text="Orders for approval">
+      <Label fx:id="lblOrdersForapproval" alignment="CENTER" layoutX="1397.0" layoutY="136.0" prefHeight="66.0" prefWidth="503.0" text="Orders for approval">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
