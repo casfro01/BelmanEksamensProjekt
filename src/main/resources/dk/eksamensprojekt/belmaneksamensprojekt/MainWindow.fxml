@@ -30,23 +30,23 @@
             <Insets right="34.0" />
          </padding>
          <children>
-            <Separator layoutX="162.0" layoutY="144.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="163.0" />
-            <Separator layoutX="162.0" layoutY="256.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="616.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
-            <Separator layoutX="162.0" layoutY="349.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="555.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" />
-            <Separator layoutX="153.0" layoutY="70.0" prefWidth="200.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="102.0" />
-            <Label fx:id="lblDashboard" layoutX="12.8" layoutY="111.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" text="Dashboard">
+            <Separator layoutX="13.0" layoutY="105.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="160.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="215.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="270.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Label fx:id="lblDashboard" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Dashboard">
                <font>
-                  <Font size="30.0" />
+                  <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="173.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" text="Manage users">
+            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users">
                <font>
-                  <Font size="30.0" />
+                  <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="lblGallery" layoutX="13.0" layoutY="229.0" prefHeight="46.0" prefWidth="214.0" text="Gallery">
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="220.0" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Gallery">
                <font>
-                  <Font size="30.0" />
+                  <Font size="32.0" />
                </font>
             </Label>
          </children>
