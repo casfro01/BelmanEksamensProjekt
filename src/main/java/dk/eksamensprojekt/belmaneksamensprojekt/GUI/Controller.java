@@ -70,7 +70,6 @@ public abstract class Controller implements IController {
         height -= 30;
         for (Region n : components.keySet()) {
             //n.resize(width * windowItems.get(n).get(0), height * windowItems.get(n).get(1));
-            System.out.println(n instanceof Button ? n.getLayoutY() : 0);
             n.setPrefWidth(width * components.get(n).get(0));
             n.setLayoutX(width * components.get(n).get(2));
 

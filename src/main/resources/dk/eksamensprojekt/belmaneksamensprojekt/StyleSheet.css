@@ -26,9 +26,17 @@
 }
 
 .userPane{
-    -fx-background-radius: 65px;
+    -fx-background-radius: 20px;
     -fx-background-color: #004884;
+}
+.userPaneTitleText{
     -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.userPaneText{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
 }
 
 #topBar{
