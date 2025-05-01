@@ -39,7 +39,12 @@ public class OrderModel {
         orderManager.submitOrder(currentOrder);
     }
 
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
     public Order getCurrentOrder() {
         return this.currentOrder;
     }
+
 }
