@@ -7,10 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 
-public class MainWindowController extends Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainWindowController extends Controller implements Initializable {
 
     @FXML
     private TableView orderTableView;
@@ -37,7 +41,8 @@ public class MainWindowController extends Controller {
         orderTableView.setItems(sortedList);
     }
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         orderList = FXCollections.observableArrayList();
         setupTableFiltering();
     }
