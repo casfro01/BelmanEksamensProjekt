@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -36,5 +37,6 @@
             <Font size="25.0" />
          </font></Button>
       <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="489.0" layoutY="334.0" pickOnBounds="true" preserveRatio="true" />
+      <ScrollPane layoutX="806.0" layoutY="190.0" prefHeight="884.0" prefWidth="1028.0" />
     </children>
 </AnchorPane>
