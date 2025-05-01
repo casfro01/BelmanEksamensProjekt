@@ -7,16 +7,14 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-
 public class Main extends Application {
     @Override
     public void start(Stage stage){
-        WindowService windowService = new WindowService(stage);
-        WindowInvoker in = new WindowInvoker();
-        SwitchWindowCommand switchWindowCommand = new SwitchWindowCommand(windowService);
-        //switchWindowCommand.setWindow(Windows.PhotoDocWindow);
-        //in.executeCommand(switchWindowCommand);
+        /* WindowService windowService = new WindowService(stage);
+        WindowInvoker windowInvoker = new WindowInvoker();
+        SwitchWindowCommand command = new SwitchWindowCommand(windowService);
+        command.setWindow(Windows.PhotoDocWindow);
+        windowInvoker.executeCommand(command);*/
     }
 
     public static void main(String[] args) {
