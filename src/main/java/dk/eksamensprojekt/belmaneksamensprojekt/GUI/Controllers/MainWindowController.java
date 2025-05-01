@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -45,32 +46,29 @@ public class MainWindowController extends Controller implements Initializable {
     }
 
     public void setupTableFiltering() {
-        // lav filterliste
-        FilteredList<Order> filteredList = new FilteredList<>(FXCollections.observableArrayList(), p -> true);
         // hent ordre
         try {
-            filteredList.addAll(orderModel.getOrderList());
+            FilteredList<Order> filteredList = new FilteredList<>(FXCollections.observableArrayList(), p -> true);
+            txtOrderSearchbar.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredList.setPredicate(order -> {
+                    // Hvis den er tom eller hvis der ikke er noget i søgefeltet -> så skal de vises
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    //String lowerCaseFilter = newValue.toLowerCase(); tal til lowercase?
+                    // TODO : skal man også bare kunne søge på et ordrenummer sådan 128487523 istedet + begge? for 123-85433-.... ?
+                    return order.getOrderNumber().startsWith(newValue);
+                    //return order.getOrderNumber().toLowerCase().contains(lowerCaseFilter); -> toLowercase ikke nødvendigt -> det er tal ... blev vi ikke lige enige om at det var startswith?
+                });
+            });
+
+            // opsætning af sortering
+            SortedList<Order> sortedList = new SortedList<>(filteredList);
+            sortedList.comparatorProperty().bind(orderTableView.comparatorProperty());
+            orderTableView.setItems(sortedList);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
         }
-        txtOrderSearchbar.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredList.setPredicate(order -> {
-                // Hvis den er tom eller hvis der ikke er noget i søgefeltet -> så skal de vises
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                //String lowerCaseFilter = newValue.toLowerCase(); tal til lowercase?
-                // TODO : skal man også bare kunne søge på et ordrenummer sådan 128487523 istedet + begge? for 123-85433-.... ?
-                return order.getOrderNumber().startsWith(newValue);
-                //return order.getOrderNumber().toLowerCase().contains(lowerCaseFilter); -> toLowercase ikke nødvendigt -> det er tal ... blev vi ikke lige enige om at det var startswith?
-
-            });
-        });
-
-        // opsætning af sortering
-        SortedList<Order> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(orderTableView.comparatorProperty());
-        orderTableView.setItems(sortedList);
     }
 
     private void createOrderForApprovalView() {
@@ -78,6 +76,14 @@ public class MainWindowController extends Controller implements Initializable {
         List<Order> todoOrders = orderModel.getOrdersForApproval();
         AnchorPane ap = new AnchorPane();
         ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        /**
+         * Fjen igen
+         */
+        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
 
         int counter = 0;
         int estiHeight = 65;
@@ -89,11 +95,14 @@ public class MainWindowController extends Controller implements Initializable {
             orderPane.setLayoutY(counter * (estiHeight + spacing));
             counter++;
         }
+
+        scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
+        scrollPaneOrderApproval.setContent(ap);
     }
 
     private AnchorPane getOrderPane(Order o) {
         int spacing = 10;
-        int estiHeight = 65;
+        int estiHeight = 25;
         // base pane
         AnchorPane ap = new AnchorPane();
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 2, estiHeight + spacing);

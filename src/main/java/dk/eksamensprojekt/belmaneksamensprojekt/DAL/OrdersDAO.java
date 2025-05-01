@@ -18,14 +18,13 @@ public class OrdersDAO implements Repository<Order, Integer>{
     public List<Order> getAll() throws Exception{
         List<Order> orders = new ArrayList<>();
         String SQL = """
-                SELECT ID, OrderNumber, Order.ReportID FROM Orders
-                INNER JOIN Report ON Order.ReportID = Report.ID;
+                SELECT Orders.ID, Orders.OrderNumber, Orders.ReportID FROM Orders
+                FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                // tilføj billeder her lil' skat
                 Report r = new Report(rs.getInt(3), null, null);
                 Approved approvedEnum;
                 boolean approvedColumn = rs.getBoolean(3);
