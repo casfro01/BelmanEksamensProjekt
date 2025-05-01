@@ -71,19 +71,20 @@ public class MainWindowController extends Controller implements Initializable {
         }
     }
 
+    // TODO : lav til listview og gør det der ig?
     private void createOrderForApprovalView() {
         // kan dette laves på en bedre måde?
         List<Order> todoOrders = orderModel.getOrdersForApproval();
         AnchorPane ap = new AnchorPane();
-        ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
         /**
          * Fjen igen
          */
-        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "23423-4343242-43242342", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
+        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
 
         int counter = 0;
         int estiHeight = 65;
@@ -92,38 +93,41 @@ public class MainWindowController extends Controller implements Initializable {
             AnchorPane orderPane = getOrderPane(o);
             ap.getChildren().add(orderPane);
             orderPane.setLayoutX(spacing);
-            orderPane.setLayoutY(counter * (estiHeight + spacing));
+            orderPane.setLayoutY(counter * (estiHeight + spacing * 2) + spacing);
             counter++;
         }
 
         scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
+        ap.setStyle("-fx-background-color: #7FA8C5;");
+        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() + spacing * 2, Region.USE_COMPUTED_SIZE + spacing * 2);
         scrollPaneOrderApproval.setContent(ap);
+        scrollPaneOrderApproval.setStyle("-fx-background-color: #7FA8C5;");
     }
 
     private AnchorPane getOrderPane(Order o) {
         int spacing = 10;
-        int estiHeight = 25;
+        int estiHeight = 48;
         // base pane
         AnchorPane ap = new AnchorPane();
-        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 2, estiHeight + spacing);
+        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 8, estiHeight + spacing * 2);
         ap.getStyleClass().add("orderItemPane");
 
         // label med order nummer
         Label lblOrderNumber = new Label(o.getOrderNumber());
         ap.getChildren().add(lblOrderNumber);
         lblOrderNumber.setLayoutX(spacing);
-        lblOrderNumber.setLayoutY(spacing);
+        lblOrderNumber.setLayoutY(spacing * 1.5f);
         lblOrderNumber.getStyleClass().addAll("orderItemText", "normalText");
 
 
         // den lille knap i siden
         ImageView iv = new ImageView();
-        iv.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource("Icons/documentIcon.jpg"))));
+        iv.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource("Icons/documentIcon.png"))));
         iv.setFitHeight(48);
         iv.setFitWidth(48);
         ap.getChildren().add(iv);
         //placering
-        iv.setX(scrollPaneOrderApproval.getPrefWidth() - spacing * 4);
+        iv.setX(scrollPaneOrderApproval.getPrefWidth() - spacing * 16);
         iv.setY(spacing);
         // knap funktionalitet
         iv.setCursor(Cursor.HAND);
