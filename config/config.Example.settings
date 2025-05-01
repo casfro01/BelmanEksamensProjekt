@@ -1,4 +1,5 @@
-Server=10.176.111.34
+### Remove .Example from name -> then fill out the information ###
+Server=
 Database=
-User=CSe2024a_e_15
-Password=CSe2024aE15!24
+User=
+Password=
