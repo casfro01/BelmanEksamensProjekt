@@ -59,9 +59,9 @@
                   <TableColumn prefWidth="75.0" text="C2" />
                </columns>
             </TableView>
-            <TextField fx:id="txtOrderSearchbar" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders">
+            <TextField fx:id="txtOrderSearchbar" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders" styleClass="smallText">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font></TextField>
             <ImageView fx:id="imgSearchOrder" fitHeight="48.0" fitWidth="48.0" layoutX="826.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
          </children>
@@ -73,9 +73,9 @@
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="454.0" />
               </content>
             </ScrollPane>
-            <TextField fx:id="txtSearchOrderApproval" layoutX="68.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="360.0" promptText="Search in orders for approval">
+            <TextField fx:id="txtSearchOrderApproval" layoutX="68.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="360.0" promptText="Search in orders for approval" styleClass="smallText">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </TextField>
             <ImageView fx:id="imgSearchApproval" fitHeight="48.0" fitWidth="48.0" layoutX="437.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
