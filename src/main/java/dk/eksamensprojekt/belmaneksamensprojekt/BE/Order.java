@@ -10,12 +10,21 @@ public class Order {
     private Approved approved;
     private List<Image> images = new ArrayList<>();
     private Approved isApproved;
+    private boolean documented;
 
     public Order(int id, String orderNumber, Report report, Approved isApproved) {
         this.id = id;
         this.orderNumber = orderNumber; // setter til denne ? TODO : brug regex ?
         this.report = report;
         this.isApproved = isApproved;
+        this.documented = false;
+    }
+    public Order(int id, String orderNumber, Report report, Approved isApproved, boolean documented) {
+        this.id = id;
+        this.orderNumber = orderNumber; // setter til denne ? TODO : brug regex ?
+        this.report = report;
+        this.isApproved = isApproved;
+        this.documented = documented;
     }
 
     public int getId() {
@@ -40,5 +49,13 @@ public class Order {
 
     public void setReport(Report report) {
         this.report = report;
+    }
+
+    public boolean isDocumented() {
+        return documented;
+    }
+
+    public void setDocumented(boolean documented) {
+        this.documented = documented;
     }
 }
