@@ -61,4 +61,10 @@ public class Order {
     public void setDocumented(boolean documented) {
         this.documented = documented;
     }
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 }

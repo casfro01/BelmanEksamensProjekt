@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -111,5 +112,6 @@ public abstract class Controller implements IController {
     public void setControllerRoot(IController controller) {
         root = controller;
     }
+
 
 }
