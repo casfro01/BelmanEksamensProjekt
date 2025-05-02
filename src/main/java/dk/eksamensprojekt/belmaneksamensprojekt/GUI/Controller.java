@@ -10,17 +10,14 @@ import java.util.*;
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
-    private IController root;
     private WindowInvoker invoker;
 
     public void initializeComponents(AnchorPane pane, double width, double height) {
@@ -107,16 +104,14 @@ public abstract class Controller implements IController {
         return new Font(newValueAVG);
     }
 
-    @Override
-    public void setControllerRoot(IController controller) {
-        root = controller;
-    }
-
     /**
      * Henter invoker - bruges primært i child-klasserne
      */
-    private WindowInvoker getInvoker() {
+    public WindowInvoker getInvoker() {
         return invoker;
     }
 
+    public void setInvoker(WindowInvoker invoker) {
+        this.invoker = invoker;
+    }
 }
