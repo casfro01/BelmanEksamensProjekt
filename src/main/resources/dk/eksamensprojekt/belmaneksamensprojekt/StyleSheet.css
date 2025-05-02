@@ -24,6 +24,10 @@
     /*-fx-text-fill: #2a3d34;*/
     /*-fx-font-family: "Helvatica";*/
 }
+.textAreaFont{
+    -fx-font-size: 24px;
+    /*-fx-text-fill: #2a3d34;*/
+}
 
 .userPane{
     -fx-background-radius: 20px;

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.PreviewReportWindow">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PreviewReportWindowController">
    <children>
       <AnchorPane fx:id="topbar" layoutX="13.0" layoutY="16.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1869.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -24,7 +24,7 @@
       </AnchorPane>
       <Button layoutX="96.0" layoutY="872.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" text="Download" />
       <Button layoutX="96.0" layoutY="950.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" text="Save" />
-      <ScrollPane layoutX="457.0" layoutY="145.0" prefHeight="936.0" prefWidth="1055.0" style="-fx-background-color: #000000;" stylesheets="@StyleSheet.css" />
+      <ScrollPane fx:id="CheckboxscrollPane" layoutX="457.0" layoutY="145.0" prefHeight="936.0" prefWidth="1055.0" style="-fx-background-color: #000000;" stylesheets="@StyleSheet.css" />
       <Separator id="seperator" layoutX="1668.0" layoutY="144.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
       <Separator id="seperator" layoutX="1668.0" layoutY="213.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
       <Separator id="seperator" layoutX="1670.0" layoutY="288.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />

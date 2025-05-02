@@ -1,6 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -19,8 +20,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
+    private final static int COLUMNS = 2;
     private ModelManager modelManager;
     private OrderModel model;
+    private int row = 0;
+    private int col = 0;
 
     @FXML
     private ScrollPane CheckboxscrollPane;
@@ -34,46 +38,77 @@ public class PreviewReportWindowController extends Controller implements Initial
     }
 
     private void initializeScrollPane() {
-
         GridPane grid = new GridPane();
         grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setVgap(50);
         grid.setPadding(new Insets(10));
-        grid.setAlignment(Pos.TOP_LEFT);
+        grid.setAlignment(Pos.TOP_RIGHT);
 
         CheckboxscrollPane.setFitToWidth(true);
         CheckboxscrollPane.setContent(grid);
 
         grid.getChildren().clear();
-        int columns = 4;
-        int row = 0;
-        int col = 0;
 
+        // TESTING ONLY
+        Report report = new Report(1, "duasdua",
+                new User(1, 1, "ahdhada", "ajdaj"));
+        Order order = new Order(-1, "2",
+                report, Approved.Approved);
+        order.getImageList().add(new Image(-1, "file:\\C:\\Users\\chris\\Desktop\\BelmanEksamensProjekt\\Images\\image1.jpg", Approved.NotApproved));
+        order.getImageList().add(new Image(-1, "file:\\C:\\Users\\chris\\Desktop\\BelmanEksamensProjekt\\Images\\image1.jpg", Approved.NotApproved));
+        model.setCurrentOrder(order);
+
+        int i = 0;
         for (Image image : model.getCurrentOrder().getImageList()) {
-            javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(image.getPath()));
-            imageView.setFitWidth(230);
-            imageView.setFitHeight(230);
-            imageView.setPreserveRatio(false);
-
-            CheckBox checkBox = new CheckBox();
-            checkBox.setSelected(true);
-
-            StackPane imagePane = new StackPane(imageView, checkBox);
-            imagePane.setPrefSize(150, 150);
-            imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-            StackPane.setAlignment(checkBox, Pos.TOP_RIGHT);
-            StackPane.setMargin(checkBox, new Insets(10));
-
-            grid.add(imagePane, col, row);
-            col++;
-            if (col >= columns) {
-                col = 0;
-                row++;
+            if (i % 2 == 0) {
+                addImage(grid, image);
+                addTextArea(grid);
+            } else {
+                addTextArea(grid);
+                addImage(grid, image);
             }
 
-
+            i += 1;
         }
 
+    }
+
+
+    private void addImage(GridPane grid, Image image) {
+        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(image.getPath()));
+        imageView.setPreserveRatio(false);
+        imageView.setFitWidth(500);
+        imageView.setFitHeight(300);
+
+        CheckBox checkBox = new CheckBox();
+        checkBox.setStyle("-fx-padding: 10px");
+        checkBox.setSelected(true);
+
+        StackPane imagePane = new StackPane(imageView, checkBox);
+        imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        StackPane.setAlignment(checkBox, Pos.TOP_RIGHT);
+        StackPane.setMargin(checkBox, new Insets(10));
+
+        grid.add(imagePane, col, row);
+        col++;
+        if (col >= COLUMNS) {
+            col = 0;
+            row++;
+        }
+    }
+
+    private void addTextArea(GridPane grid) {
+        TextArea textArea = new TextArea();
+        textArea.setPrefWidth(500);
+        textArea.setPrefHeight(300);
+        textArea.getStyleClass().add("textAreaFont");
+
+        grid.add(textArea, col, row);
+        col++;
+        if (col >= COLUMNS) {
+            col = 0;
+            row++;
+        }
     }
 
 }
