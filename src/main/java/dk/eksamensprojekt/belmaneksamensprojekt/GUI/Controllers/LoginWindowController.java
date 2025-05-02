@@ -46,6 +46,7 @@ public class LoginWindowController extends Controller implements Initializable {
         AnchorPane ap = new AnchorPane();
         // i think - sætter str.
         ap.setPrefSize(ScrollPane.USE_COMPUTED_SIZE, ScrollPane.USE_COMPUTED_SIZE);
+        scrollPaneUser.setStyle("-fx-background-color: #F2F2F2;");
 
         // laver alle brugere som anchorPanes ;)
         int counter = 0;
@@ -57,7 +58,7 @@ public class LoginWindowController extends Controller implements Initializable {
             ap.getChildren().add(userPane);
             // ekstra formatering ift. hvordan den skal ligge
             userPane.setLayoutX(0);
-            userPane.setPrefWidth(scrollPaneUser.getPrefWidth() - spacing);
+            userPane.setPrefWidth(scrollPaneUser.getPrefWidth() - spacing * 4);
             userPane.setPrefHeight(spacing + 5);
             userPane.setLayoutY((10 + spacing) * counter);
             // sætter en metode som man kan bruge når man skal logge ind
