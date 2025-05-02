@@ -1,5 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +11,7 @@ public class Order {
     private Report report;
     private String orderNumber;
     private Approved approved;
-    private List<Image> images = new ArrayList<>();
+    private ObservableList<Image> images = FXCollections.observableArrayList();
     private Approved isApproved;
     private boolean documented;
 
@@ -35,7 +38,7 @@ public class Order {
         return report;
     }
 
-    public List<Image> getImageList() {
+    public ObservableList<Image> getImageList() {
         return images;
     }
 

@@ -13,16 +13,38 @@
 }
 .smallText{
     /* -fx-font-size: 12px;*/
-    -fx-text-fill: #DAD7CD;
+    /*-fx-text-fill: #DAD7CD;*/
 }
 .normalText{
     /*-fx-font-size: 24px;*/
-    -fx-text-fill: #2a3d34;
+    /*-fx-text-fill: #2a3d34;*/
 }
 .bigText{
     /*-fx-font-size: 32px;*/
-    -fx-text-fill: #2a3d34;
+    /*-fx-text-fill: #2a3d34;*/
     /*-fx-font-family: "Helvatica";*/
+}
+
+.userPane{
+    -fx-background-radius: 20px;
+    -fx-background-color: #004884;
+}
+.userPaneTitleText{
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.userPaneText{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+.orderItemPane{
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-font-size: 24px;
+}
+.orderItemText{
+    -fx-text-fill: #004884;
 }
 
 #topBar{

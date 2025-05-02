@@ -56,11 +56,11 @@ public class OrderManager {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Pictures", "*.jpg"),
-                new FileChooser.ExtensionFilter("Pictures", "*.png")
+                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
-        order.getImageList().add(new Image(-1, file.getPath(), Approved.NotReviewed));
+        order.getImageList().add(new Image(-1, "file:\\" + file.getPath(), Approved.NotReviewed));
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
