@@ -1,8 +1,13 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderModel {
     private OrderManager orderManager;
@@ -11,6 +16,7 @@ public class OrderModel {
 
     public OrderModel() {
         this.orderManager = new OrderManager();
+        this.orderList = FXCollections.observableArrayList();
     }
 
     public ObservableList<Order> getOrderList() throws Exception {
@@ -47,4 +53,13 @@ public class OrderModel {
         return this.currentOrder;
     }
 
+    public List<Order> getOrdersForApproval() {
+        List<Order> ordersForApproval = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.isDocumented() && order.isApproved() == Approved.NotReviewed){
+                ordersForApproval.add(order);
+            }
+        }
+        return ordersForApproval;
+    }
 }

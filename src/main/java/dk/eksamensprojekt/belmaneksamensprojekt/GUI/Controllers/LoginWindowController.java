@@ -4,6 +4,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -82,9 +83,7 @@ public class LoginWindowController extends Controller implements Initializable {
         iv.setPreserveRatio(false);
 
         // TODO : tilføj user pfp ægte
-        File imagefile = new File("Images/BasicUser.jpg");
-        javafx.scene.image.Image image = new javafx.scene.image.Image(imagefile.toURI().toString());
-        iv.setImage(image);
+        iv.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource("Icons/BasicUser.jpg"))));
         iv.setX(spacing);
         iv.setY(spacing);
         iv.setClip(new Circle((iv.getFitWidth() / 2) + iv.getX(), (iv.getFitHeight() / 2) + iv.getY(), 24));
