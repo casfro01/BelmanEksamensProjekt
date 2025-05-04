@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.OperatorWindow">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.OperatorWindowController">
    <children>
-      <TextField fx:id="txtSearchOrdernumb" layoutX="898.0" layoutY="528.0" promptText="  Search Ordernumber" AnchorPane.bottomAnchor="482.0" AnchorPane.leftAnchor="741.0" AnchorPane.rightAnchor="742.0" AnchorPane.topAnchor="482.0">
+      <TextField fx:id="txtSearchOrdernumb" layoutX="743.0" layoutY="502.0" prefHeight="75.0" prefWidth="434.4" promptText="  Search Ordernumber" styleClass="bigText">
          <font>
             <Font size="35.0" />
          </font>
@@ -21,7 +21,7 @@
             <AnchorPane id="topBar" layoutX="155.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1712.0" stylesheets="@StyleSheet.css">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1321.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="1514.0" AnchorPane.rightAnchor="148.0" AnchorPane.topAnchor="23.0" />
-                  <Label fx:id="lblName" layoutX="1575.0" layoutY="23.0" text="Label" textFill="#fcfbfb" />
+                  <Label fx:id="lblName" layoutX="1575.0" layoutY="23.0" styleClass="smallText" text="Label" textFill="#fcfbfb" />
                </children></AnchorPane>
             <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" />
          </children>
