@@ -13,8 +13,11 @@ import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class OperatorWindowController extends Controller implements Initializable {
+    private static final String regex = "^\\d{3}-\\d{5}-\\d{3}-\\d$";
+    private Pattern pattern;
     private ModelManager modelManager;
     private OrderModel orderModel;
 
@@ -23,16 +26,37 @@ public class OperatorWindowController extends Controller implements Initializabl
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pattern = Pattern.compile(regex);
         modelManager = ModelManager.getInstance();
         orderModel = modelManager.getOrderModel();
-
     }
 
     @FXML
-    private void onEnterPressed(KeyEvent keyEvent) {
+    private void onEnterPressed(KeyEvent keyEvent) throws Exception {
         if (keyEvent.getCode() == KeyCode.ENTER){
-            // do things
-            getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
+           searchOrder();
         }
+    }
+
+    @FXML
+    private void onSearchPressed() throws Exception {
+        // TODO: Forbind search knap tryk til den her metode
+        searchOrder();
+    }
+
+    private void searchOrder() throws Exception {
+        String txt = txtSearchOrdernumb.getText();
+        // do things
+        if (txt.isEmpty()) {
+            return;
+        }
+
+        if (!pattern.matcher(txt).matches()) {
+            throw new Exception("Order id doesnt match regex");
+        }
+
+        orderModel.searchOrder(txt);
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
+
     }
 }
