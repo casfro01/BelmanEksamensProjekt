@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class WindowService {
     private Stage rootStage;
@@ -39,11 +40,19 @@ public class WindowService {
             currentController = fxmlLoader.getController();
             // set invoker
             // hvis / når det er man skal kunne undo, så skal dette nedenfor laves om, da der laves en ny invoker
-            currentController.setInvoker(new WindowInvoker(this));
+            WindowInvoker invoker = new WindowInvoker(this);
+            currentController.setInvoker(invoker);
 
             // hvis hovedpanelet er et anchorpane så skal vi resize eller forbliver den bare som den er
             Parent parent = scene.getRoot();
             if (parent instanceof AnchorPane ap){
+                // alt andet end loginvinduet skal have topbar
+                if (window != Windows.LoginWindow){
+                    AnchorPane topbar = getTopBar(invoker);
+                    ap.getChildren().add(topbar);
+                    topbar.setLayoutX(10);
+                    topbar.setLayoutY(10);
+                }
                 currentController.initializeComponents(ap,1920, 1080);
             }
             else
@@ -53,6 +62,20 @@ public class WindowService {
         } catch (Exception e) {
             e.printStackTrace();
             ShowAlerts.displayMessage("Window Error", "Unable to load window: " + window.getName(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private AnchorPane getTopBar(WindowInvoker invoker) throws Exception{
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("topbar.fxml"));
+            fxmlLoader.load();
+            Controller c = fxmlLoader.getController();
+            System.out.println(c);
+            c.setInvoker(invoker);
+
+            return fxmlLoader.getRoot();
+        } catch (Exception e) {
+            throw new Exception("Could not load topbar", e);
         }
     }
 }

@@ -7,23 +7,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1867.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1867.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.TopBarController">
    <children>
       <AnchorPane id="topBar" layoutX="155.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1712.0" stylesheets="@StyleSheet.css">
          <children>
-            <ImageView fx:id="imgPicture" fitHeight="50.0" fitWidth="50.0" layoutX="1475.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgPicture" fitHeight="50.0" fitWidth="50.0" layoutX="1377.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Icons/BasicUser.jpg" />
                </image></ImageView>
-            <Label fx:id="lblName" layoutX="1532.0" layoutY="23.0" prefHeight="18.0" prefWidth="85.0" styleClass="smallText" text="Username" textFill="#fcfbfb">
+            <Label fx:id="lblName" layoutX="1434.0" layoutY="21.0" prefHeight="26.0" prefWidth="183.0" styleClass="smallText" text="Username" textFill="#fcfbfb">
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <Label fx:id="lblRole" layoutX="1532.0" layoutY="51.0" prefHeight="18.0" prefWidth="86.0" styleClass="smallText" text="Role" textFill="#fcfbfb">
+            <Label fx:id="lblRole" layoutX="1434.0" layoutY="49.0" prefHeight="26.0" prefWidth="183.0" styleClass="smallText" text="Role" textFill="#fcfbfb">
                <font>
                   <Font size="16.0" />
                </font></Label>
-            <ImageView fx:id="imgLogout" fitHeight="35.0" fitWidth="35.0" layoutX="1650.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgLogout" fitHeight="35.0" fitWidth="35.0" layoutX="1650.0" layoutY="29.0" onMouseClicked="#logoutPressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Icons/logout-icon.png" />
                </image>
@@ -31,7 +31,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBackButton" fitHeight="50.0" fitWidth="54.0" layoutX="106.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgBackButton" fitHeight="50.0" fitWidth="54.0" layoutX="106.0" layoutY="23.0" onMouseClicked="#backPressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Icons/goback-button.png" />
                </image>

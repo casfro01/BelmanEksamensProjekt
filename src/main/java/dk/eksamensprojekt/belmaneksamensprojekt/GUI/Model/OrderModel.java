@@ -20,7 +20,7 @@ public class OrderModel {
         this.orderList = FXCollections.observableArrayList();
     }
 
-    public ObservableList<Order> getOrderList() throws Exception {
+    public ObservableList<Order> getOrderList() {
         /*
         if (orderList.isEmpty()) {
             orderList.addAll(orderManager.getAllOrders());
