@@ -10,6 +10,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -55,36 +56,40 @@ public class MainWindowController extends Controller implements Initializable {
         orderModel = ModelManager.getInstance().getOrderModel();
         //orderList = FXCollections.observableArrayList();
         setupTableFiltering();
-        createOrderForApprovalView();
         fillData();
     }
 
     private void fillData(){
         BackgroundTask.execute(
-                () ->{ // hvad skal der ske
-                    // vil error ikke fange exception?
-                    try{
-                        return orderModel.reloadOrderList();
-                    } catch (Exception e) {
-                        ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
-                        return null;
-                    }
-                },
-                orders -> { // når tasken er færdiggjort
-                    // nothing ig -> siden det er loaded
-                },
-                error -> { // hvis der sker en fejl
-                    orderTableView.setPlaceholder(new Label("Could not fetch data."));
-                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR);
-                },
-                load -> { // imens vi venter
-                    if (load)
-                        orderTableView.setPlaceholder(new Label("Loading..."));
-                    else
-                        orderTableView.setPlaceholder(new Label("Orders found!"));
+            () ->{ // hvad skal der ske
+                // vil error ikke fange exception?
+                try{
+                    return orderModel.reloadOrderList();
+                } catch (Exception e) {
+                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
+                    return null;
                 }
+            },
+            orders -> { // når tasken er færdiggjort
+                // nothing ig -> siden det er loaded
+                try {
+                    Platform.runLater(this::createOrderForApprovalView);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    throw new RuntimeException(e);
+                }
+            },
+            error -> { // hvis der sker en fejl
+                orderTableView.setPlaceholder(new Label("Could not fetch data."));
+                ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR);
+            },
+            load -> { // imens vi venter
+                if (load)
+                    orderTableView.setPlaceholder(new Label("Loading..."));
+                else
+                    orderTableView.setPlaceholder(new Label("Orders found!"));
+            }
         );
-
     }
 
     public void setupTableFiltering() {
@@ -108,7 +113,7 @@ public class MainWindowController extends Controller implements Initializable {
             SortedList<Order> sortedList = new SortedList<>(filteredList);
             sortedList.comparatorProperty().bind(orderTableView.comparatorProperty());
 
-            // TODO : REFACTOR ! - tænker ikke det er godt + put det i en baggrundstråd -> der hvor det hentes ya know
+            // TODO : REFACTOR ! - tænker ikke det er godt
             tblColOrderNumber.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderNumber()));
             tblColApproved.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isApproved().toString()));
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
@@ -147,9 +152,9 @@ public class MainWindowController extends Controller implements Initializable {
             counter++;
         }
 
-        scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
+        //scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
         ap.setStyle("-fx-background-color: #7FA8C5;");
-        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 2, Region.USE_COMPUTED_SIZE + spacing * 2);
+        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth(), Region.USE_COMPUTED_SIZE + spacing * 2);
         scrollPaneOrderApproval.setContent(ap);
         scrollPaneOrderApproval.setStyle("-fx-background-color: #7FA8C5;");
     }
@@ -159,7 +164,7 @@ public class MainWindowController extends Controller implements Initializable {
         int estiHeight = 48;
         // base pane
         AnchorPane ap = new AnchorPane();
-        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 8, estiHeight + spacing * 2);
+        ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 4, estiHeight + spacing * 2);
         ap.getStyleClass().add("orderItemPane");
 
         // label med order nummer
@@ -177,7 +182,7 @@ public class MainWindowController extends Controller implements Initializable {
         iv.setFitWidth(48);
         ap.getChildren().add(iv);
         //placering
-        iv.setX(scrollPaneOrderApproval.getPrefWidth() - spacing * 16);
+        iv.setX(scrollPaneOrderApproval.getPrefWidth() - spacing * 10);
         iv.setY(spacing);
         // knap funktionalitet
         iv.setCursor(Cursor.HAND);
