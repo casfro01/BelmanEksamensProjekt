@@ -12,7 +12,6 @@
     <children>
         <AnchorPane layoutX="152.0" layoutY="79.0" prefHeight="96.0" prefWidth="1867.0" AnchorPane.bottomAnchor="939.1999999999999" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="14.0">
             <children>
-                <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="-70.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <AnchorPane id="topBar" layoutX="224.0" layoutY="-18.0" prefHeight="126.0" prefWidth="1922.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1673.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="37.399999999999864" AnchorPane.leftAnchor="1673.0" AnchorPane.rightAnchor="199.4000000000001" AnchorPane.topAnchor="39.0" />
@@ -43,5 +42,10 @@
             <Font size="25.0" />
          </font></Button>
       <ScrollPane fx:id="imagesScrollPane" layoutX="806.0" layoutY="190.0" prefHeight="884.0" prefWidth="1028.0" />
+          <ImageView fx:id="imgLogo" fitHeight="66.0" fitWidth="70.0" layoutX="490.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../Billeder/apple-camera.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>
