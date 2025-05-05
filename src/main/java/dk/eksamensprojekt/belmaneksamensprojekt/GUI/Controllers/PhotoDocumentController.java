@@ -39,6 +39,12 @@ public class PhotoDocumentController extends Controller implements Initializable
         currentOrder = model.getCurrentOrder();
         replicaImageList.addAll(currentOrder.getImageList());
 
+        // TODO kan nok optimeres
+        currentOrder.getImageList().addListener((ListChangeListener<Image>) c -> {
+            replicaImageList.clear();
+            replicaImageList.addAll(currentOrder.getImageList());
+        });
+
         initializeScrollPane();
     }
 
