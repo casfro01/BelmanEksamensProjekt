@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GalleryWindow">
    <children>
-      <AnchorPane fx:id="topbar" layoutX="13.0" layoutY="16.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1869.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="14.0">
-         <children>
-            <AnchorPane id="topBar" layoutX="156.8" layoutY="1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="96.0" prefWidth="1712.0" stylesheets="@StyleSheet.css" AnchorPane.leftAnchor="156.8">
-               <children>
-                  <ImageView fx:id="imgpicture" fitHeight="50.0" fitWidth="50.0" layoutX="1513.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="1513.0" AnchorPane.rightAnchor="149.0" AnchorPane.topAnchor="22.0" />
-                  <ImageView fx:id="imgLogout" fitHeight="38.0" fitWidth="38.0" layoutX="1640.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="lblName" layoutX="1574.0" layoutY="20.0" text="Label" textFill="WHITE" />
-               </children>
-            </AnchorPane>
-            <ImageView fx:id="imgLogo" fitHeight="96.0" fitWidth="96.0" layoutX="31.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </AnchorPane>
       <ScrollPane layoutX="338.0" layoutY="206.0" prefHeight="869.0" prefWidth="1334.0" />
    </children>
 </AnchorPane>

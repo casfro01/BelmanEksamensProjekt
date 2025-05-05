@@ -62,4 +62,8 @@ public class OrderModel {
         }
         return ordersForApproval;
     }
+
+    public void searchOrder(String txt) {
+        orderManager.searchById()
+    }
 }

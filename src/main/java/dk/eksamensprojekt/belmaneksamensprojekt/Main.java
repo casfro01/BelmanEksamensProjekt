@@ -12,13 +12,13 @@ public class Main extends Application {
     public void start(Stage stage){
         WindowService windowService = new WindowService(stage);
         //kan man bare sætte service på invokeren i stedet ? og parse kommandoen igennem derefter?
-        /*
+
         WindowInvoker windowInvoker = new WindowInvoker();
         SwitchWindowCommand command = new SwitchWindowCommand(windowService);
-        command.setWindow(Windows.MainWindow);
+        command.setWindow(Windows.PreviewReportWindow);
         windowInvoker.executeCommand(command);
 
-         */
+
 
     }
 
