@@ -81,7 +81,7 @@ public class OrderManager {
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
-        currentOrder.setApproved(Approved.Approved);
+        currentOrder.setDocumented(true);
         ordersDAO.update(currentOrder);
     }
 
