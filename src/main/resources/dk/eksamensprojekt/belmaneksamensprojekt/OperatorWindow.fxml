@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -23,7 +24,10 @@
                   <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1321.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="1514.0" AnchorPane.rightAnchor="148.0" AnchorPane.topAnchor="23.0" />
                   <Label fx:id="lblName" layoutX="1575.0" layoutY="23.0" text="Label" textFill="#fcfbfb" />
                </children></AnchorPane>
-            <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../Billeder/BELMAN_Logo_264pxl.png" />
+               </image></ImageView>
          </children>
       </AnchorPane>
    </children>

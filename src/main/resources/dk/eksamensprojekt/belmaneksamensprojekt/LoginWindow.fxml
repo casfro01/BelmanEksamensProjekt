@@ -7,11 +7,12 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginWindowController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginWindowController">
    <children>
       <ScrollPane fx:id="scrollPaneUser" layoutX="138.0" layoutY="409.0" prefHeight="349.0" prefWidth="620.0">
         <content>
@@ -31,7 +32,10 @@
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Separator layoutX="5.0" layoutY="187.0" orientation="VERTICAL" prefHeight="471.0" prefWidth="1.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="952.0" AnchorPane.rightAnchor="956.0" AnchorPane.topAnchor="50.0" />
-      <ImageView fx:id="ImgLogo" fitHeight="150.0" fitWidth="200.0" layoutX="187.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="903.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="1720.0" AnchorPane.topAnchor="15.0" />
+      <ImageView fx:id="ImgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="62.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../Billeder/BELMAN_Logo_264pxl.png" />
+         </image></ImageView>
       <Label fx:id="lblUsername" layoutX="1241.0" layoutY="373.0" prefHeight="26.0" prefWidth="400.0" styleClass="normalText" text="Username/Email">
          <font>
             <Font size="24.0" />

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -19,7 +20,10 @@
                   <Label fx:id="lblName" layoutX="1574.0" layoutY="19.0" text="Label" textFill="#fffefe" />
                </children>
             </AnchorPane>
-            <ImageView fx:id="imgLogo" fitHeight="96.0" fitWidth="96.0" layoutX="31.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="16.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../../../../Billeder/BELMAN_Logo_264pxl.png" />
+               </image></ImageView>
          </children>
       </AnchorPane>
       <Button layoutX="96.0" layoutY="872.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" text="Download" />
