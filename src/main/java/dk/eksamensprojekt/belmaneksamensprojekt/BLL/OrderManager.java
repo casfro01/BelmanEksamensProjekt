@@ -12,7 +12,7 @@ import java.nio.file.*;
 import java.util.List;
 
 public class OrderManager {
-    private final Repository<Order, Integer> ordersDAO;
+    private final Repository<Order, String> ordersDAO;
 
     public OrderManager() {
         this.ordersDAO = new OrderDaoFacade();

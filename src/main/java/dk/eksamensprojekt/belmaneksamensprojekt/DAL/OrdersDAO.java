@@ -5,14 +5,11 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersDAO implements Repository<Order, Integer>{
+public class OrdersDAO implements Repository<Order, String>{
 
     @Override
     public List<Order> getAll() throws Exception{
@@ -46,9 +43,40 @@ public class OrdersDAO implements Repository<Order, Integer>{
         return orders;
     }
 
+    /**
+     * Denne metode bruger ordre nummeret som ligger
+     * @param orderNumber
+     * @return
+     */
     @Override
-    public Order getById(Integer integer) {
-        return null;
+    public Order getById(String orderNumber) throws Exception{
+        String sql = """
+                SELECT Orders.ID, Orders.ReportID, Orders.Approve FROM Orders
+                FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
+                WHERE Orders.OrderNumber = ?;
+                """;
+        DBConnector conn = new DBConnector();
+        try(PreparedStatement ps = conn.getConnection().prepareStatement(sql)){
+
+            ps.setString(1, orderNumber);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+
+            boolean approvedColumn = rs.getBoolean(3);
+            Approved apr = rs.wasNull() ? Approved.NotReviewed : Approved.valueOfBoolean(approvedColumn);
+
+            // hvis rapport id er null / 0 så skal der ikke være nogen rapport
+            int repID = rs.getInt(2);
+            Report r = repID == 0 ? null : new Report(repID, null, null);
+
+            Order order = new Order(rs.getInt(1), orderNumber, r, apr);
+
+            return order;
+        } catch (Exception e) {
+            throw new Exception("Could not get order " + orderNumber + " because: " + e);
+        }
     }
 
     @Override

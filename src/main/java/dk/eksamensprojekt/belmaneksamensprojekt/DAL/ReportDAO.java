@@ -14,6 +14,15 @@ public class ReportDAO implements Repository<Report, Integer> {
 
     @Override
     public Report getById(Integer integer) throws Exception {
+        String sql = """
+                """;
+        DBConnector connector = new DBConnector();
+        try(PreparedStatement ps = connector.getConnection().prepareStatement(sql)){
+
+        }
+        catch(Exception e){
+            throw new Exception("Could not get report " + e.getMessage());
+        }
         return null;
     }
 
