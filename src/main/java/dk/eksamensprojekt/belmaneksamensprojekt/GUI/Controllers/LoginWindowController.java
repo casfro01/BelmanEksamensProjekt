@@ -1,9 +1,13 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,11 +28,13 @@ import java.util.ResourceBundle;
 
 public class LoginWindowController extends Controller implements Initializable {
 
+    private UserModel userModel;
     @FXML private ScrollPane scrollPaneUser;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        userModel = ModelManager.getInstance().getUserModel();
         fillOutUsers();
     }
 
@@ -36,7 +42,7 @@ public class LoginWindowController extends Controller implements Initializable {
         // henter brugere
         List<User> users;
         try{
-            users = ModelManager.getInstance().getUserModel().getUsers();
+            users = userModel.getUsers();
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch users: " + e.getMessage(), Alert.AlertType.ERROR);
             return;
@@ -107,6 +113,14 @@ public class LoginWindowController extends Controller implements Initializable {
 
     private void loginAsUser(User user){
         // TODO : lav
-        System.out.println(user.getName() + " " + user.getRole());
+        userModel.setSelectedUser(user);
+        // hvis operator gå her
+        if (user.getRole() == UserRole.OPERATOR){
+            getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
+        }
+        // hvis andet gå til main admin el. qc user
+        else{
+            getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
+        }
     }
 }

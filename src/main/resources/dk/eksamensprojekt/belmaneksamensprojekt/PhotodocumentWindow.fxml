@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
     <children>
-        <AnchorPane layoutX="152.0" layoutY="79.0" prefHeight="96.0" prefWidth="1867.0" AnchorPane.bottomAnchor="939.1999999999999" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="14.0">
+        <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="127.0" prefWidth="2083.0">
             <children>
                 <ImageView fx:id="imgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="-70.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                 <AnchorPane id="topBar" layoutX="224.0" layoutY="-18.0" prefHeight="126.0" prefWidth="1922.0" stylesheets="@StyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="181.0" AnchorPane.topAnchor="0.0">
@@ -20,19 +20,19 @@
                 </AnchorPane>
             </children>
         </AnchorPane>
-        <Button id="Buttoncustom" fx:id="btnAddPicture" layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" stylesheets="@StyleSheet.css" text="Take Picture">
+        <Button id="Buttoncustom" fx:id="btnAddPicture" layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" styleClass="bigText" stylesheets="@StyleSheet.css" text="Take Picture">
          <font>
             <Font size="35.0" />
          </font></Button>
-        <Button id="Buttoncustom" fx:id="btnAddFromFolder" layoutX="163.0" layoutY="466.0" mnemonicParsing="false" onAction="#addPictureClicked" prefHeight="115.0" prefWidth="437.0" stylesheets="@StyleSheet.css" text="Add from folder">
+        <Button id="Buttoncustom" fx:id="btnAddFromFolder" layoutX="163.0" layoutY="466.0" mnemonicParsing="false" onAction="#addPictureClicked" prefHeight="115.0" prefWidth="437.0" styleClass="bigText" stylesheets="@StyleSheet.css" text="Add from folder">
          <font>
             <Font size="35.0" />
          </font></Button>
-        <Button id="Buttoncustom" fx:id="btnSave" layoutX="201.0" layoutY="649.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="86.0" prefWidth="156.0" stylesheets="@StyleSheet.css" text="Save">
+        <Button id="Buttoncustom" fx:id="btnSave" layoutX="201.0" layoutY="649.0" mnemonicParsing="false" onAction="#saveButtonClicked" prefHeight="86.0" prefWidth="156.0" styleClass="normalText" stylesheets="@StyleSheet.css" text="Save">
          <font>
             <Font size="25.0" />
          </font></Button>
-        <Button id="Buttoncustom" fx:id="btnSubmit" layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" stylesheets="@StyleSheet.css" text="Submit">
+        <Button id="Buttoncustom" fx:id="btnSubmit" layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" styleClass="normalText" stylesheets="@StyleSheet.css" text="Submit">
          <font>
             <Font size="25.0" />
          </font></Button>
