@@ -4,7 +4,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
-import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrdersDAO;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import javafx.stage.FileChooser;
 
