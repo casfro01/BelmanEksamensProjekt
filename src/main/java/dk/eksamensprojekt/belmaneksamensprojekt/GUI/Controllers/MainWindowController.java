@@ -71,13 +71,7 @@ public class MainWindowController extends Controller implements Initializable {
                 }
             },
             orders -> { // når tasken er færdiggjort
-                // nothing ig -> siden det er loaded
-                try {
-                    Platform.runLater(this::createOrderForApprovalView);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    throw new RuntimeException(e);
-                }
+                Platform.runLater(this::createOrderForApprovalView);
             },
             error -> { // hvis der sker en fejl
                 orderTableView.setPlaceholder(new Label("Could not fetch data."));
