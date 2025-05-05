@@ -3,8 +3,11 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -28,7 +31,7 @@ public class OrderManager {
         ordersDAO.update(order);
     }
 
-    public void openCamera(Order order) throws Exception {
+    public void openCamera(Order order, User user) throws Exception {
         Runtime.getRuntime().exec("cmd.exe /C start microsoft.windows.camera:");
 
         // Kan være tilfælde hvor brugerens kamera ikke gemmer billeder i denne mappe
@@ -42,7 +45,14 @@ public class OrderManager {
         while ((key = watchService.take()) != null) {
             for (WatchEvent<?> event : key.pollEvents()) {
                 if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE && event.context().toString().endsWith(".jpg")) {
-                    order.getImageList().add(new Image(-1, cameraRoll + "/" + event.context(), Approved.NotReviewed));
+                    order.getImageList().add(new Image(
+                            -1,
+                            "file:\\" + cameraRoll + "/" + event.context(),
+                            Approved.NotReviewed,
+                            user,
+                            order.getId()
+                            )
+                    );
 
                     Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
                     key.reset();
@@ -51,7 +61,7 @@ public class OrderManager {
         }
     }
 
-    public void addPicFromFolder(Order order) throws Exception {
+    public void addPicFromFolder(Order order, User user) throws Exception {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image");
         fileChooser.getExtensionFilters().addAll(
@@ -59,11 +69,23 @@ public class OrderManager {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
-        order.getImageList().add(new Image(-1, "file:\\" + file.getPath(), Approved.NotReviewed));
+        order.getImageList().add(
+                new Image(
+                        -1,
+                        "file:\\" + file.getPath(),
+                        Approved.NotReviewed,
+                        user,
+                        order.getId()
+                )
+        );
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
         currentOrder.setApproved(Approved.Approved);
         ordersDAO.update(currentOrder);
+    }
+
+    public Order getById(String id) throws Exception {
+        return ordersDAO.getById(id);
     }
 }

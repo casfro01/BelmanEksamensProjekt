@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -46,7 +47,6 @@ public class OperatorWindowController extends Controller implements Initializabl
 
     private void searchOrder() throws Exception {
         String txt = txtSearchOrdernumb.getText();
-        // do things
         if (txt.isEmpty()) {
             return;
         }
@@ -55,8 +55,8 @@ public class OperatorWindowController extends Controller implements Initializabl
             throw new Exception("Order id doesnt match regex");
         }
 
-        orderModel.searchOrder(txt);
+        Order order = orderModel.searchOrder(txt);
+        orderModel.setCurrentOrder(order);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
-
     }
 }
