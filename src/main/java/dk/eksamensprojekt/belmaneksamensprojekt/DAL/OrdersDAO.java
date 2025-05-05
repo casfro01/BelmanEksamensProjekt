@@ -15,14 +15,14 @@ public class OrdersDAO implements Repository<Order, String>{
     public List<Order> getAll() throws Exception{
         List<Order> orders = new ArrayList<>();
         String SQL = """
-                SELECT Orders.ID, Orders.OrderNumber, Orders.ReportID FROM Orders
+                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented FROM Orders
                 FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Report r = new Report(rs.getInt(3), null, null);
+                Report r = new Report(rs.getInt(4), null, null);
                 Approved approvedEnum;
                 boolean approvedColumn = rs.getBoolean(3);
                 if (rs.wasNull()) {
@@ -33,7 +33,7 @@ public class OrdersDAO implements Repository<Order, String>{
                     approvedEnum = Approved.NotApproved;
                 }
 
-                Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum);
+                Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum, rs.getBoolean(5));
                 orders.add(current);
             }
         }
@@ -51,7 +51,7 @@ public class OrdersDAO implements Repository<Order, String>{
     @Override
     public Order getById(String orderNumber) throws Exception{
         String sql = """
-                SELECT Orders.ID, Orders.ReportID, Orders.Approve FROM Orders
+                SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented FROM Orders
                 FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
                 WHERE Orders.OrderNumber = ?;
                 """;
@@ -71,7 +71,7 @@ public class OrdersDAO implements Repository<Order, String>{
             int repID = rs.getInt(2);
             Report r = repID == 0 ? null : new Report(repID, null, null);
 
-            Order order = new Order(rs.getInt(1), orderNumber, r, apr);
+            Order order = new Order(rs.getInt(1), orderNumber, r, apr, rs.getBoolean(4));
 
             return order;
         } catch (Exception e) {
@@ -87,11 +87,17 @@ public class OrdersDAO implements Repository<Order, String>{
     @Override
     public void update(Order entity) throws Exception {
         String sql = """
-                UPDATE Orders SET Approve = ? ReportID = ?, Documented = ? WHERE ID = ?";"
+                UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;
         DBConnector db = new DBConnector();
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
-            ps.setInt(2, entity.getReport().getId());
+            // sæt rapport
+            if (entity.getReport() == null)
+                ps.setNull(2, Types.INTEGER);
+            else
+                ps.setInt(2, entity.getReport().getId());
+
+            // set id
             ps.setInt(4, entity.getId());
 
             //Approve
@@ -101,7 +107,7 @@ public class OrdersDAO implements Repository<Order, String>{
                 ps.setBoolean(1,entity.isApproved().toBoolean());
             //Documented
             ps.setBoolean(3, entity.isDocumented());
-            ps.executeQuery();
+            ps.executeUpdate();
         }
             catch(SQLServerException e){
             throw new Exception("Failed to update Orders: " + e.getMessage());

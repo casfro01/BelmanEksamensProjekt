@@ -11,12 +11,15 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
@@ -28,6 +31,12 @@ public class PreviewReportWindowController extends Controller implements Initial
 
     @FXML
     private ScrollPane CheckboxscrollPane;
+    @FXML
+    private Label lblOrderNumber;
+    @FXML
+    private Label lblCustomer;
+    @FXML
+    private Label lblDate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,6 +44,7 @@ public class PreviewReportWindowController extends Controller implements Initial
         model = modelManager.getOrderModel();
 
         initializeScrollPane();
+        initializeInformation();
     }
 
     private void initializeScrollPane() {
@@ -99,5 +109,12 @@ public class PreviewReportWindowController extends Controller implements Initial
             col = 0;
             row++;
         }
+    }
+
+    private void initializeInformation() {
+        lblOrderNumber.setText(model.getCurrentOrder().getOrderNumber());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        lblDate.setText(LocalDate.now().format(dtf));
+        lblCustomer.setText("??????????");
     }
 }

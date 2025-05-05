@@ -3,6 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,21 +21,28 @@ public class OrderModel {
     }
 
     public ObservableList<Order> getOrderList() throws Exception {
+        /*
         if (orderList.isEmpty()) {
             orderList.addAll(orderManager.getAllOrders());
         }
 
+         */
+        return orderList;
+    }
+    public ObservableList<Order> reloadOrderList() throws Exception {
+        orderList.clear();
+        orderList.addAll(orderManager.getAllOrders());
         return orderList;
     }
 
     public void takePictureClicked() throws Exception {
         if (currentOrder != null) {
-            orderManager.openCamera(currentOrder);
+            orderManager.openCamera(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
         }
     }
 
     public void addPictureClicked() throws Exception {
-        orderManager.addPicFromFolder(currentOrder);
+        orderManager.addPicFromFolder(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
     }
 
     public void saveButtonClicked() throws Exception {
@@ -63,7 +71,7 @@ public class OrderModel {
         return ordersForApproval;
     }
 
-    public void searchOrder(String txt) {
-        orderManager.searchById()
+    public Order searchOrder(String txt) throws Exception {
+        return orderManager.getById(txt);
     }
 }

@@ -1,9 +1,13 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
+import com.itextpdf.kernel.pdf.ReaderProperties;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Random;
 
 public class ReportDAO implements Repository<Report, Integer> {
 
@@ -13,17 +17,30 @@ public class ReportDAO implements Repository<Report, Integer> {
     }
 
     @Override
-    public Report getById(Integer integer) throws Exception {
+    public Report getById(Integer id) throws Exception {
         String sql = """
+                SELECT Reports.Path, [User].ID, [User].FullName, [User].Email, [User].Role FROM Reports
+                INNER JOIN [User] ON Reports.UserID = [User].ID
+                WHERE Reports.ID = ?;
                 """;
         DBConnector connector = new DBConnector();
         try(PreparedStatement ps = connector.getConnection().prepareStatement(sql)){
+            // hente data
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
 
+            // hvis der ikke er noget
+            if (!rs.next())
+                return null;
+
+            // lav bruger
+            User user = new User(rs.getInt(2), UserRole.fromInt(rs.getInt(5)), rs.getString(4), rs.getString(3));
+            // lav rapport
+            return new Report(id, rs.getString(1), user);
         }
         catch(Exception e){
             throw new Exception("Could not get report " + e.getMessage());
         }
-        return null;
     }
 
     @Override
