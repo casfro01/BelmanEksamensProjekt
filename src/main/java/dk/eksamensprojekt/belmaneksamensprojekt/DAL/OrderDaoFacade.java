@@ -2,12 +2,14 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
 import java.util.List;
 
-public class OrderDaoFacade implements Repository<Order, Integer> {
-    Repository<Order, Integer> ordersDAO = new OrdersDAO();
+public class OrderDaoFacade implements Repository<Order, String> {
+    Repository<Order, String> ordersDAO = new OrdersDAO();
     ImageDAO imageDAO = new ImageDAO();
+    Repository<Report, Integer> reportDAO = new ReportDAO();
 
     @Override
     public List<Order> getAll() throws Exception {
@@ -21,9 +23,17 @@ public class OrderDaoFacade implements Repository<Order, Integer> {
     }
 
     @Override
-    public Order getById(Integer orderID) throws Exception {
-        Order returnOrder = ordersDAO.getById(orderID);
-        returnOrder.getImageList().addAll(imageDAO.getImageByOrder(orderID));
+    public Order getById(String orderNumber) throws Exception {
+        // hent ordre
+        Order returnOrder = ordersDAO.getById(orderNumber);
+
+        // hent fulde report
+        if (returnOrder.getReport() != null){
+            returnOrder.setReport(reportDAO.getById(returnOrder.getReport().getId()));
+        }
+
+        // hent alle billeder
+        returnOrder.getImageList().addAll(imageDAO.getImageByOrder(returnOrder.getId()));
         return returnOrder;
     }
 
