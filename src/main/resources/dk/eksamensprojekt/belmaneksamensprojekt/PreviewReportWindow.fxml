@@ -7,31 +7,40 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PreviewReportWindowController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PreviewReportWindowController">
    <children>
-      <Button layoutX="96.0" layoutY="872.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" text="Download" />
-      <Button layoutX="96.0" layoutY="950.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" text="Save" />
+      <Button layoutX="96.0" layoutY="872.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" styleClass="normalText" text="Download" />
+      <Button layoutX="96.0" layoutY="950.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="158.0" styleClass="normalText" text="Save" />
       <ScrollPane fx:id="CheckboxscrollPane" layoutX="457.0" layoutY="145.0" prefHeight="936.0" prefWidth="1055.0" style="-fx-background-color: #000000;" stylesheets="@StyleSheet.css" />
-      <Separator id="seperator" layoutX="1668.0" layoutY="144.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
-      <Separator id="seperator" layoutX="1668.0" layoutY="213.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
-      <Separator id="seperator" layoutX="1670.0" layoutY="288.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
-      <Label fx:id="lblHeadOrderNumber" layoutX="1668.0" layoutY="149.0" text="Order Number:">
+      <Separator id="seperator" layoutX="1668.0" layoutY="145.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
+      <Separator id="seperator" layoutX="1668.0" layoutY="215.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
+      <Separator id="seperator" layoutX="1670.0" layoutY="285.0" prefWidth="200.0" stylesheets="@StyleSheet.css" />
+      <Label fx:id="lblHeadOrderNumber" layoutX="1668.0" layoutY="150.0" prefHeight="26.0" prefWidth="200.0" styleClass="normalText" text="Order Number:">
          <font>
-            <Font size="16.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lblHeadCustomer" layoutX="1668.0" layoutY="222.0" text="Customer:">
+      <Label fx:id="lblHeadCustomer" layoutX="1668.0" layoutY="220.0" prefHeight="26.0" prefWidth="200.0" styleClass="normalText" text="Customer:">
          <font>
-            <Font size="16.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lblHeadDate" layoutX="1668.0" layoutY="291.0" text="Date:">
+      <Label fx:id="lblHeadDate" layoutX="1668.0" layoutY="290.0" prefHeight="26.0" prefWidth="200.0" styleClass="normalText" text="Date:">
          <font>
-            <Font size="16.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrderNumber" layoutX="1668.0" layoutY="184.0" text="Label" />
-      <Label fx:id="lblCustomer" layoutX="1668.0" layoutY="257.0" text="Label" />
-      <Label fx:id="lblDate" layoutX="1668.0" layoutY="316.0" text="Label" />
+      <Label fx:id="lblOrderNumber" layoutX="1668.0" layoutY="185.0" prefHeight="18.0" prefWidth="200.0" styleClass="smallText" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lblCustomer" layoutX="1668.0" layoutY="255.0" prefHeight="18.0" prefWidth="200.0" styleClass="smallText" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label fx:id="lblDate" layoutX="1668.0" layoutY="325.0" prefHeight="18.0" prefWidth="200.0" styleClass="smallText" text="Label">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
    </children>
 </AnchorPane>
