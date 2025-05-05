@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class PhotoDocumentController extends Controller implements Initializable {
     private ModelManager modelManager;
     private OrderModel model;
-    private ObservableList<Image> imageList;
+    private Order currentOrder;
 
     @FXML
     private ScrollPane imagesScrollPane;
@@ -33,13 +33,7 @@ public class PhotoDocumentController extends Controller implements Initializable
     public void initialize(URL location, ResourceBundle resources) {
         modelManager = ModelManager.getInstance();
         model = modelManager.getOrderModel();
-
-        if (model.getCurrentOrder() != null) {
-            imageList = model.getCurrentOrder().getImageList();
-        } else {
-            System.out.println("WARNING: No current order = NO getImageList()");
-            imageList = FXCollections.observableArrayList();
-        }
+        currentOrder = model.getCurrentOrder();
 
         initializeScrollPane();
     }
@@ -60,7 +54,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             int row = 0;
             int col = 0;
 
-            for (Image img : imageList) {
+            for (Image img : currentOrder.getImageList()) {
                 javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);
@@ -86,7 +80,11 @@ public class PhotoDocumentController extends Controller implements Initializable
                 });
 
                 deleteButton.setOnAction(e -> {
-                    promptUserDeleteImage(img);
+                    try {
+                        promptUserDeleteImage(img);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                 });
 
                 grid.add(imagePane, col, row);
@@ -99,15 +97,17 @@ public class PhotoDocumentController extends Controller implements Initializable
         };
 
         updateGrid.run();
-        imageList.addListener((ListChangeListener<Image>) change -> updateGrid.run());
+        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
     }
 
-    private void promptUserDeleteImage(Image img) {
+    private void promptUserDeleteImage(Image img) throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.OK) {
-            imageList.remove(img);
+            img.setOrderId(0);
+            save();
+            currentOrder.getImageList().remove(img);
         }
     }
 
@@ -123,11 +123,15 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void saveButtonClicked(ActionEvent event) throws Exception {
-        model.saveButtonClicked();
+        save();
     }
 
     @FXML
     private void submitButtonClicked(ActionEvent event) throws Exception {
         model.submitButtonClicked();
+    }
+
+    private void save() throws Exception {
+        model.saveButtonClicked();
     }
 }

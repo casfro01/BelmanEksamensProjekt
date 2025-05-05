@@ -26,8 +26,6 @@ public class OrderManager {
     }
 
     public void updateOrder(Order order) throws Exception {
-        if (order == null || order.getImageList().isEmpty())
-            throw new Exception("No pictures attached!");
         ordersDAO.update(order);
     }
 

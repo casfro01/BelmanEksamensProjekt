@@ -46,6 +46,7 @@ public class OrderDaoFacade implements Repository<Order, String> {
     @Override
     public void update(Order order) throws Exception {
         // opdatér billeder:
+        System.out.println(order.getImageList().size());
         imageDAO.updateAll(order.getImageList());
 
         // opdatér seleve ordren:
