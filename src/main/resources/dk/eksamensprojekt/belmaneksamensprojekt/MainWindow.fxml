@@ -43,8 +43,9 @@
          <children>
             <TableView fx:id="orderTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="819.0" stylesheets="@StyleSheet.css">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="tblColOrderNumber" prefWidth="190.3999900817871" text="Order Number" />
+                  <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="110.40003967285156" text="Approved" />
+                  <TableColumn fx:id="tblColDocumented" minWidth="0.0" prefWidth="132.0" text="Documented" />
                </columns>
             </TableView>
             <TextField fx:id="txtOrderSearchbar" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders" styleClass="smallText">
@@ -69,17 +70,17 @@
             <ImageView fx:id="imgSearchApproval" fitHeight="48.0" fitWidth="48.0" layoutX="437.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Label fx:id="lblMenu" alignment="CENTER" layoutX="21.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="286.0" text="Menu">
+      <Label fx:id="lblMenu" alignment="CENTER" layoutX="21.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="286.0" styleClass="bigText" text="Menu">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
       </Label>
-      <Label fx:id="lblAllOrders" alignment="CENTER" layoutX="380.0" layoutY="138.0" prefHeight="66.0" prefWidth="926.0" text="All Orders">
+      <Label fx:id="lblAllOrders" alignment="CENTER" layoutX="380.0" layoutY="138.0" prefHeight="66.0" prefWidth="926.0" styleClass="bigText" text="All Orders">
          <font>
             <Font size="45.0" />
          </font>
       </Label>
-      <Label fx:id="lblOrdersForapproval" alignment="CENTER" layoutX="1391.0" layoutY="138.0" prefHeight="66.0" prefWidth="503.0" text="Orders for approval">
+      <Label fx:id="lblOrdersForapproval" alignment="CENTER" layoutX="1391.0" layoutY="138.0" prefHeight="66.0" prefWidth="503.0" styleClass="bigText" text="Orders for approval">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>
