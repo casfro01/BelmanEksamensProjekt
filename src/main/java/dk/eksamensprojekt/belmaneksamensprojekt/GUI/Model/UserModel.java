@@ -31,4 +31,14 @@ public class UserModel {
     public SimpleObjectProperty<User> getSelectedUser() {
         return selectedUser;
     }
+
+    public void setSelectedUser(User selectedUser) {
+        if (this.selectedUser == null) {
+            this.selectedUser = new SimpleObjectProperty<>(selectedUser);
+        }
+        else{
+            this.selectedUser.set(selectedUser);
+        }
+        this.selectedUser.setValue(selectedUser);
+    }
 }
