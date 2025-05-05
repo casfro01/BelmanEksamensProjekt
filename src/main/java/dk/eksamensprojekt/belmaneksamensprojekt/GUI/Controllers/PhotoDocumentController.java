@@ -19,12 +19,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PhotoDocumentController extends Controller implements Initializable {
     private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
+    private ObservableList<Image> replicaImageList = FXCollections.observableArrayList();
 
     @FXML
     private ScrollPane imagesScrollPane;
@@ -34,6 +37,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         modelManager = ModelManager.getInstance();
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
+        replicaImageList.addAll(currentOrder.getImageList());
 
         initializeScrollPane();
     }
@@ -54,7 +58,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             int row = 0;
             int col = 0;
 
-            for (Image img : currentOrder.getImageList()) {
+            for (Image img : replicaImageList) {
                 javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);
@@ -97,7 +101,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         };
 
         updateGrid.run();
-        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
+        replicaImageList.addListener((ListChangeListener<Image>) change -> updateGrid.run());
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
@@ -105,9 +109,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.OK) {
-            img.setOrderId(0);
-            save();
-            currentOrder.getImageList().remove(img);
+            replicaImageList.remove(img);
         }
     }
 
@@ -132,6 +134,15 @@ public class PhotoDocumentController extends Controller implements Initializable
     }
 
     private void save() throws Exception {
+        // Loop igennem replica listen, hvis den oprindelige liste ikke indeholder dette image
+        // er det fordi det billede er slettet, og dens id skal derfor sættes til 0 i den oprindelige liste
+        for (Image img : currentOrder.getImageList()) {
+            if (!replicaImageList.contains(img)) {
+                System.out.println("SHIT");
+                img.setOrderId(0);
+            }
+        }
+
         model.saveButtonClicked();
     }
 }

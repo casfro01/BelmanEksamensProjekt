@@ -66,4 +66,8 @@ public class Order {
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
+
+    public void setImageList(ObservableList<Image> replicaImageList) {
+        this.images = replicaImageList;
+    }
 }
