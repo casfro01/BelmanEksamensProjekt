@@ -14,12 +14,9 @@ public interface IController {
     void initializeComponents(AnchorPane pane, double width, double height);
     void resizeItems(double width, double height);
     void resizeItems(Map<Region, List<Double>> components, Map<ImageView, List<Double>> imageComponents, double width, double height);
-
-    void setControllerRoot(IController controller);
+    Font getFont(ObservableList<String> style, double newWidth, double newHeight);
+    // void setManager(ControllerManager manager);
+    //void setControllerRoot(IController controller);
     //void reload();
     //AnchorPane getPane(Screens screen) throws IOException;
-
-    Font getFont(ObservableList<String> style, double newWidth, double newHeight);
-
-    // void setManager(ControllerManager manager);
 }
