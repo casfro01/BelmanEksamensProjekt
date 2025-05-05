@@ -28,7 +28,7 @@
       <ScrollPane fx:id="imagesScrollPane" layoutX="806.0" layoutY="190.0" prefHeight="884.0" prefWidth="1028.0" />
           <ImageView fx:id="imgLogo" fitHeight="66.0" fitWidth="70.0" layoutX="490.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../Billeder/apple-camera.png" />
+            <Image url="@Icons/camera.png" />
          </image>
       </ImageView>
     </children>

@@ -16,7 +16,8 @@ public class OrdersDAO implements Repository<Order, String>{
         List<Order> orders = new ArrayList<>();
         String SQL = """
                 SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented FROM Orders
-                FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID;
+                FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
+                WHERE Orders.OrderNumber IS NOT NULL;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){

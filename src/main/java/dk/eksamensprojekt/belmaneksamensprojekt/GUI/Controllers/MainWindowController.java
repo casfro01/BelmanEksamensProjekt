@@ -60,6 +60,11 @@ public class MainWindowController extends Controller implements Initializable {
     }
 
     private void fillData(){
+        // hvis der allerede er ting i -> så kun opdatér data i orders for approval
+        if (!orderModel.getOrderList().isEmpty()){
+            createOrderForApprovalView();
+            return;
+        }
         BackgroundTask.execute(
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?

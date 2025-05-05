@@ -36,6 +36,7 @@ public class UserModel {
         if (this.selectedUser == null) {
             this.selectedUser = new SimpleObjectProperty<>(selectedUser);
         }
+        // TODO : hmmm refactor nedenfor ?
         else{
             this.selectedUser.set(selectedUser);
         }
