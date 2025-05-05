@@ -139,7 +139,6 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
         try(PreparedStatement ps = connector.getConnection().prepareStatement(sql)) {
             ps.setInt(1, orderID);
             ResultSet rs = ps.executeQuery();
-            System.out.println(rs.getFetchSize());
             while (rs.next()) {
                 // find user & lav user
                 User u = new User(rs.getInt(3), rs.getInt(7), rs.getString(6), rs.getString(5));
