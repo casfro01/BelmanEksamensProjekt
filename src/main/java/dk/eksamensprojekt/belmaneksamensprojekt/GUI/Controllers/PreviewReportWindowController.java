@@ -49,15 +49,6 @@ public class PreviewReportWindowController extends Controller implements Initial
 
         grid.getChildren().clear();
 
-        // TESTING ONLY
-        Report report = new Report(1, "duasdua",
-                new User(1, 1, "ahdhada", "ajdaj"));
-        Order order = new Order(-1, "2",
-                report, Approved.Approved);
-        order.getImageList().add(new Image(-1, "file:\\C:\\Users\\chris\\Desktop\\BelmanEksamensProjekt\\Images\\image1.jpg", Approved.NotApproved));
-        order.getImageList().add(new Image(-1, "file:\\C:\\Users\\chris\\Desktop\\BelmanEksamensProjekt\\Images\\image1.jpg", Approved.NotApproved));
-        model.setCurrentOrder(order);
-
         int i = 0;
         for (Image image : model.getCurrentOrder().getImageList()) {
             if (i % 2 == 0) {
@@ -72,7 +63,6 @@ public class PreviewReportWindowController extends Controller implements Initial
         }
 
     }
-
 
     private void addImage(GridPane grid, Image image) {
         javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(image.getPath()));
@@ -110,5 +100,4 @@ public class PreviewReportWindowController extends Controller implements Initial
             row++;
         }
     }
-
 }
