@@ -21,10 +21,17 @@ public class OrderModel {
     }
 
     public ObservableList<Order> getOrderList() throws Exception {
+        /*
         if (orderList.isEmpty()) {
             orderList.addAll(orderManager.getAllOrders());
         }
 
+         */
+        return orderList;
+    }
+    public ObservableList<Order> reloadOrderList() throws Exception {
+        orderList.clear();
+        orderList.addAll(orderManager.getAllOrders());
         return orderList;
     }
 

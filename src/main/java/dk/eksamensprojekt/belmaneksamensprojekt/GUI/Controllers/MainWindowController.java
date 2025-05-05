@@ -6,6 +6,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
@@ -55,6 +56,35 @@ public class MainWindowController extends Controller implements Initializable {
         //orderList = FXCollections.observableArrayList();
         setupTableFiltering();
         createOrderForApprovalView();
+        fillData();
+    }
+
+    private void fillData(){
+        BackgroundTask.execute(
+                () ->{ // hvad skal der ske
+                    // vil error ikke fange exception?
+                    try{
+                        return orderModel.reloadOrderList();
+                    } catch (Exception e) {
+                        ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
+                        return null;
+                    }
+                },
+                orders -> { // når tasken er færdiggjort
+                    // nothing ig -> siden det er loaded
+                },
+                error -> { // hvis der sker en fejl
+                    orderTableView.setPlaceholder(new Label("Could not fetch data."));
+                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR);
+                },
+                load -> { // imens vi venter
+                    if (load)
+                        orderTableView.setPlaceholder(new Label("Loading..."));
+                    else
+                        orderTableView.setPlaceholder(new Label("Orders found!"));
+                }
+        );
+
     }
 
     public void setupTableFiltering() {
@@ -88,7 +118,8 @@ public class MainWindowController extends Controller implements Initializable {
         }
     }
 
-    // TODO : lav til listview og gør det der ig? eller så har jeg en anden ide -> tilføj til resize?
+    // TODO : lav til listview og gør det der ig? eller så har jeg en anden ide -> Vbox ? -> new VBox(10, items1, item2, ...);
+    // rename to load?
     private void createOrderForApprovalView() {
         // kan dette laves på en bedre måde?
         List<Order> todoOrders = orderModel.getOrdersForApproval();
