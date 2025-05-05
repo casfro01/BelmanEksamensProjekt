@@ -20,7 +20,7 @@
                   <Image url="@../../../../../../../../../Billeder/logout-icon-256x256-5c0ge4jd.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="54.0" layoutX="106.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgBackButton" fitHeight="50.0" fitWidth="54.0" layoutX="106.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../../../Billeder/goback-button.png" />
                </image>
