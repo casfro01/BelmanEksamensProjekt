@@ -10,7 +10,6 @@ public class Order {
     private int id; // primærenøgle
     private Report report;
     private String orderNumber;
-    private Approved approved;
     private ObservableList<Image> images = FXCollections.observableArrayList();
     private Approved isApproved;
     private boolean documented;
@@ -47,7 +46,7 @@ public class Order {
     }
 
     public Approved isApproved() {
-        return approved;
+        return isApproved;
     }
 
     public void setReport(Report report) {

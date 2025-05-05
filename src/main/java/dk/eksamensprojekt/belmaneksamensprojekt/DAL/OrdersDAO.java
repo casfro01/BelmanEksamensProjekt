@@ -87,11 +87,17 @@ public class OrdersDAO implements Repository<Order, String>{
     @Override
     public void update(Order entity) throws Exception {
         String sql = """
-                UPDATE Orders SET Approve = ? ReportID = ?, Documented = ? WHERE ID = ?;
+                UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;
         DBConnector db = new DBConnector();
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
-            ps.setInt(2, entity.getReport().getId());
+            // sæt rapport
+            if (entity.getReport() == null)
+                ps.setNull(2, Types.INTEGER);
+            else
+                ps.setInt(2, entity.getReport().getId());
+
+            // set id
             ps.setInt(4, entity.getId());
 
             //Approve
@@ -101,7 +107,7 @@ public class OrdersDAO implements Repository<Order, String>{
                 ps.setBoolean(1,entity.isApproved().toBoolean());
             //Documented
             ps.setBoolean(3, entity.isDocumented());
-            ps.executeQuery();
+            ps.executeUpdate();
         }
             catch(SQLServerException e){
             throw new Exception("Failed to update Orders: " + e.getMessage());
