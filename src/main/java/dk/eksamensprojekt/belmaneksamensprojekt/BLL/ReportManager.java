@@ -25,17 +25,16 @@ public class ReportManager {
     private static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
 
     private final ReportDAO reportDAO;
-    private final ModelManager modelManager;
 
     public ReportManager() {
         reportDAO = new ReportDAO();
-        modelManager = ModelManager.getInstance();
     }
 
     public void saveReport(Order order, List<String> comments) throws Exception {
-        Report report = new Report(-1, "/Reports/", modelManager.getUserModel().getSelectedUser().get());
+        Report report = new Report(-1, "/Reports/", ModelManager.getInstance().getUserModel().getSelectedUser().get());
         Report reportDatabase = reportDAO.create(report);
         order.setReport(reportDatabase);
+
         // [TODO] update order i database så den nu linker til den nye report?
 
         generatePdf(order, reportDatabase, comments);
@@ -62,7 +61,7 @@ public class ReportManager {
             cell1.setBorder(Border.NO_BORDER);
             cell1.setHorizontalAlignment(HorizontalAlignment.CENTER);
             ImageData data = ImageDataFactory.create(image.getPath());
-            cell1.add(new com.itextpdf.layout.element.Image(data));
+            cell1.add(new com.itextpdf.layout.element.Image(data).scaleToFit(250F, 250F));
 
             Cell cell2 = new Cell();
             cell2.setBorder(Border.NO_BORDER);
@@ -85,20 +84,7 @@ public class ReportManager {
             i += 1;
         }
 
-        // [TODO] loop igennem images og tilføj til pdf, men inden det tilføj en string fra comments
-
         document.close();
     }
 
-    public static void main(String[] args) throws Exception {
-        User user = new User(1, 1, "email", "name");
-        Report report = new Report(1, REPORTS_PATH + "sdadj.pdf", user);
-        Order order = new Order(-1, "1231", report, Approved.NotReviewed);
-        order.getImageList().add(new Image(1, IMAGES_PATH + "image1.jpg", Approved.NotApproved));
-        order.getImageList().add(new Image(2, IMAGES_PATH + "image2.png", Approved.NotApproved));
-        generatePdf(order, report, new ArrayList<String>() {{
-            add("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra, elit sed feugiat varius, diam leo eleifend neque, eget blandit elit nisi ac justo. Suspendisse sollicitudin sapien quis est tempus, sed euismod arcu vehicula. Duis ac quam placerat, ornare erat ac, volutpat velit. Fusce pulvinar nisi elit, nec rutrum sapien facilisis eu. Suspendisse a mauris fringilla, aliquam tortor eget, finibus sem. In hac habitasse platea dictumst.");
-            add("Nunc ac elit vitae ligula placerat molestie id quis magna. Donec ultricies, ligula et tempor placerat, dolor mi imperdiet purus, quis placerat nibh massa facilisis risus. Proin accumsan placerat erat quis venenatis. Nam lacinia metus eu enim maximus, in consequat lectus ornare. In dictum quam quis ex mollis, non auctor libero vehicula. Phasellus a mollis lectus. Maecenas venenatis nibh ut sem blandit molestie.");
-        }});
-    }
 }

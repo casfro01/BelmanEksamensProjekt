@@ -45,4 +45,8 @@ public class Image {
     public int getOrderID() {
         return orderID;
     }
+
+    public void setOrderId(int id) {
+        this.orderID = id;
+    }
 }

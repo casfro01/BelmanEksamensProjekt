@@ -3,9 +3,11 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -20,12 +22,19 @@ import javafx.scene.layout.StackPane;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
     private final static int COLUMNS = 2;
     private ModelManager modelManager;
-    private OrderModel model;
+    private OrderModel orderModel;
+    private ReportModel reportModel;
+    private List<TextArea> textAreas = new ArrayList<>();
+    private List<Image> images = new ArrayList<>();
+    private List<CheckBox> checkboxes = new ArrayList<>();
     private int row = 0;
     private int col = 0;
 
@@ -41,7 +50,8 @@ public class PreviewReportWindowController extends Controller implements Initial
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         modelManager = ModelManager.getInstance();
-        model = modelManager.getOrderModel();
+        orderModel = modelManager.getOrderModel();
+        reportModel = modelManager.getReportModel();
 
         initializeScrollPane();
         initializeInformation();
@@ -60,7 +70,7 @@ public class PreviewReportWindowController extends Controller implements Initial
         grid.getChildren().clear();
 
         int i = 0;
-        for (Image image : model.getCurrentOrder().getImageList()) {
+        for (Image image : orderModel.getCurrentOrder().getImageList()) {
             if (i % 2 == 0) {
                 addImage(grid, image);
                 addTextArea(grid);
@@ -83,11 +93,17 @@ public class PreviewReportWindowController extends Controller implements Initial
         CheckBox checkBox = new CheckBox();
         checkBox.setStyle("-fx-padding: 10px");
         checkBox.setSelected(true);
+        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            textAreas.get(checkboxes.indexOf(checkBox)).setDisable(!newValue);
+        });
 
         StackPane imagePane = new StackPane(imageView, checkBox);
         imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         StackPane.setAlignment(checkBox, Pos.TOP_RIGHT);
         StackPane.setMargin(checkBox, new Insets(10));
+
+        checkboxes.add(checkBox);
+        images.add(image);
 
         grid.add(imagePane, col, row);
         col++;
@@ -102,7 +118,7 @@ public class PreviewReportWindowController extends Controller implements Initial
         textArea.setPrefWidth(500);
         textArea.setPrefHeight(300);
         textArea.getStyleClass().add("textAreaFont");
-
+        textAreas.add(textArea);
         grid.add(textArea, col, row);
         col++;
         if (col >= COLUMNS) {
@@ -112,9 +128,30 @@ public class PreviewReportWindowController extends Controller implements Initial
     }
 
     private void initializeInformation() {
-        lblOrderNumber.setText(model.getCurrentOrder().getOrderNumber());
+        lblOrderNumber.setText(orderModel.getCurrentOrder().getOrderNumber());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblDate.setText(LocalDate.now().format(dtf));
         lblCustomer.setText("??????????");
+    }
+
+    public void downloadPressed(ActionEvent actionEvent) {
+    }
+
+    public void savePressed(ActionEvent actionEvent) throws Exception {
+        List<String> strings = new ArrayList<>();
+        for (TextArea textArea : textAreas) {
+            if (!textArea.isDisabled()) {
+                strings.add(textArea.getText());
+            }
+        }
+        for (Image image : images) {
+            if (!checkboxes.get(images.indexOf(image)).isSelected()) {
+                image.setApproved(Approved.NotApproved);
+                image.setOrderId(-1);
+                // orderModel.getCurrentOrder().getImageList().remove(image);
+                // kan ikke fjerne image fra listen her, fordi så vil billederne ikke blive opdateret i DAO senere
+            }
+        }
+        reportModel.saveReport(strings);
     }
 }

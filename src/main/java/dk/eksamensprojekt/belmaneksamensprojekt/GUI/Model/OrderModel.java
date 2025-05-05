@@ -71,6 +71,10 @@ public class OrderModel {
         return ordersForApproval;
     }
 
+    public void updateOrder(Order order) throws Exception {
+        orderManager.updateOrder(order);
+    }
+
     public Order searchOrder(String txt) throws Exception {
         return orderManager.getById(txt);
     }
