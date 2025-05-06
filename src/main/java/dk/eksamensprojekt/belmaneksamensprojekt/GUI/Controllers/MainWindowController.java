@@ -61,10 +61,12 @@ public class MainWindowController extends Controller implements Initializable {
 
     private void fillData(){
         // hvis der allerede er ting i -> så kun opdatér data i orders for approval
+        /*
         if (!orderModel.getOrderList().isEmpty()){
             createOrderForApprovalView();
             return;
         }
+         */
         BackgroundTask.execute(
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?
@@ -154,6 +156,7 @@ public class MainWindowController extends Controller implements Initializable {
         //scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
         ap.setStyle("-fx-background-color: #7FA8C5;");
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth(), Region.USE_COMPUTED_SIZE + spacing * 2);
+        ap.setMinHeight(scrollPaneOrderApproval.getPrefHeight());
         scrollPaneOrderApproval.setContent(ap);
         scrollPaneOrderApproval.setStyle("-fx-background-color: #7FA8C5;");
     }
@@ -193,7 +196,6 @@ public class MainWindowController extends Controller implements Initializable {
 
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
-        System.out.println("Jens");
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewReportWindow));
     }
 }

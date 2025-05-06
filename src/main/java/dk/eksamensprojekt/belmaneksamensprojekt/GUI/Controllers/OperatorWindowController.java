@@ -5,12 +5,15 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -58,5 +61,14 @@ public class OperatorWindowController extends Controller implements Initializabl
         Order order = orderModel.searchOrder(txt);
         orderModel.setCurrentOrder(order);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
+    }
+
+    @FXML
+    private void searchOrderPressed(MouseEvent mouseEvent) {
+        try {
+            searchOrder();
+        } catch (Exception e) {
+            ShowAlerts.displayMessage("Invalid Order", "Invalid order number " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

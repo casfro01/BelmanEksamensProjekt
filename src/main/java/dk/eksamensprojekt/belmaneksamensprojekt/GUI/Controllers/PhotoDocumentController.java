@@ -1,9 +1,11 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -139,11 +141,17 @@ public class PhotoDocumentController extends Controller implements Initializable
     @FXML
     private void saveButtonClicked(ActionEvent event) throws Exception {
         save();
+        // back to main?
     }
 
     @FXML
     private void submitButtonClicked(ActionEvent event) throws Exception {
         model.submitButtonClicked();
+        backToMain();
+    }
+
+    private void backToMain(){
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
     }
 
     private void save() throws Exception {
