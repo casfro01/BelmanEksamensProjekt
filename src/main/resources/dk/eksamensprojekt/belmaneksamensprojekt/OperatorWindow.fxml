@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -14,5 +16,10 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></TextField>
+      <ImageView fx:id="imgSearchOrderNumber" fitHeight="50.0" fitWidth="50.0" layoutX="1186.0" layoutY="511.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../../Billeder/360_F_303876825_8HnFNgtvlo0mET2RBJMxNPcM7sJXTwMR.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
