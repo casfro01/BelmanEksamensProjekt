@@ -22,17 +22,17 @@
             <Separator layoutX="13.0" layoutY="160.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="215.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="270.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
-            <Label fx:id="lblDashboard" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Dashboard">
+            <Label fx:id="lblDashboard" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Dashboard" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users">
+            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="lblGallery" layoutX="13.0" layoutY="220.0" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Gallery">
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="220.0" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Gallery" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
@@ -62,7 +62,7 @@
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="454.0" />
               </content>
             </ScrollPane>
-            <TextField fx:id="txtSearchOrderApproval" layoutX="68.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="360.0" promptText="Search in orders for approval" styleClass="smallText">
+            <TextField fx:id="txtSearchOrderApproval" layoutX="68.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="360.0" promptText="Search in orders for approval" styleClass="smallText" visible="false">
                <font>
                   <Font size="16.0" />
                </font>

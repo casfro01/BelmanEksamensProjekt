@@ -70,7 +70,6 @@ public class WindowService {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("topbar.fxml"));
             fxmlLoader.load();
             Controller c = fxmlLoader.getController();
-            System.out.println(c);
             c.setInvoker(invoker);
 
             return fxmlLoader.getRoot();
