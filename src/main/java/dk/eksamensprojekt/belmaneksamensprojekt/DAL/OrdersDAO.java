@@ -87,7 +87,6 @@ public class OrdersDAO implements Repository<Order, String>{
 
     @Override
     public void update(Order entity) throws Exception {
-        System.out.println(entity.getReport().getId());
         String sql = """
                 UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;

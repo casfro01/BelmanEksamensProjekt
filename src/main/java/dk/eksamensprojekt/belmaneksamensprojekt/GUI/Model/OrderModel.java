@@ -1,9 +1,11 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -35,14 +37,19 @@ public class OrderModel {
         return orderList;
     }
 
-    public void takePictureClicked() throws Exception {
+    public Image takePictureClicked() throws Exception {
         if (currentOrder != null) {
-            orderManager.openCamera(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+            try {
+                return orderManager.openCamera(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+        return null;
     }
 
-    public void addPictureClicked() throws Exception {
-        orderManager.addPicFromFolder(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+    public Image addPictureClicked() throws Exception {
+        return orderManager.addPicFromFolder(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
     }
 
     public void saveButtonClicked() throws Exception {

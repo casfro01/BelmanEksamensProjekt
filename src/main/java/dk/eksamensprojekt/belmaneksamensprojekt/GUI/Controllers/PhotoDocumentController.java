@@ -28,6 +28,7 @@ public class PhotoDocumentController extends Controller implements Initializable
     private OrderModel model;
     private Order currentOrder;
     private ObservableList<Image> replicaImageList = FXCollections.observableArrayList();
+    private boolean syncingLists = false;
 
     @FXML
     private ScrollPane imagesScrollPane;
@@ -39,10 +40,16 @@ public class PhotoDocumentController extends Controller implements Initializable
         currentOrder = model.getCurrentOrder();
         replicaImageList.addAll(currentOrder.getImageList());
 
-        // TODO kan nok optimeres
-        currentOrder.getImageList().addListener((ListChangeListener<Image>) c -> {
-            replicaImageList.clear();
-            replicaImageList.addAll(currentOrder.getImageList());
+        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> {
+            if (syncingLists) return;
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    replicaImageList.addAll(change.getAddedSubList());
+                }
+                if (change.wasRemoved()) {
+                    replicaImageList.removeAll(change.getRemoved());
+                }
+            }
         });
 
         initializeScrollPane();
@@ -121,12 +128,12 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        model.takePictureClicked();
+        replicaImageList.add(model.takePictureClicked());
     }
 
     @FXML
     private void addPictureClicked(ActionEvent event) throws Exception {
-        model.addPictureClicked();
+        replicaImageList.add(model.addPictureClicked());
     }
 
     @FXML
@@ -140,15 +147,26 @@ public class PhotoDocumentController extends Controller implements Initializable
     }
 
     private void save() throws Exception {
-        // Loop igennem replica listen, hvis den oprindelige liste ikke indeholder dette image
-        // er det fordi det billede er slettet, og dens id skal derfor sættes til 0 i den oprindelige liste
-        for (Image img : currentOrder.getImageList()) {
-            if (!replicaImageList.contains(img)) {
-                System.out.println("SHIT");
-                img.setOrderId(0);
-            }
-        }
+        syncingLists = true;
 
-        model.saveButtonClicked();
+        try {
+            for (Image img : currentOrder.getImageList()) {
+                if (!replicaImageList.contains(img)) {
+                    img.setOrderId(0);
+                }
+            }
+
+            List<Image> copy = new ArrayList<>(replicaImageList);
+            for (Image img : copy) {
+                if (!currentOrder.getImageList().contains(img)) {
+                    img.setOrderId(currentOrder.getId());
+                    currentOrder.getImageList().add(img);
+                }
+            }
+
+            model.saveButtonClicked();
+        } finally {
+            syncingLists = false;
+        }
     }
 }

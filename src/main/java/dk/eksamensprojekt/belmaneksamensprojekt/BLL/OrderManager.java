@@ -8,6 +8,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import javafx.application.Platform;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -29,37 +30,49 @@ public class OrderManager {
         ordersDAO.update(order);
     }
 
-    public void openCamera(Order order, User user) throws Exception {
-        Runtime.getRuntime().exec("cmd.exe /C start microsoft.windows.camera:");
+    public Image openCamera(Order order, User user) throws Exception {
+        try {
+            Runtime.getRuntime().exec("cmd.exe /C start microsoft.windows.camera:");
 
-        // Kan være tilfælde hvor brugerens kamera ikke gemmer billeder i denne mappe
-        String userHome = System.getProperty("user.home");
-        Path cameraRoll = Paths.get(userHome, "Pictures", "Camera Roll");
+            String userHome = System.getProperty("user.home");
+            Path cameraRoll = Paths.get(userHome, "Pictures", "Camera Roll");
 
-        WatchService watchService = FileSystems.getDefault().newWatchService();
-        cameraRoll.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+            WatchService watchService = FileSystems.getDefault().newWatchService();
+            cameraRoll.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
 
-        WatchKey key;
-        while ((key = watchService.take()) != null) {
-            for (WatchEvent<?> event : key.pollEvents()) {
-                if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE && event.context().toString().endsWith(".jpg")) {
-                    order.getImageList().add(new Image(
-                            -1,
-                            "file:\\" + cameraRoll + "/" + event.context(),
-                            Approved.NotReviewed,
-                            user,
-                            order.getId()
-                            )
-                    );
+            WatchKey key;
+            while ((key = watchService.take()) != null) {
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE &&
+                            event.context().toString().endsWith(".jpg")) {
 
-                    Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
-                    key.reset();
+                        Path imagePath = cameraRoll.resolve((Path) event.context());
+
+                        String imageUri = imagePath.toUri().toString();
+
+                        Image image = new Image(
+                                -1,
+                                imageUri,
+                                Approved.NotReviewed,
+                                user,
+                                order.getId()
+                        );
+
+                        Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
+                        return image;
+                    }
                 }
+                key.reset();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
 
-    public void addPicFromFolder(Order order, User user) throws Exception {
+
+    public Image addPicFromFolder(Order order, User user) throws Exception {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Image");
         fileChooser.getExtensionFilters().addAll(
@@ -67,15 +80,7 @@ public class OrderManager {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
-        order.getImageList().add(
-                new Image(
-                        -1,
-                        "file:\\" + file.getPath(),
-                        Approved.NotReviewed,
-                        user,
-                        order.getId()
-                )
-        );
+        return new Image(-1, "file:\\" + file.getPath(), Approved.NotReviewed, user, order.getId());
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
