@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.OrderforApprovalWindow">
+   <children>
+      <AnchorPane id="sideMenu" fx:id="sideMenu" layoutX="25.0" layoutY="209.0" prefHeight="840.0" prefWidth="285.0" stylesheets="@StyleSheet.css">
+         <padding>
+            <Insets right="34.0" />
+         </padding>
+         <children>
+            <Separator layoutX="13.0" layoutY="105.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="160.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="215.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="270.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Label fx:id="lblDashboard" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Dashboard" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblGallery" layoutX="13.0" layoutY="220.0" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Gallery" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane id="paneBackground" layoutX="400.0" layoutY="209.0" prefHeight="840.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
+         <children>
+            <ScrollPane layoutX="41.0" layoutY="55.0" prefHeight="744.0" prefWidth="841.0" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="lblMenu" alignment="CENTER" layoutX="21.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="286.0" styleClass="bigText" text="Menu">
+         <font>
+            <Font name="System Bold Italic" size="45.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrdersForapproval" alignment="CENTER" layoutX="603.0" layoutY="148.0" prefHeight="66.0" prefWidth="503.0" styleClass="bigText" text="Orders for approval">
+         <font>
+            <Font name="System Bold Italic" size="45.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
