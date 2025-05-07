@@ -60,7 +60,7 @@ public class OrderManager {
 
                         Image image = new Image(
                                 -1,
-                                "file:\\" + newLocation.toString(),
+                                fileName.toString(),
                                 Approved.NotReviewed,
                                 user,
                                 order.getId()
