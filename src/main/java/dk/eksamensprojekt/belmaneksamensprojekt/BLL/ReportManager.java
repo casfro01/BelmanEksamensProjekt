@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportManager {
+    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
     private final Repository<Order, String> orderRepository;
     private final Repository<Report, Integer> reportRepository;
 
@@ -62,7 +63,7 @@ public class ReportManager {
             Cell cell1 = new Cell();
             cell1.setBorder(Border.NO_BORDER);
             cell1.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            ImageData data = ImageDataFactory.create(image.getPath());
+            ImageData data = ImageDataFactory.create("file:\\" + IMAGES_PATH + image.getPath());
             cell1.add(new com.itextpdf.layout.element.Image(data).scaleToFit(250F, 250F));
 
             Cell cell2 = new Cell();
