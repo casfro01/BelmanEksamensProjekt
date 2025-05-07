@@ -168,6 +168,9 @@ public class PreviewReportWindowController extends Controller implements Initial
                 image.setOrderId(-1);
                 // orderModel.getCurrentOrder().getImageList().remove(image);
                 // kan ikke fjerne image fra listen her, fordi så vil billederne ikke blive opdateret i DAO senere
+            } else {
+                image.setApproved(Approved.Approved);
+                image.setOrderId(orderModel.getCurrentOrder().getId());
             }
         }
         reportModel.saveReport(strings);
