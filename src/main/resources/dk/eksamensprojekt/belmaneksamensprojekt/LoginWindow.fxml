@@ -24,7 +24,7 @@
       </ScrollPane>
       <TextField fx:id="txtUsername" layoutX="1241.0" layoutY="409.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.8" prefWidth="400.0" styleClass="normalText" />
       <TextField fx:id="txtPassword" layoutX="1240.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.8" prefWidth="400.0" styleClass="normalText" />
-      <Button fx:id="btnLogin" layoutX="1347.0" layoutY="634.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="185.0" styleClass="smallText" text="Login">
+      <Button fx:id="btnLogin" onAction="#loginIn" layoutX="1347.0" layoutY="634.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="185.0" styleClass="smallText" text="Login">
          <font>
             <Font size="16.0" />
          </font>
@@ -34,7 +34,7 @@
       <Separator layoutX="5.0" layoutY="187.0" orientation="VERTICAL" prefHeight="471.0" prefWidth="1.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="952.0" AnchorPane.rightAnchor="956.0" AnchorPane.topAnchor="50.0" />
       <ImageView fx:id="ImgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="62.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../../../../Billeder/BELMAN_Logo_264pxl.png" />
+            <Image url="@Icons/BELMAN_Logo.png" />
          </image></ImageView>
       <Label fx:id="lblUsername" layoutX="1241.0" layoutY="373.0" prefHeight="26.0" prefWidth="400.0" styleClass="normalText" text="Username/Email">
          <font>

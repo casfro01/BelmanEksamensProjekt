@@ -9,12 +9,14 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -25,11 +27,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class LoginWindowController extends Controller implements Initializable {
 
     private UserModel userModel;
-    @FXML private ScrollPane scrollPaneUser;
+    private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private static final Pattern pattern = Pattern.compile(emailRegex);
+    @FXML
+    private ScrollPane scrollPaneUser;
+    @FXML
+    private TextField txtUsername;
+    @FXML
+    private TextField txtPassword;
 
 
     @Override
@@ -121,6 +131,27 @@ public class LoginWindowController extends Controller implements Initializable {
         // hvis andet gå til main admin el. qc user
         else{
             getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
+        }
+    }
+
+
+    @FXML
+    private void loginIn(ActionEvent actionEvent) {
+        try {
+            if (pattern.matcher(txtUsername.getText().trim()).matches()) {
+                User u = userModel.login(txtUsername.getText(), txtPassword.getText());
+                if (u != null) {
+                    loginAsUser(u);
+                }
+                else
+                    throw new Exception("Wrong email or password!");
+            }
+            else
+                throw new Exception("Unsupported email!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO : refactor til noget andet - så som et error label
+            ShowAlerts.displayMessage("Login Error", "Could not login: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 }
