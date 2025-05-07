@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportManager {
-
     private final Repository<Order, String> orderRepository;
     private final Repository<Report, Integer> reportRepository;
 
@@ -35,7 +34,6 @@ public class ReportManager {
 
     public void saveReport(Order order, List<String> comments) throws Exception {
         Report report = new Report(-1, ModelManager.getInstance().getUserModel().getSelectedUser().get());
-        System.out.println(report.getUser().getId());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = generatePdfBytes(order, report, baos, comments);

@@ -6,16 +6,17 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import javafx.application.Platform;
+
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
 public class OrderManager {
+    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
+
     private final Repository<Order, String> ordersDAO;
 
     public OrderManager() {
@@ -47,12 +48,19 @@ public class OrderManager {
                             event.context().toString().endsWith(".jpg")) {
 
                         Path imagePath = cameraRoll.resolve((Path) event.context());
+                        Path fileName = imagePath.getFileName();
+                        Path newLocation = Paths.get(IMAGES_PATH + fileName);
 
-                        String imageUri = imagePath.toUri().toString();
+                        boolean fileReady = waitForFileReady(imagePath, 500, 10); // 500ms interval, 10 retries
+                        if (fileReady) {
+                            Files.copy(imagePath, newLocation);
+                        } else {
+                            throw new Exception("Error accessing picture taken.");
+                        }
 
                         Image image = new Image(
                                 -1,
-                                imageUri,
+                                "file:\\" + newLocation.toString(),
                                 Approved.NotReviewed,
                                 user,
                                 order.getId()
@@ -71,6 +79,24 @@ public class OrderManager {
         return null;
     }
 
+    private static boolean waitForFileReady(Path path, long waitMillis, int retries) {
+        long previousSize = -1;
+        try {
+            for (int i = 0; i < retries; i++) {
+                if (Files.exists(path)) {
+                    long size = Files.size(path);
+                    if (size == previousSize) {
+                        return true; // Size stable = probably not being written
+                    }
+                    previousSize = size;
+                }
+                Thread.sleep(waitMillis);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public Image addPicFromFolder(Order order, User user) throws Exception {
         FileChooser fileChooser = new FileChooser();

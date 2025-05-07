@@ -151,7 +151,6 @@ public class PreviewReportWindowController extends Controller implements Initial
         File outputFile = new File(REPORTS_PATH + databaseReport.getId() + ".pdf");
         FileOutputStream fos = new FileOutputStream(outputFile);
         fos.write(databaseReport.getReportBlob());
-        System.out.println(Arrays.toString(databaseReport.getReportBlob()));
         Desktop.getDesktop().open(outputFile);
     }
 
