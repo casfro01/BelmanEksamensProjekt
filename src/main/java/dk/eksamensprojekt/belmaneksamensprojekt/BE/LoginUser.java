@@ -3,8 +3,10 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 public class LoginUser{
     private final String email;
     private final String password;
+    private final int userID;
 
-    public LoginUser(String email, String password) {
+    public LoginUser(int userID, String email, String password) {
+        this.userID = userID;
         this.email = email;
         this.password = password;
     }
@@ -13,5 +15,8 @@ public class LoginUser{
     }
     public String getPassword() {
         return password;
+    }
+    public int getUserID() {
+        return userID;
     }
 }

@@ -42,12 +42,6 @@ public class OperatorWindowController extends Controller implements Initializabl
         }
     }
 
-    @FXML
-    private void onSearchPressed() throws Exception {
-        // TODO: Forbind search knap tryk til den her metode
-        searchOrder();
-    }
-
     private void searchOrder() throws Exception {
         String txt = txtSearchOrdernumb.getText();
         if (txt.isEmpty()) {

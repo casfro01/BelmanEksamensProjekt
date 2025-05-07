@@ -64,15 +64,15 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     @Override
     public LoginUser getLoginUser(String email) throws Exception{
         String sql = """
-                SELECT Email, Password FROM [User]
+                SELECT ID, Email, Password FROM [User]
                 WHERE Email = ?;
                 """;
         DBConnector db = new DBConnector();
         try(PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
-            ps.setString(1, email); // TODO : test - hvis det ikke virker, så tilføl  -> ' <-  på begge sider
+            ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                LoginUser lu = new LoginUser(rs.getString(1), rs.getString(2));
+                LoginUser lu = new LoginUser(rs.getInt(1), rs.getString(2), rs.getString(3));
                 return lu;
             }
             return null;
