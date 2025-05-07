@@ -18,8 +18,9 @@ public class ReportDAO implements Repository<Report, Integer> {
 
     @Override
     public Report getById(Integer id) throws Exception {
+        System.out.println(id);
         String sql = """
-                SELECT Reports.Path, [User].ID, [User].FullName, [User].Email, [User].Role FROM Reports
+                SELECT Reports.ReportBlob, [User].ID, [User].FullName, [User].Email, [User].Role FROM Reports
                 INNER JOIN [User] ON Reports.UserID = [User].ID
                 WHERE Reports.ID = ?;
                 """;
@@ -36,7 +37,7 @@ public class ReportDAO implements Repository<Report, Integer> {
             // lav bruger
             User user = new User(rs.getInt(2), UserRole.fromInt(rs.getInt(5)), rs.getString(4), rs.getString(3));
             // lav rapport
-            return new Report(id, rs.getString(1), user);
+            return new Report(id, rs.getBytes(1), user);
         }
         catch(Exception e){
             throw new Exception("Could not get report " + e.getMessage());
@@ -46,17 +47,17 @@ public class ReportDAO implements Repository<Report, Integer> {
     @Override
     public Report create(Report entity) throws Exception {
         String sql = """ 
-                INSERT INTO Reports (Path, UserID) VALUES (? , ?);
+                INSERT INTO Reports (ReportBlob, UserID) VALUES (? , ?);
                 """;
         DBConnector connector = new DBConnector();
         try (PreparedStatement ps = connector.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, entity.getReportPath());
+            ps.setBytes(1, entity.getReportBlob());
             ps.setInt(2, entity.getUser().getId());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int id = rs.getInt(1);
-                return new Report(id, entity.getReportPath(), entity.getUser());
+                return new Report(id, entity.getReportBlob(), entity.getUser());
             }
             return null;
         }
