@@ -34,6 +34,7 @@ public class ReportManager {
     }
 
     public void saveReport(Order order, List<String> comments) throws Exception {
+        // todo : er der en anden måde at få user på, måske?
         Report report = new Report(-1, ModelManager.getInstance().getUserModel().getSelectedUser().get());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
