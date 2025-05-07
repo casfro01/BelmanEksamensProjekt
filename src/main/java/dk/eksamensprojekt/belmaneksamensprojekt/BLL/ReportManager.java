@@ -70,7 +70,7 @@ public class ReportManager {
             cell2.setBorder(Border.NO_BORDER);
             cell2.add(new Paragraph(comments.get(i)));
 
-            if (i % 2 == 1) {
+            if (i % 2 == 0) {
                 table.addCell(cell1);
                 table.addCell(cell2);
             } else {
