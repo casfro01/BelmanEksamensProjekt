@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
     private static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
+    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
 
     private final static int COLUMNS = 2;
     private ModelManager modelManager;
@@ -92,7 +93,7 @@ public class PreviewReportWindowController extends Controller implements Initial
     }
 
     private void addImage(GridPane grid, Image image) {
-        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(image.getPath()));
+        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + image.getPath()));
         imageView.setPreserveRatio(false);
         imageView.setFitWidth(500);
         imageView.setFitHeight(300);
