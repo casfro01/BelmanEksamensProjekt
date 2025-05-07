@@ -5,27 +5,27 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 
 public class ModelManager {
-    private static ModelManager instance;
-    private final OrderModel orderModel;
-    private final UserModel userModel;
-    private final ReportModel reportModel;
+    private static ModelManager INSTANCE;
+    private final OrderModel ORDER_MODEL;
+    private final UserModel USER_MODEL;
+    private final ReportModel REPORT_MODEL;
 
     // models
     private ModelManager(){
-        this.orderModel = new OrderModel();
-        this.userModel = new UserModel();
-        this.reportModel = new ReportModel();
+        this.ORDER_MODEL = new OrderModel();
+        this.USER_MODEL = new UserModel();
+        this.REPORT_MODEL = new ReportModel();
     }
 
     public static ModelManager getInstance(){
-        if(instance == null){
-            instance = new ModelManager();
+        if(INSTANCE == null){
+            INSTANCE = new ModelManager();
         }
-        return instance;
+        return INSTANCE;
     }
 
     // getters and setters
-    public OrderModel getOrderModel(){ return orderModel; }
-    public UserModel getUserModel() { return userModel; }
-    public ReportModel getReportModel() { return reportModel; }
+    public OrderModel getOrderModel(){ return ORDER_MODEL; }
+    public UserModel getUserModel() { return USER_MODEL; }
+    public ReportModel getReportModel() { return REPORT_MODEL; }
 }

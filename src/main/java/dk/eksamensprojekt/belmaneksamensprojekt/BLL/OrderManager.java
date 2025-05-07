@@ -49,7 +49,7 @@ public class OrderManager {
 
                         Path imagePath = cameraRoll.resolve((Path) event.context());
                         Path fileName = imagePath.getFileName();
-                        Path newLocation = Paths.get(IMAGES_PATH + fileName);
+                        Path newLocation = Paths.get(IMAGES_PATH + fileName); // todo : kopier ned til den anden option
 
                         boolean fileReady = waitForFileReady(imagePath, 500, 10); // 500ms interval, 10 retries
                         if (fileReady) {
