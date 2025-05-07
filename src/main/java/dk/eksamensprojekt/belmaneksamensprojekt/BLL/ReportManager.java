@@ -12,37 +12,41 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
+import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.ReportDAO;
+import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 
-import java.io.File;
+import java.io.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReportManager {
-    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
-    private static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
 
-    private final ReportDAO reportDAO;
+    private final Repository<Order, String> orderRepository;
+    private final Repository<Report, Integer> reportRepository;
+
 
     public ReportManager() {
-        reportDAO = new ReportDAO();
+        orderRepository = new OrderDaoFacade();
+        reportRepository = new ReportDAO();
     }
 
     public void saveReport(Order order, List<String> comments) throws Exception {
-        Report report = new Report(-1, "/Reports/", ModelManager.getInstance().getUserModel().getSelectedUser().get());
-        Report reportDatabase = reportDAO.create(report);
-        order.setReport(reportDatabase);
+        Report report = new Report(-1, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+        System.out.println(report.getUser().getId());
 
-        // [TODO] update order i database så den nu linker til den nye report?
-
-        generatePdf(order, reportDatabase, comments);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] bytes = generatePdfBytes(order, report, baos, comments);
+        report.setReportBlob(bytes);
+        // Report reportDatabase = orderRepository.create(report);
+        order.setReport(report);
+        orderRepository.update(order);
     }
 
-    private static void generatePdf(Order order, Report report, List<String> comments) throws Exception {
-        String pdfPath = REPORTS_PATH + report.getId() + ".pdf";
-        PdfWriter writer = new PdfWriter(pdfPath);
+    private static byte[] generatePdfBytes(Order order, Report report, ByteArrayOutputStream baos, List<String> comments) throws Exception {
+        PdfWriter writer = new PdfWriter(baos);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
         Paragraph title = new Paragraph(
@@ -85,6 +89,11 @@ public class ReportManager {
         }
 
         document.close();
+
+        return baos.toByteArray();
     }
 
+    public Report getReport(Integer id) throws Exception {
+        return reportRepository.getById(id);
+    }
 }

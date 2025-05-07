@@ -1,6 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
@@ -19,15 +20,21 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
+    private static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
+
     private final static int COLUMNS = 2;
     private ModelManager modelManager;
     private OrderModel orderModel;
@@ -134,7 +141,18 @@ public class PreviewReportWindowController extends Controller implements Initial
         lblCustomer.setText("??????????");
     }
 
-    public void downloadPressed(ActionEvent actionEvent) {
+    public void downloadPressed(ActionEvent actionEvent) throws Exception {
+        Report currentOrderReport = modelManager.getOrderModel().getCurrentOrder().getReport();
+        if (currentOrderReport.getId() == 0) {
+            return;
+        }
+
+        Report databaseReport = reportModel.getReport(currentOrderReport.getId());
+        File outputFile = new File(REPORTS_PATH + databaseReport.getId() + ".pdf");
+        FileOutputStream fos = new FileOutputStream(outputFile);
+        fos.write(databaseReport.getReportBlob());
+        System.out.println(Arrays.toString(databaseReport.getReportBlob()));
+        Desktop.getDesktop().open(outputFile);
     }
 
     public void savePressed(ActionEvent actionEvent) throws Exception {
