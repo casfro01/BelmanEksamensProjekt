@@ -138,7 +138,7 @@ public class LoginWindowController extends Controller implements Initializable {
     @FXML
     private void loginIn(ActionEvent actionEvent) {
         try {
-            if (pattern.matcher(txtUsername.getText()).matches()) {
+            if (pattern.matcher(txtUsername.getText().trim()).matches()) {
                 User u = userModel.login(txtUsername.getText(), txtPassword.getText());
                 if (u != null) {
                     loginAsUser(u);
@@ -146,7 +146,8 @@ public class LoginWindowController extends Controller implements Initializable {
                 else
                     throw new Exception("Wrong email or password!");
             }
-            throw new Exception("Unsupported email!");
+            else
+                throw new Exception("Unsupported email!");
         } catch (Exception e) {
             e.printStackTrace();
             // TODO : refactor til noget andet - så som et error label

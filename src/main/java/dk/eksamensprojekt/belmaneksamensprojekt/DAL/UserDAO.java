@@ -42,8 +42,24 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     }
 
     @Override
-    public User getById(Integer id) {
-        return null;
+    public User getById(Integer id) throws Exception {
+        String sql = """
+                SELECT * FROM [User]
+                WHERE ID = ?
+                """;
+        DBConnector db = new DBConnector();
+        try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+               return new User(id, rs.getInt("Role"), rs.getString("Email"), rs.getString("FullName"));
+            }
+
+            return null;
+        }
+        catch (Exception e) {
+            throw new Exception("Failed to get user: " + e.getMessage());
+        }
     }
 
     @Override
