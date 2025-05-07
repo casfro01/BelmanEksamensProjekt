@@ -42,4 +42,8 @@ public class UserModel {
         }
         this.selectedUser.setValue(selectedUser);
     }
+
+    public User login(String email, String password) throws Exception {
+        return userManager.login(email, password);
+    }
 }

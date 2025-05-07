@@ -20,12 +20,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class PhotoDocumentController extends Controller implements Initializable {
+    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
+
     private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
@@ -74,7 +77,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             int col = 0;
 
             for (Image img : replicaImageList) {
-                javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image(img.getPath()));
+                javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);
                 imageView.setPreserveRatio(false);

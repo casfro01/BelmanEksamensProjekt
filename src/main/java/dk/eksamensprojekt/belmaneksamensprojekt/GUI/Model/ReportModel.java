@@ -1,8 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.ReportManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 
@@ -18,11 +18,14 @@ public class ReportModel {
     public void saveReport(List<String> comments) throws Exception {
         Order order = ModelManager.getInstance().getOrderModel().getCurrentOrder();
         if (order != null) {
-            ModelManager.getInstance().getOrderModel().updateOrder(order);
-            order.getImageList().removeIf(image -> image.isApproved() == Approved.NotApproved);
+            // ModelManager.getInstance().getOrderModel().updateOrder(order);
             reportManager.saveReport(order, comments);
         } else {
             throw new Exception("Cant save report: No current order???");
         }
+    }
+
+    public Report getReport(Integer id) throws Exception {
+        return reportManager.getReport(id);
     }
 }
