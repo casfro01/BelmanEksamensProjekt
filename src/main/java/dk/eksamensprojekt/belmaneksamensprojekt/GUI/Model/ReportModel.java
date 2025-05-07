@@ -19,7 +19,6 @@ public class ReportModel {
         Order order = ModelManager.getInstance().getOrderModel().getCurrentOrder();
         if (order != null) {
             // ModelManager.getInstance().getOrderModel().updateOrder(order);
-            order.getImageList().removeIf(image -> image.isApproved() == Approved.NotApproved);
             reportManager.saveReport(order, comments);
         } else {
             throw new Exception("Cant save report: No current order???");

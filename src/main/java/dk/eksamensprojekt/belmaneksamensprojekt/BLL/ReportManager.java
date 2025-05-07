@@ -56,6 +56,10 @@ public class ReportManager {
 
         int i = 0;
         for (Image image : order.getImageList()) {
+            if (image.isApproved() == Approved.NotApproved) {
+                continue;
+            }
+            
             Table table = new Table(new float[] {250F, 250F});
             table.setBorder(Border.NO_BORDER);
             table.setVerticalBorderSpacing(5);

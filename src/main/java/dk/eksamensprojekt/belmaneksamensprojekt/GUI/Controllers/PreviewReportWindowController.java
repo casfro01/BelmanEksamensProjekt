@@ -164,11 +164,13 @@ public class PreviewReportWindowController extends Controller implements Initial
         }
         for (Image image : images) {
             if (!checkboxes.get(images.indexOf(image)).isSelected()) {
+                System.out.println(("SETTING IMAGE NOT APPROVED"));
                 image.setApproved(Approved.NotApproved);
                 image.setOrderId(-1);
                 // orderModel.getCurrentOrder().getImageList().remove(image);
                 // kan ikke fjerne image fra listen her, fordi så vil billederne ikke blive opdateret i DAO senere
             } else {
+                System.out.println("SETTING IMAGE APPROVED");
                 image.setApproved(Approved.Approved);
                 image.setOrderId(orderModel.getCurrentOrder().getId());
             }
