@@ -106,7 +106,9 @@ public class OrderManager {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
-        return new Image(-1, "file:\\" + file.getPath(), Approved.NotReviewed, user, order.getId());
+        Path newLocation = Paths.get(IMAGES_PATH + file.getName());
+        Files.copy(file.getAbsoluteFile().toPath(), newLocation);
+        return new Image(-1, file.getName(), Approved.NotReviewed, user, order.getId());
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
