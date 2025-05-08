@@ -18,6 +18,11 @@ public class SwitchWindowCommand implements Command, UndoableCommand{
 
     @Override
     public void undo() {
+        switch (window){
+            case PhotoDocWindow -> windowService.setPane(Windows.OperatorWindow);
+            case PreviewReportWindow, UserWindow -> windowService.setPane(Windows.MainWindow);
+            default -> windowService.setPane(Windows.LoginWindow);
+        }
 
     }
 

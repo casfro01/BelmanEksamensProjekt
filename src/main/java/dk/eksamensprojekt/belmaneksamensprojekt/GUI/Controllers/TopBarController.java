@@ -49,9 +49,9 @@ public class TopBarController extends Controller implements Initializable {
     }
 
     // back metode
-    // TODO : lav på anden måde
     @FXML
     private void backPressed(MouseEvent mouseEvent) {
+        /*
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
             // nulstil current order
             orderModel.setCurrentOrder(null);
@@ -63,5 +63,7 @@ public class TopBarController extends Controller implements Initializable {
                 getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
             }
         }
+         */
+        getInvoker().undoLastCommand();
     }
 }
