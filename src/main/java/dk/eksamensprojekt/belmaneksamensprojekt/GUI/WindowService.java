@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class WindowService {
     private Stage rootStage;
+    private final WindowInvoker invoker = new WindowInvoker(this);
     private Controller currentController;
     public WindowService(Stage rootStage) {
         // opsætningen af hovedvinduet
@@ -39,8 +40,6 @@ public class WindowService {
             rootStage.show();
             currentController = fxmlLoader.getController();
             // set invoker
-            // hvis / når det er man skal kunne undo, så skal dette nedenfor laves om, da der laves en ny invoker
-            WindowInvoker invoker = new WindowInvoker(this);
             currentController.setInvoker(invoker);
 
             // hvis hovedpanelet er et anchorpane så skal vi resize eller forbliver den bare som den er
