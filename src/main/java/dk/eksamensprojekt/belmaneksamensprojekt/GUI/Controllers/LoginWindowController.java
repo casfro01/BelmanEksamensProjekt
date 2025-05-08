@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 public class LoginWindowController extends Controller implements Initializable {
 
     private UserModel userModel;
+    // Til bll?
     private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final Pattern pattern = Pattern.compile(emailRegex);
     @FXML
@@ -139,6 +140,7 @@ public class LoginWindowController extends Controller implements Initializable {
     private void loginIn(ActionEvent actionEvent) {
         try {
             if (pattern.matcher(txtUsername.getText().trim()).matches()) {
+                // til loginUser?
                 User u = userModel.login(txtUsername.getText(), txtPassword.getText());
                 if (u != null) {
                     loginAsUser(u);
