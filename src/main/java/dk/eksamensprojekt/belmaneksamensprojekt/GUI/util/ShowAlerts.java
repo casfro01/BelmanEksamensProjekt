@@ -1,7 +1,10 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.util.Duration;
 
 public class ShowAlerts {
     /**
@@ -29,5 +32,27 @@ public class ShowAlerts {
         messageAlert.setTitle(title);
         messageAlert.setContentText(message);
         messageAlert.showAndWait();
+    }
+
+    /**
+     * Display en besked for brugeren i et bestemt antal sekunder, med mindre de gør noget
+     * Informationstypen er standard typen, hvis ikke andet er valgt
+     * @param title titlen på beskeden
+     * @param message 'kroppen' af beskeden - hvad skal den sige
+     * @param time hvor lang tid skal den vises i sekunder
+     */
+    public static void splashMessage(String title, String message, double time){
+        splashMessage(title, message, time, Alert.AlertType.INFORMATION);
+    }
+
+    // TODO : måske laves til sit egent pane? -> for man kan ikke fjerne buttons - da vinduet så ikke vil lukke
+    public static void splashMessage(String title, String message, double time, Alert.AlertType alertType){
+        Alert messageAlert = new Alert(alertType);
+        messageAlert.setTitle(title);
+        messageAlert.setContentText(message);
+        messageAlert.show();
+        PauseTransition delay = new PauseTransition(Duration.seconds(time));
+        delay.setOnFinished(event -> messageAlert.close());
+        delay.play();
     }
 }

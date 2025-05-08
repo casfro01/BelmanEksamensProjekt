@@ -149,7 +149,6 @@ public class LoginWindowController extends Controller implements Initializable {
             else
                 throw new Exception("Unsupported email!");
         } catch (Exception e) {
-            e.printStackTrace();
             // TODO : refactor til noget andet - så som et error label
             ShowAlerts.displayMessage("Login Error", "Could not login: " + e.getMessage(), Alert.AlertType.ERROR);
         }
