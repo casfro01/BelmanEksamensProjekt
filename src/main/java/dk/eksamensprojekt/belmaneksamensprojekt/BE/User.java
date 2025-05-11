@@ -34,7 +34,7 @@ public class User {
         return email;
     }
 
-    public UserRole getRole() {
+    public int getRole() {
         return role;
     }
 }

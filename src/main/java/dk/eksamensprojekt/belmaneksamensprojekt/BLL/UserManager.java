@@ -9,10 +9,13 @@ import dk.eksamensprojekt.belmaneksamensprojekt.DAL.UserDAO;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.UserData;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class UserManager {
     private final Repository<User, Integer> userDAO;
     private final IHashing passwordHashing;
+    private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private static final Pattern pattern = Pattern.compile(emailRegex);
 
     public UserManager() {
         this.userDAO = new UserDAO();
@@ -32,6 +35,13 @@ public class UserManager {
         }
         else
             throw new Exception("Login Failed: This Login type is not supported");
+    }
+    public User create(User user) throws Exception {
+        if (user.getName() == null || user.getName().isEmpty())
+            throw new Exception("Name is required");
+        if (pattern.matcher(user.getEmail()).matches();
+            throw new Exception("Email is invalid");
+
     }
 }
 
