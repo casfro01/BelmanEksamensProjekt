@@ -51,7 +51,10 @@
     -fx-text-fill: #004884;
 }
 .table-view .column-header-background .label {
-    -fx-font-size: 16pt;
+    -fx-font-size: 16px;
+}
+.table-view .cell{
+    -fx-font-size: 14px;
 }
 
 #topBar{
