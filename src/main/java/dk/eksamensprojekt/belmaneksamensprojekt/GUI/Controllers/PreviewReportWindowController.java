@@ -57,7 +57,7 @@ public class PreviewReportWindowController extends Controller implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         orderModel = modelManager.getOrderModel();
         reportModel = modelManager.getReportModel();
 
@@ -165,13 +165,13 @@ public class PreviewReportWindowController extends Controller implements Initial
         for (Image image : images) {
             if (!checkboxes.get(images.indexOf(image)).isSelected()) {
                 System.out.println(("SETTING IMAGE NOT APPROVED"));
-                image.setApproved(Approved.NotApproved);
+                image.setApproved(Approved.NOT_APPROVED);
                 image.setOrderId(-1);
                 // orderModel.getCurrentOrder().getImageList().remove(image);
                 // kan ikke fjerne image fra listen her, fordi så vil billederne ikke blive opdateret i DAO senere
             } else {
                 System.out.println("SETTING IMAGE APPROVED");
-                image.setApproved(Approved.Approved);
+                image.setApproved(Approved.APPROVED);
                 image.setOrderId(orderModel.getCurrentOrder().getId());
             }
         }

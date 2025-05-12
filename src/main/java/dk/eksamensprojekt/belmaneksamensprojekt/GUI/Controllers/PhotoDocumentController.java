@@ -41,7 +41,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
         replicaImageList.addAll(currentOrder.getImageList());

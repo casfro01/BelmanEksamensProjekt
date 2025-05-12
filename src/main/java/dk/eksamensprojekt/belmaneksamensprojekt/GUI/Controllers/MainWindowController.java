@@ -53,7 +53,7 @@ public class MainWindowController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderModel = ModelManager.getInstance().getOrderModel();
+        orderModel = ModelManager.INSTANCE.getOrderModel();
         //orderList = FXCollections.observableArrayList();
         setupTableFiltering();
         fillData();
@@ -117,6 +117,7 @@ public class MainWindowController extends Controller implements Initializable {
             // TODO : REFACTOR ! - tænker ikke det er godt
             tblColOrderNumber.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderNumber()));
             tblColApproved.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isApproved().toString()));
+            // TODO - indsæt billede i stedet check eller cross
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
             orderTableView.setItems(sortedList);
         } catch (Exception e) {

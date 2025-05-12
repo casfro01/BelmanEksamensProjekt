@@ -148,7 +148,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 // find hvilken approved
                 Approved app = Approved.valueOfBoolean(rs.getBoolean(4));
                 if (rs.wasNull()) {
-                    app = Approved.NotReviewed;
+                    app = Approved.NOT_REVIEWED;
                 }
                 // lav billede objekt
                 Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID);

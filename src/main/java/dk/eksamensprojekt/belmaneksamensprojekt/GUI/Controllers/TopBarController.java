@@ -30,10 +30,12 @@ public class TopBarController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // indsæt hvem der er logget ind
-        userModel = ModelManager.getInstance().getUserModel();
+        userModel = ModelManager.INSTANCE.getUserModel();
         lblName.setText(userModel.getSelectedUser().get().getName());
         lblRole.setText(userModel.getSelectedUser().get().getRole().toString().toLowerCase());
-        orderModel = ModelManager.getInstance().getOrderModel();
+
+        // nuværende ordre
+        orderModel = ModelManager.INSTANCE.getOrderModel();
         lblCurrentOrder.setText(orderModel.getCurrentOrder() == null ? "" : orderModel.getCurrentOrder().getOrderNumber());
     }
 
