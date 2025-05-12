@@ -1,13 +1,11 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import com.itextpdf.kernel.pdf.ReaderProperties;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Random;
 
 public class ReportDAO implements Repository<Report, Integer> {
 
@@ -67,8 +65,9 @@ public class ReportDAO implements Repository<Report, Integer> {
     }
 
     @Override
-    public void update(Report entity) throws Exception {
+    public User update(Report entity) throws Exception {
 
+        return null;
     }
 
     @Override

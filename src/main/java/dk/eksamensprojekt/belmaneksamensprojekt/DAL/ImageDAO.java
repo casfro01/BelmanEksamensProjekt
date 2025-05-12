@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
@@ -49,7 +48,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     }
 
     @Override
-    public void update(Image image) throws Exception {
+    public User update(Image image) throws Exception {
         String sql = """
                 UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?
                 WHERE ID = ?;
@@ -68,6 +67,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
         } catch (Exception e) {
             throw new Exception("Could not update image" + e.getMessage());
         }
+        return null;
     }
 
     @Override

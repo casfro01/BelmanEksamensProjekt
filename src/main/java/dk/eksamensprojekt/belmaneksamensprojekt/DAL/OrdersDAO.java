@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class OrdersDAO implements Repository<Order, String>{
     }
 
     @Override
-    public void update(Order entity) throws Exception {
+    public User update(Order entity) throws Exception {
         String sql = """
                 UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;
@@ -113,6 +114,7 @@ public class OrdersDAO implements Repository<Order, String>{
             catch(SQLServerException e){
             throw new Exception("Failed to update Orders: " + e.getMessage());
             }
+        return null;
     }
 
     @Override

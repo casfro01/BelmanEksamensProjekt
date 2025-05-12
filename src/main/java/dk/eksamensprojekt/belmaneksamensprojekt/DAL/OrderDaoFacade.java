@@ -1,8 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class OrderDaoFacade implements Repository<Order, String> {
     }
 
     @Override
-    public void update(Order order) throws Exception {
+    public User update(Order order) throws Exception {
         // opdatér billeder:
         imageDAO.updateAll(order.getImageList());
 
@@ -57,6 +57,7 @@ public class OrderDaoFacade implements Repository<Order, String> {
         // opdatér seleve ordren:
         ordersDAO.update(order);
 
+        return null;
     }
 
     @Override
