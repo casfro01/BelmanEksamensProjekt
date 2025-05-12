@@ -85,7 +85,7 @@ public class UserDAO implements Repository<User, Integer>, UserData{
         try (PreparedStatement ps = connector.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
-            ps.setInt(3, user.getRole());
+            ps.setInt(3, user.getRole().toInt());
 
             ps.executeUpdate();
 
