@@ -25,7 +25,7 @@ public enum Approved {
             case 1 -> {
                 return "Approved";
             }
-            case 2 -> {
+            case 0 -> {
                 return "Not approved";
             }
             default -> {
