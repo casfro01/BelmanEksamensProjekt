@@ -1,24 +1,23 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
-import javafx.fxml.FXML;
+// projekt imports
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
+
+// javafx
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
-
-import java.util.*;
-
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 
-import java.util.List;
-import java.util.Map;
+// java
+import java.util.*;
 
 public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
-    private WindowInvoker invoker;
 
     public void initializeComponents(AnchorPane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
@@ -42,19 +41,6 @@ public abstract class Controller implements IController {
         }
 
     }
-
-    /*
-    public Map<Region, List<Double>> getWindowItems() {
-        return windowItems;
-    }
-
-    public Map<ImageView, List<Double>> getImageViews() {
-        return imageViews;
-    }
-    public IController getRoot(){
-        return root
-    }
-     */
 
     @Override
     public void resizeItems(double width, double height) {
@@ -108,10 +94,6 @@ public abstract class Controller implements IController {
      * Henter invoker - bruges primært i child-klasserne
      */
     public WindowInvoker getInvoker() {
-        return invoker;
-    }
-
-    public void setInvoker(WindowInvoker invoker) {
-        this.invoker = invoker;
+        return InvokerProvider.getInvoker();
     }
 }

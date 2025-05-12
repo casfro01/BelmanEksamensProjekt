@@ -49,7 +49,7 @@ public class OrderManager {
 
                         Path imagePath = cameraRoll.resolve((Path) event.context());
                         Path fileName = imagePath.getFileName();
-                        Path newLocation = Paths.get(IMAGES_PATH + fileName);
+                        Path newLocation = Paths.get(IMAGES_PATH + fileName); // todo : kopier ned til den anden option
 
                         boolean fileReady = waitForFileReady(imagePath, 500, 10); // 500ms interval, 10 retries
                         if (fileReady) {
@@ -106,7 +106,9 @@ public class OrderManager {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
-        return new Image(-1, "file:\\" + file.getPath(), Approved.NotReviewed, user, order.getId());
+        Path newLocation = Paths.get(IMAGES_PATH + file.getName());
+        Files.copy(file.getAbsoluteFile().toPath(), newLocation);
+        return new Image(-1, file.getName(), Approved.NotReviewed, user, order.getId());
     }
 
     public void submitOrder(Order currentOrder) throws Exception {
