@@ -21,6 +21,12 @@ public class User {
         this.name = name;
         this.id = id;
     }
+    public enum UserActions{
+        Delete_Image,
+        Take_Picture,
+        Create_Report,
+        Create_Edit_Report
+    }
 
     public int getId() {
         return id;
