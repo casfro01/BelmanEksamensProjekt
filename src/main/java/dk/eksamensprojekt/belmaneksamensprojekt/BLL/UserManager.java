@@ -39,9 +39,11 @@ public class UserManager {
     public User create(User user) throws Exception {
         if (user.getName() == null || user.getName().isEmpty())
             throw new Exception("Name is required");
-        if (pattern.matcher(user.getEmail()).matches();
+        if (pattern.matcher(user.getEmail()).matches())
             throw new Exception("Email is invalid");
-
+        //if (user.getPassword() == null || user.getPassword().length() < 6)
+        //        throw new Exception("Password must be at least 6 characters");
+        return userDAO.create(user);
     }
 }
 
