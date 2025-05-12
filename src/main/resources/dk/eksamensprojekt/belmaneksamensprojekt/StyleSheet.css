@@ -50,6 +50,9 @@
 .orderItemText{
     -fx-text-fill: #004884;
 }
+.table-view .column-header-background .label {
+    -fx-font-size: 16pt;
+}
 
 #topBar{
     -fx-background-color: #004B88;
@@ -59,7 +62,7 @@
     -fx-background-radius: 15px;
 }
 #paneBackground{
-    -fx-background-color: #7FA8C5;
+    -fx-background-color: #C6C6C6;
     -fx-background-radius: 20px;
 }
 #txtSearchOrdernumb{
@@ -70,4 +73,5 @@
     -fx-background-radius: 65px;
     -fx-text-fill: white;
 }
+
 
