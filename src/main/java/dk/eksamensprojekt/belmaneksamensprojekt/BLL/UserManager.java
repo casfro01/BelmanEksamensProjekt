@@ -51,7 +51,9 @@ public class UserManager {
         if (user.getRole() == null)
             throw new Exception("Role is required");
         return userDAO.update(user);
-
+    }
+    public User getById(int id) throws Exception {
+        return userDAO.getById(id);
     }
 }
 
