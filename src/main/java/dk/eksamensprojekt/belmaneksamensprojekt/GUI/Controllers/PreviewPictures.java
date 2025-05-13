@@ -104,6 +104,7 @@ public class PreviewPictures extends Controller implements Initializable {
 
     @FXML
     private void previewReport(ActionEvent actionEvent) {
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewReportWindow));
     }
 
     @FXML
@@ -113,7 +114,6 @@ public class PreviewPictures extends Controller implements Initializable {
         try {
             orderModel.getCurrentOrder().getImageList().forEach(img -> System.out.println(img.isApproved()));
             orderModel.saveButtonClicked();
-            backToMain();
             ShowAlerts.splashMessage("Update", "Order status saved", 1.5);
         } catch (Exception e) {
             // viser en fejlbesked i 3 sekunder, som fortæller brugeren at opdateringen mislykkes, dog kan det også være at man skal lave den som kræver brugerens interaktion
@@ -135,9 +135,5 @@ public class PreviewPictures extends Controller implements Initializable {
         if (radApproved.isSelected()) {
             radNotApproved.setSelected(false);
         }
-    }
-
-    private void backToMain(){
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
     }
 }
