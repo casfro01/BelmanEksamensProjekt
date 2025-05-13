@@ -3,8 +3,10 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +75,30 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     }
 
     @Override
-    public User create(User entity) {
-        return null;
+    public User create(User user) throws Exception {
+        String sql = """
+                INSERT INTO [User] (FullName, Email, Role);
+               VALUES (?, ?, ?, ?);
+               """;
+        DBConnector connector = new DBConnector();
+
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setInt(3, user.getRole().toInt());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int newID = rs.getInt(1);
+                return new User(newID, user.getRole(), user.getName(), user.getEmail());
+            } else {
+                throw new Exception("Failed to get userID");
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to create new user: " + e.getMessage());
+        }
     }
 
     @Override
