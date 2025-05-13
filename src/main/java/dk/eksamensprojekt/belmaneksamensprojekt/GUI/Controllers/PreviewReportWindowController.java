@@ -6,6 +6,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -180,5 +181,6 @@ public class PreviewReportWindowController extends Controller implements Initial
             }
         }
         reportModel.saveReport(strings);
+        ShowAlerts.splashMessage("Report saved", "The report has been saved!" , 1.5);
     }
 }
