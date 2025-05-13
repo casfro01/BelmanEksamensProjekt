@@ -52,9 +52,13 @@ public class UserDAO implements Repository<User, Integer>, UserData{
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-               return new User(id, rs.getInt("Role"), rs.getString("Email"), rs.getString("FullName"));
+                User user = new User(id, rs.getInt("Role"), rs.getString("FullName"), rs.getString("Email"));
+                String ImagePath = rs.getString("ImagePath");
+                if (ImagePath != null) {
+                    user.setImagePath(ImagePath);
+                }
+               return user;
             }
-
             return null;
         }
         catch (Exception e) {
