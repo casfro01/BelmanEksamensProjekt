@@ -81,9 +81,9 @@ public class PreviewPictures extends Controller implements Initializable {
 
         CheckBox checkBox = new CheckBox("Image approved");
         checkBox.setStyle("-fx-font-size: 16px; -fx-padding: 10px;");
-        checkBox.setSelected(true);
+        checkBox.setSelected(image.isApproved() == Approved.NOT_REVIEWED ? true : image.isApproved().toBoolean());
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            image.setApproved(Approved.NOT_APPROVED);
+            image.setApproved(Approved.valueOfBoolean(newValue));
         });
 
         VBox vBox = new VBox(imageView, checkBox);
