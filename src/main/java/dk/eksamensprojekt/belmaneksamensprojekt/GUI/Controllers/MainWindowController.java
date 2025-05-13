@@ -230,6 +230,6 @@ public class MainWindowController extends Controller implements Initializable {
 
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewReportWindow));
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 }

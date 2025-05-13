@@ -56,6 +56,12 @@
 .table-view .cell{
     -fx-font-size: 14px;
 }
+.notApproved{
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-border-radius: 2px;
+    -fx-border-style: solid;
+}
 
 #topBar{
     -fx-background-color: #004B88;
