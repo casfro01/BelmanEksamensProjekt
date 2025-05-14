@@ -2,7 +2,6 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     }
 
     @Override
-    public User update(Image image) throws Exception {
+    public void update(Image image) throws Exception {
         String sql = """
                 UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?
                 WHERE ID = ?;
@@ -64,7 +63,6 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
         } catch (Exception e) {
             throw new Exception("Could not update image" + e.getMessage());
         }
-        return null;
     }
 
     @Override
