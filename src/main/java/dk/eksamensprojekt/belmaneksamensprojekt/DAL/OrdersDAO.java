@@ -87,7 +87,7 @@ public class OrdersDAO implements Repository<Order, String>{
     }
 
     @Override
-    public User update(Order entity) throws Exception {
+    public void update(Order entity) throws Exception {
         String sql = """
                 UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;
@@ -114,7 +114,6 @@ public class OrdersDAO implements Repository<Order, String>{
             catch(SQLServerException e){
             throw new Exception("Failed to update Orders: " + e.getMessage());
             }
-        return null;
     }
 
     @Override
