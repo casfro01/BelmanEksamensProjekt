@@ -44,7 +44,7 @@ public class ReportManager {
 
     public void saveReport(Order order, List<String> comments) throws Exception {
         // todo : er der en anden måde at få user på, måske?
-        Report report = new Report(-1, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+        Report report = new Report(-1, ModelManager.INSTANCE.getUserModel().getSelectedUser().get());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = generatePdfBytes(order, report, baos, comments);
@@ -72,7 +72,7 @@ public class ReportManager {
         infoTable.addCell(createValueCell(order.getOrderNumber()));
 
         infoTable.addCell(createLabelCell("Written by:"));
-        infoTable.addCell(createValueCell(ModelManager.getInstance().getUserModel().getSelectedUser().get().getName()));
+        infoTable.addCell(createValueCell(ModelManager.INSTANCE.getUserModel().getSelectedUser().get().getName()));
 
         infoTable.addCell(createLabelCell("Contact:"));
         infoTable.addCell("belman@belman.com");
@@ -89,7 +89,7 @@ public class ReportManager {
 
         int i = 0;
         for (Image image : order.getImageList()) {
-            if (image.isApproved() == Approved.NotApproved) {
+            if (image.isApproved() == Approved.NOT_APPROVED) {
                 continue;
             }
             
@@ -126,7 +126,7 @@ public class ReportManager {
 
         String fontPath = String.valueOf(Main.class.getResource("Fonts/GreatVibes-Regular.ttf"));
         PdfFont font = PdfFontFactory.createFont(fontPath);
-        Paragraph signature = new Paragraph(ModelManager.getInstance().getUserModel().getSelectedUser().get().getName())
+        Paragraph signature = new Paragraph(ModelManager.INSTANCE.getUserModel().getSelectedUser().get().getName())
                 .setFont(font)
                 .setFontSize(36);
         document.add(signature);

@@ -45,7 +45,7 @@ public class LoginWindowController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userModel = ModelManager.getInstance().getUserModel();
+        userModel = ModelManager.INSTANCE.getUserModel();
         fillOutUsers();
     }
 

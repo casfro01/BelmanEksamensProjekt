@@ -31,7 +31,7 @@ public class OperatorWindowController extends Controller implements Initializabl
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pattern = Pattern.compile(regex);
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         orderModel = modelManager.getOrderModel();
     }
 

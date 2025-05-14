@@ -12,13 +12,16 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,6 +29,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
+import javafx.util.Callback;
+
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -53,7 +59,7 @@ public class MainWindowController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderModel = ModelManager.getInstance().getOrderModel();
+        orderModel = ModelManager.INSTANCE.getOrderModel();
         //orderList = FXCollections.observableArrayList();
         setupTableFiltering();
         fillData();
@@ -117,7 +123,35 @@ public class MainWindowController extends Controller implements Initializable {
             // TODO : REFACTOR ! - tænker ikke det er godt
             tblColOrderNumber.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderNumber()));
             tblColApproved.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isApproved().toString()));
+
+            // sæt om ordren er dokumenteret - dette gøres med billeder og imageview
+            tblColDocumented.setCellFactory(new Callback<>(){
+                @Override
+                public TableCell<Order, Boolean> call(TableColumn<Order, Boolean> param) {
+                    return new TableCell<Order, Boolean>() {
+                       protected void updateItem(Boolean item, boolean empty) {
+                            if (empty)
+                                setGraphic(null);
+                            else{
+                                // lav billede som skal sættes ind
+                                ImageView valTrue = new ImageView();
+                                valTrue.setFitHeight(25);
+                                valTrue.setFitWidth(25);
+                                setAlignment(Pos.CENTER);
+                                // vælg billede
+                                //Order jesus = getTableView().getItems().get(getIndex());
+                                String imgString = getTableView().getItems().get(getIndex()).isDocumented() ? "Icons/true.png" : "Icons/false.png";
+                                valTrue.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource(imgString))));
+                                // sæt værdien
+                                setGraphic(valTrue);
+                            }
+                       }
+                    };
+                }
+            });
+            // Sorterer ift. true og false -> dette gør det lidt langsomt, eller så er det fordi vi har billeder
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
+            // sæt ordrene ind
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
@@ -196,6 +230,6 @@ public class MainWindowController extends Controller implements Initializable {
 
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewReportWindow));
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 }
