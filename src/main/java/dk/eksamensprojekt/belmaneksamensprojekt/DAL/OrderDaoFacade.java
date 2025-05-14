@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
@@ -56,7 +55,6 @@ public class OrderDaoFacade implements Repository<Order, String> {
 
         // opdatér seleve ordren:
         ordersDAO.update(order);
-
     }
 
     @Override

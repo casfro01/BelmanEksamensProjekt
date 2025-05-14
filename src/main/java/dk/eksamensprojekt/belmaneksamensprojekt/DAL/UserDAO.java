@@ -3,10 +3,8 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,9 +52,13 @@ public class UserDAO implements Repository<User, Integer>, UserData{
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-               return new User(id, rs.getInt("Role"), rs.getString("Email"), rs.getString("FullName"));
+                User user = new User(id, rs.getInt("Role"), rs.getString("FullName"), rs.getString("Email"));
+                String ImagePath = rs.getString("ImagePath");
+                if (ImagePath != null) {
+                    user.setImagePath(ImagePath);
+                }
+               return user;
             }
-
             return null;
         }
         catch (Exception e) {
@@ -70,8 +72,24 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     }
 
     @Override
-    public void update(User entity) {
+    public void update(User entity) throws Exception {
+        String sql = """
+                UPDATE [User] SET FullName = ?, Email = ?, Role = ?
+                WHERE ID = ?;
+                """;
+        DBConnector connector = new DBConnector();
 
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(sql)) {
+            ps.setString(1, entity.getName());
+            ps.setString(2, entity.getEmail());
+            ps.setInt(3, entity.getRole().toInt());
+            ps.setInt(4, entity.getId());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            throw new Exception("Failed to update user role: " + e.getMessage());
+        }
     }
 
     @Override

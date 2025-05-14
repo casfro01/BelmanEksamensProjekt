@@ -8,6 +8,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.UserDAO;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.UserData;
 
+import javax.management.relation.Role;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -44,6 +45,15 @@ public class UserManager {
         //if (user.getPassword() == null || user.getPassword().length() < 6)
         //        throw new Exception("Password must be at least 6 characters");
         return userDAO.create(user);
+    }
+
+    public User update(User user) throws Exception {
+        if (user.getRole() == null)
+            throw new Exception("Role is required");
+        return userDAO.update(user);
+    }
+    public User getById(int id) throws Exception {
+        return userDAO.getById(id);
     }
 }
 
