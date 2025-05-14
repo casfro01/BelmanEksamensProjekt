@@ -1,15 +1,13 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Log;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class LogDAO implements Repository<Log, Integer> {
@@ -59,16 +57,31 @@ public class LogDAO implements Repository<Log, Integer> {
 
     @Override
     public Log create(Log entity) throws Exception {
+        String sql = """
+                INSERT INTO Logs (UserID, OrderID, Date) VALUES (?, ?, ?);
+                """;
+        DBConnector connector = new DBConnector();
+        try (PreparedStatement ps = connector.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, entity.getuserID());
+            ps.setInt(2, entity.getOrderID());
+            ps.setDate(3, Date.valueOf(entity.getDateTime()));
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                Log log = new Log(rs.getInt("ID"), entity.getuserID(), entity.getDateTime(), entity.getOrderID());
+                return log;
+            }
+        }
         return null;
     }
 
     @Override
-    public User update(Log entity) throws Exception {
-        return null;
+    public void update(Log entity) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void delete(Log entity) throws Exception {
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
