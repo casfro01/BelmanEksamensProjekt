@@ -2,6 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
 import java.sql.*;
 import java.util.ArrayList;
