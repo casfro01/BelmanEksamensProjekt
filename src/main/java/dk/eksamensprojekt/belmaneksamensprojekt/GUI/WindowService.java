@@ -54,7 +54,7 @@ public class WindowService {
             Parent parent = scene.getRoot();
             if (parent instanceof AnchorPane ap){
                 // alt andet end loginvinduet skal have topbar
-                if (window != Windows.LoginWindow){
+                if (!window.getName().toLowerCase().contains("login")){
                     AnchorPane topbar = getTopBar();
                     ap.getChildren().add(topbar);
                     topbar.setLayoutX(10);
