@@ -6,6 +6,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,9 +43,10 @@ public class PreviewReportWindowController extends Controller implements Initial
     private ReportModel reportModel;
     private List<TextArea> textAreas = new ArrayList<>();
     private List<Image> images = new ArrayList<>();
-    private List<CheckBox> checkboxes = new ArrayList<>();
+    //private List<CheckBox> checkboxes = new ArrayList<>();
     private int row = 0;
     private int col = 0;
+
 
     @FXML
     private ScrollPane CheckboxscrollPane;
@@ -57,7 +59,7 @@ public class PreviewReportWindowController extends Controller implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         orderModel = modelManager.getOrderModel();
         reportModel = modelManager.getReportModel();
 
@@ -79,15 +81,17 @@ public class PreviewReportWindowController extends Controller implements Initial
 
         int i = 0;
         for (Image image : orderModel.getCurrentOrder().getImageList()) {
-            if (i % 2 == 0) {
-                addImage(grid, image);
-                addTextArea(grid);
-            } else {
-                addTextArea(grid);
-                addImage(grid, image);
-            }
+            if (image.isApproved() != Approved.NOT_APPROVED) {
+                if (i % 2 == 0) {
+                    addImage(grid, image);
+                    addTextArea(grid);
+                } else {
+                    addTextArea(grid);
+                    addImage(grid, image);
+                }
 
-            i += 1;
+                i += 1;
+            }
         }
 
     }
@@ -98,19 +102,19 @@ public class PreviewReportWindowController extends Controller implements Initial
         imageView.setFitWidth(500);
         imageView.setFitHeight(300);
 
-        CheckBox checkBox = new CheckBox();
-        checkBox.setStyle("-fx-padding: 10px");
-        checkBox.setSelected(true);
-        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            textAreas.get(checkboxes.indexOf(checkBox)).setDisable(!newValue);
-        });
+//        CheckBox checkBox = new CheckBox();
+//        checkBox.setStyle("-fx-padding: 10px");
+//        checkBox.setSelected(true);
+//        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//            textAreas.get(checkboxes.indexOf(checkBox)).setDisable(!newValue);
+//        });
 
-        StackPane imagePane = new StackPane(imageView, checkBox);
+        StackPane imagePane = new StackPane(imageView/*, checkBox*/);
         imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-        StackPane.setAlignment(checkBox, Pos.TOP_RIGHT);
-        StackPane.setMargin(checkBox, new Insets(10));
-
-        checkboxes.add(checkBox);
+//        StackPane.setAlignment(checkBox, Pos.TOP_RIGHT);
+//        StackPane.setMargin(checkBox, new Insets(10));
+//
+//        checkboxes.add(checkBox);
         images.add(image);
 
         grid.add(imagePane, col, row);
@@ -163,18 +167,20 @@ public class PreviewReportWindowController extends Controller implements Initial
             }
         }
         for (Image image : images) {
-            if (!checkboxes.get(images.indexOf(image)).isSelected()) {
+            //if (!checkboxes.get(images.indexOf(image)).isSelected()) {
+            if (image.isApproved() == Approved.NOT_APPROVED){
                 System.out.println(("SETTING IMAGE NOT APPROVED"));
-                image.setApproved(Approved.NotApproved);
+                //image.setApproved(Approved.NOT_APPROVED);
                 image.setOrderId(-1);
                 // orderModel.getCurrentOrder().getImageList().remove(image);
                 // kan ikke fjerne image fra listen her, fordi så vil billederne ikke blive opdateret i DAO senere
             } else {
                 System.out.println("SETTING IMAGE APPROVED");
-                image.setApproved(Approved.Approved);
+                image.setApproved(Approved.APPROVED);
                 image.setOrderId(orderModel.getCurrentOrder().getId());
             }
         }
         reportModel.saveReport(strings);
+        ShowAlerts.splashMessage("Report saved", "The report has been saved!" , 1.5);
     }
 }

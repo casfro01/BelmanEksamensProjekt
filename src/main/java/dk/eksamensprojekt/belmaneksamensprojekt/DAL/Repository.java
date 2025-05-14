@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Repository<T, ID>{

@@ -41,7 +41,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
         replicaImageList.addAll(currentOrder.getImageList());
@@ -89,7 +89,10 @@ public class PhotoDocumentController extends Controller implements Initializable
 
                 StackPane imagePane = new StackPane(imageView, deleteButton);
                 imagePane.setPrefSize(150, 150);
-                imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                if (img.isApproved() == Approved.NOT_APPROVED)
+                    imagePane.getStyleClass().add("notApproved");
+                else
+                    imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
                 StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
                 StackPane.setMargin(deleteButton, new Insets(10));
 
@@ -147,6 +150,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void submitButtonClicked(ActionEvent event) throws Exception {
+        model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();

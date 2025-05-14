@@ -16,7 +16,7 @@ public class ReportModel {
     }
 
     public void saveReport(List<String> comments) throws Exception {
-        Order order = ModelManager.getInstance().getOrderModel().getCurrentOrder();
+        Order order = ModelManager.INSTANCE.getOrderModel().getCurrentOrder();
         if (order != null) {
             // ModelManager.getInstance().getOrderModel().updateOrder(order);
             reportManager.saveReport(order, comments);

@@ -16,14 +16,14 @@ public class Order {
 
     public Order(int id, String orderNumber, Report report, Approved isApproved) {
         this.id = id;
-        this.orderNumber = orderNumber; // setter til denne ? TODO : brug regex ?
+        this.orderNumber = orderNumber;
         this.report = report;
         this.isApproved = isApproved;
         this.documented = false;
     }
     public Order(int id, String orderNumber, Report report, Approved isApproved, boolean documented) {
         this.id = id;
-        this.orderNumber = orderNumber; // setter til denne ? TODO : brug regex ?
+        this.orderNumber = orderNumber;
         this.report = report;
         this.isApproved = isApproved;
         this.documented = documented;

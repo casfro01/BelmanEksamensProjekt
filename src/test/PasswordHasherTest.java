@@ -1,27 +1,68 @@
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.util.PasswordHasher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class PasswordHasherTest {
+    private final PasswordHasher hasher = new PasswordHasher();
+
     @Test
-    void hashPasswordCompare() throws Exception {
-        PasswordHasher hasher = new PasswordHasher();
-        String passwordOne = "one";
-        String passwordTwo = "two";
+    void testCorrectPasswordMatchesHash() throws Exception {
+        String password = "one";
+        String hashed = hasher.hashString(password);
+        Assertions.assertTrue(hasher.compare(password, hashed));
+    }
 
-        String hashedOne = hasher.hashString(passwordOne);
-        String hashedTwo = hasher.hashString(passwordTwo);
+    @Test
+    void testIncorrectPasswordFailsHash() throws Exception {
+        String password = "one";
+        String hashedOther = hasher.hashString("two");
+        Assertions.assertFalse(hasher.compare(password, hashedOther));
+    }
 
-        boolean actual1 = hasher.compare(passwordOne, hashedOne);
-        boolean expected1 = true;
+    @Test
+    void testEmptyPassword() throws Exception {
+        String password = "";
+        String hashed = hasher.hashString(password);
+        Assertions.assertTrue(hasher.compare(password, hashed));
+    }
 
-        boolean actual2 = hasher.compare(passwordOne, hashedTwo);
-        boolean expected2 = false;
+    @Test
+    void testPasswordWithSpecialCharacters() throws Exception {
+        String password = "!@#$%^&*()_+{}|:\"<>?";
+        String hashed = hasher.hashString(password);
+        Assertions.assertTrue(hasher.compare(password, hashed));
+    }
 
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(expected1, actual1),
-                () -> Assertions.assertEquals(expected2, actual2)
-        );
+    @Test
+    void testVeryLongPasswordThrowsException1() throws Exception {
+        String password = "a".repeat(71);
+        String hashed = hasher.hashString(password);
+        Assertions.assertTrue(hasher.compare(password, hashed));
+    }
+
+    @Test
+    void testPasswordWithUnicodeCharacters() throws Exception {
+        String password = "パスワード😊";
+        String hashed = hasher.hashString(password);
+        Assertions.assertTrue(hasher.compare(password, hashed));
+    }
+
+    @Test
+    void testNullPasswordHashingThrowsException() {
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            hasher.hashString(null);
+        });
+    }
+
+    @Test
+    void testNullPasswordComparisonThrowsException() throws Exception {
+        String hashed = hasher.hashString("test");
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            hasher.compare(null, hashed);
+        });
+
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            hasher.compare("test", null);
+        });
     }
 }
