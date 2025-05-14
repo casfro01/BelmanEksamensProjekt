@@ -5,6 +5,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class PhotoDocumentController extends Controller implements Initializable {
     private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
-
+    private static double DISPLAY_TIME = 1.5;
     private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
@@ -40,7 +41,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.getInstance();
+        modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
         replicaImageList.addAll(currentOrder.getImageList());
@@ -88,7 +89,10 @@ public class PhotoDocumentController extends Controller implements Initializable
 
                 StackPane imagePane = new StackPane(imageView, deleteButton);
                 imagePane.setPrefSize(150, 150);
-                imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+                if (img.isApproved() == Approved.NOT_APPROVED)
+                    imagePane.getStyleClass().add("notApproved");
+                else
+                    imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
                 StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
                 StackPane.setMargin(deleteButton, new Insets(10));
 
@@ -123,12 +127,8 @@ public class PhotoDocumentController extends Controller implements Initializable
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.OK) {
-            replicaImageList.remove(img);
-        }
+        replicaImageList.remove(img);
+        ShowAlerts.splashMessage("Deletion", "Image deleted", DISPLAY_TIME);
     }
 
     @FXML
@@ -144,12 +144,15 @@ public class PhotoDocumentController extends Controller implements Initializable
     @FXML
     private void saveButtonClicked(ActionEvent event) throws Exception {
         save();
+        ShowAlerts.splashMessage("Save", "Saving order...", DISPLAY_TIME);
         // back to main?
     }
 
     @FXML
     private void submitButtonClicked(ActionEvent event) throws Exception {
+        model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
+        ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();
     }
 

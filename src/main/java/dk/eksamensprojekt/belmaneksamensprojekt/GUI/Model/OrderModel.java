@@ -40,7 +40,7 @@ public class OrderModel {
     public Image takePictureClicked() throws Exception {
         if (currentOrder != null) {
             try {
-                return orderManager.openCamera(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+                return orderManager.openCamera(currentOrder, ModelManager.INSTANCE.getUserModel().getSelectedUser().get());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -49,7 +49,7 @@ public class OrderModel {
     }
 
     public Image addPictureClicked() throws Exception {
-        return orderManager.addPicFromFolder(currentOrder, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+        return orderManager.addPicFromFolder(currentOrder, ModelManager.INSTANCE.getUserModel().getSelectedUser().get());
     }
 
     public void saveButtonClicked() throws Exception {
@@ -71,7 +71,7 @@ public class OrderModel {
     public List<Order> getOrdersForApproval() {
         List<Order> ordersForApproval = new ArrayList<>();
         for (Order order : orderList) {
-            if (order.isDocumented() && order.isApproved() == Approved.NotReviewed){
+            if (order.isDocumented() && order.isApproved() == Approved.NOT_REVIEWED){
                 ordersForApproval.add(order);
             }
         }

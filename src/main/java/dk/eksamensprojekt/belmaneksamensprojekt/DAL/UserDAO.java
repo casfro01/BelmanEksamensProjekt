@@ -97,8 +97,8 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     @Override
     public User create(User user) throws Exception {
         String sql = """
-                INSERT INTO [User] (FullName, Email, Role);
-               VALUES (?, ?, ?, ?);
+               INSERT INTO [User] (FullName, Email, Role)
+               VALUES (?, ?, ?);
                """;
         DBConnector connector = new DBConnector();
 

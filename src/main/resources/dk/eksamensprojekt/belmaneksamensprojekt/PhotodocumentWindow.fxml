@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
     <children>
         <Button id="Buttoncustom" fx:id="btnAddPicture" layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" styleClass="bigText" stylesheets="@StyleSheet.css" text="Take Picture">
          <font>

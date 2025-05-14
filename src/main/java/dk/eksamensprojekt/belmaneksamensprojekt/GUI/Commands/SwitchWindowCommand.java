@@ -1,31 +1,32 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands;
 
 
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.ServiceProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
 
 public class SwitchWindowCommand implements Command, UndoableCommand{
     private WindowService windowService;
-    private Windows window;
+    private final Windows WINDOW;
 
     public SwitchWindowCommand(Windows window) {
-        this.window = window;
+        this.WINDOW = window;
+        // indsætter sig selv, for at få adgang til WindowServicen
+        windowService = ServiceProvider.getServiceForCommand(this);
     }
     @Override
     public void execute() {
-        windowService.setPane(window);
+        windowService.setPane(WINDOW);
     }
 
     @Override
     public void undo() {
+        switch (WINDOW){
+            case PhotoDocWindow -> windowService.setPane(Windows.OperatorWindow);
+            case UserWindow, PreviewPicturesWindow -> windowService.setPane(Windows.MainWindow);
+            case PreviewReportWindow -> windowService.setPane(Windows.PreviewPicturesWindow);
+            default -> windowService.setPane(Windows.LoginWindow);
+        }
 
-    }
-
-    public void setWindowService(WindowService windowService) {
-        this.windowService = windowService;
-    }
-
-    public void setWindow(Windows window){
-        this.window = window;
     }
 }

@@ -28,11 +28,11 @@ public class OrdersDAO implements Repository<Order, String>{
                 Approved approvedEnum;
                 boolean approvedColumn = rs.getBoolean(3);
                 if (rs.wasNull()) {
-                    approvedEnum = Approved.NotReviewed;
+                    approvedEnum = Approved.NOT_REVIEWED;
                 } else if (approvedColumn) {
-                    approvedEnum = Approved.Approved;
+                    approvedEnum = Approved.APPROVED;
                 } else {
-                    approvedEnum = Approved.NotApproved;
+                    approvedEnum = Approved.NOT_APPROVED;
                 }
 
                 Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum, rs.getBoolean(5));
@@ -67,7 +67,7 @@ public class OrdersDAO implements Repository<Order, String>{
             }
 
             boolean approvedColumn = rs.getBoolean(3);
-            Approved apr = rs.wasNull() ? Approved.NotReviewed : Approved.valueOfBoolean(approvedColumn);
+            Approved apr = rs.wasNull() ? Approved.NOT_REVIEWED : Approved.valueOfBoolean(approvedColumn);
 
             // hvis rapport id er null / 0 så skal der ikke være nogen rapport
             int repID = rs.getInt(2);
@@ -103,7 +103,7 @@ public class OrdersDAO implements Repository<Order, String>{
             ps.setInt(4, entity.getId());
 
             //Approve
-            if (entity.isApproved() == Approved.NotReviewed)
+            if (entity.isApproved() == Approved.NOT_REVIEWED)
                 ps.setNull(1, Types.BIT); // vi har sat default til null, men dette gøres for at være op den sikre side
             else
                 ps.setBoolean(1,entity.isApproved().toBoolean());

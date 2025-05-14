@@ -1,7 +1,10 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -11,16 +14,22 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.ReportDAO;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 
 import java.io.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.itextpdf.kernel.pdf.PdfName.BaseFont;
 
 public class ReportManager {
     private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
@@ -35,7 +44,7 @@ public class ReportManager {
 
     public void saveReport(Order order, List<String> comments) throws Exception {
         // todo : er der en anden måde at få user på, måske?
-        Report report = new Report(-1, ModelManager.getInstance().getUserModel().getSelectedUser().get());
+        Report report = new Report(-1, ModelManager.INSTANCE.getUserModel().getSelectedUser().get());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = generatePdfBytes(order, report, baos, comments);
@@ -55,9 +64,32 @@ public class ReportManager {
         title.setTextAlignment(TextAlignment.CENTER);
         document.add(title);
 
+        Table infoTable = new Table(2);
+        infoTable.setWidth(UnitValue.createPercentValue(100));
+        infoTable.setMarginTop(20f);
+
+        infoTable.addCell(createLabelCell("Order number:"));
+        infoTable.addCell(createValueCell(order.getOrderNumber()));
+
+        infoTable.addCell(createLabelCell("Written by:"));
+        infoTable.addCell(createValueCell(ModelManager.INSTANCE.getUserModel().getSelectedUser().get().getName()));
+
+        infoTable.addCell(createLabelCell("Contact:"));
+        infoTable.addCell("belman@belman.com");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = LocalDate.now().format(formatter);
+        infoTable.addCell(createLabelCell("Date:"));
+        infoTable.addCell(createValueCell(formattedDate));
+
+        document.add(infoTable);
+
+        document.add(new Paragraph("\n"));
+        document.add(new Paragraph("\n"));
+
         int i = 0;
         for (Image image : order.getImageList()) {
-            if (image.isApproved() == Approved.NotApproved) {
+            if (image.isApproved() == Approved.NOT_APPROVED) {
                 continue;
             }
             
@@ -92,9 +124,29 @@ public class ReportManager {
             i += 1;
         }
 
+        String fontPath = String.valueOf(Main.class.getResource("Fonts/GreatVibes-Regular.ttf"));
+        PdfFont font = PdfFontFactory.createFont(fontPath);
+        Paragraph signature = new Paragraph(ModelManager.INSTANCE.getUserModel().getSelectedUser().get().getName())
+                .setFont(font)
+                .setFontSize(36);
+        document.add(signature);
         document.close();
 
         return baos.toByteArray();
+    }
+
+    private static Cell createLabelCell(String text) {
+        return new Cell()
+                .add(new Paragraph(text).setBold())
+                .setBorder(Border.NO_BORDER)
+                .setPaddingBottom(5f);
+    }
+
+    private static Cell createValueCell(String text) {
+        return new Cell()
+                .add(new Paragraph(text))
+                .setBorder(Border.NO_BORDER)
+                .setPaddingBottom(5f);
     }
 
     public Report getReport(Integer id) throws Exception {

@@ -5,7 +5,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class PasswordHasher implements IHashing {
     @Override
-    public String hashString(String input) throws Exception {
+    public String hashString(String input) {
         return BCrypt.withDefaults().hashToString(12, input.toCharArray());
     }
 

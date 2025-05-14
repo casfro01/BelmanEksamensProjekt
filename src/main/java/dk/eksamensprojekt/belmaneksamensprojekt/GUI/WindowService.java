@@ -1,5 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.Command;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
@@ -16,9 +18,18 @@ import java.io.IOException;
 public class WindowService {
     private Stage rootStage;
     private Controller currentController;
+
     public WindowService(Stage rootStage) {
+        setRootStage(rootStage);
+    }
+
+    public void setRootStage(Stage rootStage) {
         // opsætningen af hovedvinduet
         this.rootStage = rootStage;
+        initRootWindow();
+    }
+
+    private void initRootWindow(){
         this.rootStage.setWidth(1920);
         this.rootStage.setHeight(1080);
         this.rootStage.setTitle("Belsign");
@@ -38,17 +49,13 @@ public class WindowService {
             rootStage.setScene(scene);
             rootStage.show();
             currentController = fxmlLoader.getController();
-            // set invoker
-            // hvis / når det er man skal kunne undo, så skal dette nedenfor laves om, da der laves en ny invoker
-            WindowInvoker invoker = new WindowInvoker(this);
-            currentController.setInvoker(invoker);
 
             // hvis hovedpanelet er et anchorpane så skal vi resize eller forbliver den bare som den er
             Parent parent = scene.getRoot();
             if (parent instanceof AnchorPane ap){
                 // alt andet end loginvinduet skal have topbar
                 if (window != Windows.LoginWindow){
-                    AnchorPane topbar = getTopBar(invoker);
+                    AnchorPane topbar = getTopBar();
                     ap.getChildren().add(topbar);
                     topbar.setLayoutX(10);
                     topbar.setLayoutY(10);
@@ -65,12 +72,11 @@ public class WindowService {
         }
     }
 
-    private AnchorPane getTopBar(WindowInvoker invoker) throws Exception{
+    private AnchorPane getTopBar() throws Exception{
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("topbar.fxml"));
             fxmlLoader.load();
             Controller c = fxmlLoader.getController();
-            c.setInvoker(invoker);
 
             return fxmlLoader.getRoot();
         } catch (Exception e) {
