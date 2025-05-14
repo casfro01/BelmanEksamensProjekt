@@ -65,7 +65,7 @@ public class ReportDAO implements Repository<Report, Integer> {
     }
 
     @Override
-    public User update(Report entity) throws Exception {
+    public void update(Report entity) throws Exception {
 
         return null;
     }
