@@ -47,10 +47,10 @@ public class UserManager {
         return userDAO.create(user);
     }
 
-    public User update(User user) throws Exception {
+    public void update(User user) throws Exception {
         if (user.getRole() == null)
             throw new Exception("Role is required");
-        return userDAO.update(user);
+        userDAO.update(user);
     }
     public User getById(int id) throws Exception {
         return userDAO.getById(id);
