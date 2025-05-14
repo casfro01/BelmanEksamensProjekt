@@ -32,6 +32,7 @@ import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -231,6 +232,4 @@ public class MainWindowController extends Controller implements Initializable {
         orderModel.setCurrentOrder(order);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
-
-
 }

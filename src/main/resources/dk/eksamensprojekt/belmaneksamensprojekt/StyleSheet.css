@@ -84,7 +84,7 @@
 }
 
 
-#vbox1 {
+#smallVBox, #largeVBox {
     -fx-background-color: #E5E5E5;
     -fx-background-radius: 25px;
 }

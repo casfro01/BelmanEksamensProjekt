@@ -7,7 +7,8 @@ public enum Windows {
     PhotoDocWindow("PhotodocumentWindow.fxml"),
     PreviewReportWindow("PreviewReportWindow.fxml"),
     UserWindow("UserWindow.fxml"),
-    PreviewPicturesWindow("PreviewPictures.fxml");
+    PreviewPicturesWindow("PreviewPictures.fxml"),
+    SmallOrBigWindow("SmallOrBigOrder.fxml");
 
     private final String path;
 
