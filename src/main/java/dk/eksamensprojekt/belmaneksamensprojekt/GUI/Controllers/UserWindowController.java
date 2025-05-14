@@ -48,7 +48,7 @@ private TableView tblUsers;
         BackgroundTask.<ObservableList<User>>execute(
                 ()-> {
                     try {
-                        return ModelManager.getInstance().getUserModel().getUsers();
+                        return ModelManager.INSTANCE.getUserModel().getUsers();
                     }
                     catch (Exception e) {
                         ShowAlerts.displayMessage("Database error", e.getMessage(), Alert.AlertType.ERROR);
