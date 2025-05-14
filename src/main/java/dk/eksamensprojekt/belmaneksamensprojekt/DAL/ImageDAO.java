@@ -4,10 +4,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     @Override
     public void updateAll(List<Image> images) throws Exception {
         String sql = """
-                UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?
+                UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?, Approved = ?
                 WHERE ID = ?;
                 """;
         String sqlCreatepic = """
@@ -100,9 +97,13 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                         ps.setString(1, image.getPath());
                         ps.setInt(2, image.getUser().getId());
                         ps.setInt(3, image.getOrderID());
+                        if (image.isApproved() == Approved.NOT_REVIEWED)
+                            ps.setNull(4, Types.BIT);
+                        else
+                            ps.setBoolean(4, image.isApproved().toBoolean());
 
                         // set hvor den skal opdateres
-                        ps.setInt(4, image.getId());
+                        ps.setInt(5, image.getId());
                         ps.addBatch();
                     }
                     else{
@@ -148,7 +149,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 // find hvilken approved
                 Approved app = Approved.valueOfBoolean(rs.getBoolean(4));
                 if (rs.wasNull()) {
-                    app = Approved.NotReviewed;
+                    app = Approved.NOT_REVIEWED;
                 }
                 // lav billede objekt
                 Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID);

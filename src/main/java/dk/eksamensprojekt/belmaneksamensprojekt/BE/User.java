@@ -25,6 +25,7 @@ public class User {
         this.ImagePath = "Icons/BasicUser.jpg";
     }
 
+
     public int getId() {
         return id;
     }

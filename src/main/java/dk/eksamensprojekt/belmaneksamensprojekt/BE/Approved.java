@@ -1,9 +1,9 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
 public enum Approved {
-    Approved(1),
-    NotApproved(0),
-    NotReviewed(2);
+    APPROVED(1),
+    NOT_APPROVED(0),
+    NOT_REVIEWED(2);
 
     private int id;
 
@@ -16,6 +16,21 @@ public enum Approved {
     }
 
     public static Approved valueOfBoolean(boolean value){
-        return value ? Approved : NotApproved;
+        return value ? APPROVED : NOT_APPROVED;
+    }
+
+    @Override
+    public String toString() {
+        switch (id){
+            case 1 -> {
+                return "Approved";
+            }
+            case 0 -> {
+                return "Not approved";
+            }
+            default -> {
+                return "Not reviewed";
+            }
+        }
     }
 }
