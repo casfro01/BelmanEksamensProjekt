@@ -75,3 +75,11 @@
 }
 
 
+#vbox1 {
+    -fx-background-color: #E5E5E5;
+    -fx-background-radius: 25px;
+}
+
+#chooseButton {
+    -fx-background-radius: 10px;
+}
