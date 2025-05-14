@@ -139,7 +139,6 @@ public class MainWindowController extends Controller implements Initializable {
                                 valTrue.setFitWidth(25);
                                 setAlignment(Pos.CENTER);
                                 // vælg billede
-                                //Order jesus = getTableView().getItems().get(getIndex());
                                 String imgString = getTableView().getItems().get(getIndex()).isDocumented() ? "Icons/true.png" : "Icons/false.png";
                                 valTrue.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource(imgString))));
                                 // sæt værdien
