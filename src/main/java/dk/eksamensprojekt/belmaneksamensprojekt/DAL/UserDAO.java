@@ -72,7 +72,7 @@ public class UserDAO implements Repository<User, Integer>, UserData{
     }
 
     @Override
-    public User update(User entity) throws Exception {
+    public void update(User entity) throws Exception {
         String sql = """
                 UPDATE [User] SET FullName = ?, Email = ?, Role = ?
                 WHERE ID = ?;
@@ -90,8 +90,6 @@ public class UserDAO implements Repository<User, Integer>, UserData{
         } catch (Exception e) {
             throw new Exception("Failed to update user role: " + e.getMessage());
         }
-
-        return entity;
     }
 
     @Override
