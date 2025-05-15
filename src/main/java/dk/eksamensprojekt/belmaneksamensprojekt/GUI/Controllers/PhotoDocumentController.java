@@ -49,14 +49,13 @@ public class PhotoDocumentController extends Controller implements Initializable
     ));
 
     @FXML
-    private Text guideLabel;
+    private Label guideLabel;
 
     @FXML
     private ScrollPane imagesScrollPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guideLabel.getStyleClass().add("bigText");
         modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
@@ -139,19 +138,19 @@ public class PhotoDocumentController extends Controller implements Initializable
 
             if (model.getCurrentOrderType() == OrderType.Small) {
                 if (grid.getChildren().size() < GUIDANCE_TEXT.size()) {
-                    guideLabel.setFill(Color.RED);
+                    guideLabel.setStyle("-fx-fill: red");
                     guideLabel.setText(grid.getChildren().size() + " / 10"  + " - Take picture from " + GUIDANCE_TEXT.get(grid.getChildren().size()));
                 } else {
-                    guideLabel.setFill(Color.GREEN);
+                    guideLabel.setStyle("-fx-fill: green");
                     guideLabel.setText(grid.getChildren().size() + " / 10"  + " Take extra pictures");
                 }
             } else {
                 guideLabel.setText(grid.getChildren().size() + " / " + LARGE_ORDER_MAX  + " Take more pictures");
 
                 if (grid.getChildren().size() < LARGE_ORDER_MIN) {
-                    guideLabel.setFill(Color.RED);
+                    guideLabel.setStyle("-fx-fill: red");
                 } else {
-                    guideLabel.setFill(Color.GREEN);
+                    guideLabel.setStyle("-fx-fill: green");
                 }
             }
         };

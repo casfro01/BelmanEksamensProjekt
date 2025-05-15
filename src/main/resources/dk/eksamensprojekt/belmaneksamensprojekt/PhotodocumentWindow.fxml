@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
     <children>
         <Button id="Buttoncustom" fx:id="btnAddPicture" layoutX="163.0" layoutY="300.0" mnemonicParsing="false" onAction="#takePictureClicked" prefHeight="115.0" prefWidth="437.0" styleClass="bigText" stylesheets="@StyleSheet.css" text="Take Picture">
          <font>
@@ -32,10 +32,10 @@
             <Image url="@Icons/camera.png" />
          </image>
       </ImageView>
-      <Text fx:id="guideLabel" layoutX="802.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="1015.46875">
+      <Label fx:id="guideLabel" layoutX="806.0" layoutY="122.0" prefHeight="47.0" prefWidth="1028.0" styleClass="bigText" text="Text">
          <font>
-            <Font name="System Bold" size="55.0" />
+            <Font size="32.0" />
          </font>
-      </Text>
+      </Label>
     </children>
 </AnchorPane>
