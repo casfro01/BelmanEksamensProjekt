@@ -14,7 +14,7 @@
          <font>
             <Font size="35.0" />
          </font></Button>
-        <Button id="Buttoncustom" fx:id="btnSubmit" layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" styleClass="normalText" stylesheets="@StyleSheet.css" text="Submit">
+        <Button id="Buttoncustom" fx:id="btnSubmit" layoutX="424.0" layoutY="651.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="86.0" prefWidth="156.0" styleClass="normalText" stylesheets="@StyleSheet.css" text="Send for approval">
          <font>
             <Font size="25.0" />
          </font></Button>

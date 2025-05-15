@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.itextpdf.kernel.pdf.PdfName.BaseFont;
 
@@ -63,6 +64,9 @@ public class ReportManager {
         ).setBold().setFontSize(30);
         title.setTextAlignment(TextAlignment.CENTER);
         document.add(title);
+
+        ImageData belmanLogo = ImageDataFactory.create(Objects.requireNonNull(Main.class.getResource("Icons/BELMAN_Logo.png")).getFile());
+        document.add(new com.itextpdf.layout.element.Image(belmanLogo).scaleToFit(100F, 100F));
 
         Table infoTable = new Table(2);
         infoTable.setWidth(UnitValue.createPercentValue(100));

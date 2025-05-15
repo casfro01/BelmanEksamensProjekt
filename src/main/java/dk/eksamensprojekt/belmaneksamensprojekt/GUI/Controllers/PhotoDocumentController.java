@@ -114,7 +114,8 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        model.takePictureClicked();
+        currentOrder.getImageList().add(model.takePictureClicked());
+        model.saveButtonClicked();
     }
 
     @FXML
