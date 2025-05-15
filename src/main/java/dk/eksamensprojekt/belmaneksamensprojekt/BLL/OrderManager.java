@@ -38,7 +38,7 @@ public class OrderManager {
             String userHome = System.getProperty("user.home");
             Path cameraRoll = Paths.get(userHome, "Pictures", "Camera Roll");
             if (!Files.exists(cameraRoll)) {
-                cameraRoll = Paths.get(userHome, "OneDrive", "Pictures", "Camera Roll");
+                cameraRoll = Paths.get(userHome, "OneDrive", "Pictures", "Filmrulle");
             }
 
             if (!Files.exists(cameraRoll)) {
