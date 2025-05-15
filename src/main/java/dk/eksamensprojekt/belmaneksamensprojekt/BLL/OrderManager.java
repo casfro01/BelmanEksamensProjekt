@@ -106,9 +106,13 @@ public class OrderManager {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         File file = fileChooser.showOpenDialog(null);
+        if (file == null) {
+            throw new Exception("No file was selected");
+        }
+
         Path newLocation = Paths.get(IMAGES_PATH + file.getName());
         if (Files.exists(newLocation)) {
-            throw new RuntimeException("Image already exists.");
+            throw new Exception("Image already exists.");
         }
         Files.copy(file.getAbsoluteFile().toPath(), newLocation);
         return new Image(-1, file.getName(), Approved.NOT_REVIEWED, user, order.getId());
