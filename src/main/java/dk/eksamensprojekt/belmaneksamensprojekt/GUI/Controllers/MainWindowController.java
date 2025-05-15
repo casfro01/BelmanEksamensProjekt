@@ -62,7 +62,6 @@ public class MainWindowController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
         //orderList = FXCollections.observableArrayList();
-        setupTableFiltering();
         fillData();
     }
 
@@ -78,14 +77,17 @@ public class MainWindowController extends Controller implements Initializable {
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?
                 try{
-                    return orderModel.reloadOrderList();
+                    return orderModel.getOrderList();
                 } catch (Exception e) {
                     ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
                     return null;
                 }
             },
             orders -> { // når tasken er færdiggjort
-                Platform.runLater(this::createOrderForApprovalView);
+                Platform.runLater(() ->{
+                    createOrderForApprovalView();
+                    setupTableFiltering();
+                });
             },
             error -> { // hvis der sker en fejl
                 orderTableView.setPlaceholder(new Label("Could not fetch data."));
