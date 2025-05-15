@@ -167,16 +167,6 @@ public class MainWindowController extends Controller implements Initializable {
         AnchorPane ap = new AnchorPane();
         //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-        /**
-         * Fjen igen
-         */
-        /*
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-         */
-
         int counter = 0;
         int estiHeight = 65;
         int spacing = 10;
@@ -189,11 +179,13 @@ public class MainWindowController extends Controller implements Initializable {
         }
 
         //scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
-        ap.setStyle("-fx-background-color: #7FA8C5;");
+        ap.setStyle("-fx-background-color: #c7c7c7;");
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth(), Region.USE_COMPUTED_SIZE + spacing * 2);
         ap.setMinHeight(scrollPaneOrderApproval.getPrefHeight());
         scrollPaneOrderApproval.setContent(ap);
-        scrollPaneOrderApproval.setStyle("-fx-background-color: #7FA8C5;");
+        scrollPaneOrderApproval.setStyle("-fx-background-color: #c7c7c7;");
+        scrollPaneOrderApproval.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPaneOrderApproval.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
     private AnchorPane getOrderPane(Order o) {
