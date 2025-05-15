@@ -19,15 +19,6 @@ public enum ModelManager {
         this.REPORT_MODEL = new ReportModel();
     }
 
-    /*
-    public static ModelManager getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ModelManager();
-        }
-        return INSTANCE;
-    }
-     */
-
     // getters and setters
     public OrderModel getOrderModel(){ return ORDER_MODEL; }
     public UserModel getUserModel() { return USER_MODEL; }

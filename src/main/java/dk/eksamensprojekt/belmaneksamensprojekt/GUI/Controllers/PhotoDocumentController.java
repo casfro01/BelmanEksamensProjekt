@@ -31,7 +31,7 @@ public class PhotoDocumentController extends Controller implements Initializable
     private Order currentOrder;
 
     @FXML
-    private Text guideLabel;
+    private Label guideLabel;
 
     @FXML
     private ScrollPane imagesScrollPane;
