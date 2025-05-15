@@ -84,21 +84,13 @@ public class MainWindowController extends Controller implements Initializable {
     }
 
     private void fillData(){
-        // hvis der allerede er ting i -> så kun opdatér data i orders for approval
-        /*
-        if (!orderModel.getOrderList().isEmpty()){
-            createOrderForApprovalView();
-            return;
-        }
-         */
         BackgroundTask.execute(
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?
                 try{
                     return orderModel.getOrderList();
                 } catch (Exception e) {
-                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
-                    return null;
+                    throw new Error(e);
                 }
             },
             orders -> { // når tasken er færdiggjort
