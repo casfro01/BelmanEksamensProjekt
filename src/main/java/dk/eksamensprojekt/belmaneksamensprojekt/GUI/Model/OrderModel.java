@@ -3,6 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.OrderType;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import javafx.application.Platform;
@@ -16,19 +17,17 @@ public class OrderModel {
     private OrderManager orderManager;
     private ObservableList<Order> orderList;
     private Order currentOrder;
+    private OrderType currentOrderType;
 
     public OrderModel() {
         this.orderManager = new OrderManager();
         this.orderList = FXCollections.observableArrayList();
     }
 
-    public ObservableList<Order> getOrderList() {
-        /*
+    public ObservableList<Order> getOrderList() throws Exception{
         if (orderList.isEmpty()) {
             orderList.addAll(orderManager.getAllOrders());
         }
-
-         */
         return orderList;
     }
     public ObservableList<Order> reloadOrderList() throws Exception {
@@ -78,11 +77,19 @@ public class OrderModel {
         return ordersForApproval;
     }
 
+    public OrderType getCurrentOrderType() {
+        return this.currentOrderType;
+    }
+
     public void updateOrder(Order order) throws Exception {
         orderManager.updateOrder(order);
     }
 
     public Order searchOrder(String txt) throws Exception {
         return orderManager.getById(txt);
+    }
+
+    public void setCurrentOrderType(OrderType type) {
+        this.currentOrderType = type;
     }
 }

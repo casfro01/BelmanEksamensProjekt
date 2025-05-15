@@ -32,6 +32,7 @@ import javafx.scene.layout.Region;
 import javafx.util.Callback;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -61,7 +62,6 @@ public class MainWindowController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
         //orderList = FXCollections.observableArrayList();
-        setupTableFiltering();
         fillData();
     }
 
@@ -77,14 +77,17 @@ public class MainWindowController extends Controller implements Initializable {
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?
                 try{
-                    return orderModel.reloadOrderList();
+                    return orderModel.getOrderList();
                 } catch (Exception e) {
                     ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
                     return null;
                 }
             },
             orders -> { // når tasken er færdiggjort
-                Platform.runLater(this::createOrderForApprovalView);
+                Platform.runLater(() ->{
+                    createOrderForApprovalView();
+                    setupTableFiltering();
+                });
             },
             error -> { // hvis der sker en fejl
                 orderTableView.setPlaceholder(new Label("Could not fetch data."));
@@ -165,16 +168,6 @@ public class MainWindowController extends Controller implements Initializable {
         AnchorPane ap = new AnchorPane();
         //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-        /**
-         * Fjen igen
-         */
-        /*
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-        todoOrders.add(new Order(1, "666-13106-017-3", null, Approved.NotReviewed));
-         */
-
         int counter = 0;
         int estiHeight = 65;
         int spacing = 10;
@@ -187,11 +180,13 @@ public class MainWindowController extends Controller implements Initializable {
         }
 
         //scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
-        ap.setStyle("-fx-background-color: #7FA8C5;");
+        ap.setStyle("-fx-background-color: #c7c7c7;");
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth(), Region.USE_COMPUTED_SIZE + spacing * 2);
         ap.setMinHeight(scrollPaneOrderApproval.getPrefHeight());
         scrollPaneOrderApproval.setContent(ap);
-        scrollPaneOrderApproval.setStyle("-fx-background-color: #7FA8C5;");
+        scrollPaneOrderApproval.setStyle("-fx-background-color: #c7c7c7;");
+        scrollPaneOrderApproval.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPaneOrderApproval.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
     private AnchorPane getOrderPane(Order o) {
@@ -230,6 +225,4 @@ public class MainWindowController extends Controller implements Initializable {
         orderModel.setCurrentOrder(order);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
-
-
 }

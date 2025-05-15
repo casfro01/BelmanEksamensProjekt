@@ -20,10 +20,17 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,6 +42,16 @@ public class PhotoDocumentController extends Controller implements Initializable
     private Order currentOrder;
     private ObservableList<Image> replicaImageList = FXCollections.observableArrayList();
     private boolean syncingLists = false;
+
+    private static final int SMALL_ORDER_MIN = 5;
+    private static final int LARGE_ORDER_MIN = 10;
+    private static final int LARGE_ORDER_MAX = 100;
+    private static final List<String> GUIDANCE_TEXT = new ArrayList<>(Arrays.asList(
+            "venstre", "højre", "under", "oppe", "bag", "foran"
+    ));
+
+    @FXML
+    private Text guideLabel;
 
     @FXML
     private ScrollPane imagesScrollPane;
@@ -120,6 +137,12 @@ public class PhotoDocumentController extends Controller implements Initializable
                     row++;
                 }
             }
+
+            if (grid.getChildren().size() < GUIDANCE_TEXT.size()) {
+                guideLabel.setText("Tag billede " + GUIDANCE_TEXT.get(grid.getChildren().size()));
+            } else {
+                guideLabel.setText("");
+            }
         };
 
         updateGrid.run();
@@ -133,12 +156,24 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        replicaImageList.add(model.takePictureClicked());
+        if (replicaImageList.size() < GUIDANCE_TEXT.size()) {
+            replicaImageList.add(model.takePictureClicked());
+        } else {
+            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void addPictureClicked(ActionEvent event) throws Exception {
-        replicaImageList.add(model.addPictureClicked());
+        if (replicaImageList.size() < GUIDANCE_TEXT.size()) {
+            try {
+                replicaImageList.add(model.addPictureClicked());
+            } catch (Exception ex) {
+                ShowAlerts.displayMessage("Image exists", "This image already exists!", Alert.AlertType.ERROR);
+            }
+        } else {
+            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -154,6 +189,19 @@ public class PhotoDocumentController extends Controller implements Initializable
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();
+    }
+
+    public void backPressed() {
+        System.out.println("PhotoDoc : Back pressed");
+        for (Image image : replicaImageList) {
+            if (!currentOrder.getImageList().contains(image)) {
+                try {
+                    Files.delete(Paths.get(image.getPath()));
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 
     private void backToMain(){

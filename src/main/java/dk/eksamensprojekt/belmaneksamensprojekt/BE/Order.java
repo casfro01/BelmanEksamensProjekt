@@ -70,4 +70,9 @@ public class Order {
     public void setImageList(ObservableList<Image> replicaImageList) {
         this.images = replicaImageList;
     }
+
+    @Override
+    public String toString(){
+        return orderNumber;
+    }
 }

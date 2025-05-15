@@ -56,6 +56,9 @@
 .table-view .cell{
     -fx-font-size: 14px;
 }
+.list-view .cell{
+    -fx-font-size: 24px;
+}
 .notApproved{
     -fx-border-color: red;
     -fx-border-width: 2px;
@@ -84,3 +87,11 @@
 }
 
 
+#smallVBox, #largeVBox {
+    -fx-background-color: #E5E5E5;
+    -fx-background-radius: 25px;
+}
+
+#chooseButton {
+    -fx-background-radius: 10px;
+}

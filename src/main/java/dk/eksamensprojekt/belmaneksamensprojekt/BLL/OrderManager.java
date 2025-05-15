@@ -107,6 +107,9 @@ public class OrderManager {
         );
         File file = fileChooser.showOpenDialog(null);
         Path newLocation = Paths.get(IMAGES_PATH + file.getName());
+        if (Files.exists(newLocation)) {
+            throw new RuntimeException("Image already exists.");
+        }
         Files.copy(file.getAbsoluteFile().toPath(), newLocation);
         return new Image(-1, file.getName(), Approved.NOT_REVIEWED, user, order.getId());
     }
