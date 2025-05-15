@@ -22,12 +22,12 @@
             <Separator layoutX="13.0" layoutY="160.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="215.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="270.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
-            <Label fx:id="lblDashboard" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Dashboard" visible="false">
+            <Label onMouseClicked="#manageUsers" fx:id="lblUser" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="lblManageusers" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
+            <Label fx:id="lblLogs" onMouseClicked="#manageLogs" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Logs" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
