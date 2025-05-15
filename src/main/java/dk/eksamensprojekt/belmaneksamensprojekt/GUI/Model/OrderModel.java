@@ -24,13 +24,10 @@ public class OrderModel {
         this.orderList = FXCollections.observableArrayList();
     }
 
-    public ObservableList<Order> getOrderList() {
-        /*
+    public ObservableList<Order> getOrderList() throws Exception{
         if (orderList.isEmpty()) {
             orderList.addAll(orderManager.getAllOrders());
         }
-
-         */
         return orderList;
     }
     public ObservableList<Order> reloadOrderList() throws Exception {

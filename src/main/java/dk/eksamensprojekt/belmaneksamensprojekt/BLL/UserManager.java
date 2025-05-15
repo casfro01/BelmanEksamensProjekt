@@ -2,6 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BLL.util.EmailValidator;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.util.IHashing;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.util.PasswordHasher;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
@@ -28,6 +29,10 @@ public class UserManager {
     }
 
     public User login(String email, String password) throws Exception {
+        // validér emailen
+        if (!EmailValidator.validate(email))
+            throw new IllegalArgumentException("Invalid email address");
+
         if (userDAO instanceof UserData uData){
             LoginUser loginUser = uData.getLoginUser(email);
             if (loginUser != null && passwordHashing.compare(password, loginUser.getPassword()))

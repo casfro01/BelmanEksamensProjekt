@@ -1,14 +1,16 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
 public enum Windows {
-    LoginWindow("LoginWindow.fxml"),
+    LoginWindow("LoginChooserWindow.fxml"),
     MainWindow("MainWindow.fxml"),
     OperatorWindow("OperatorWindow.fxml"),
     PhotoDocWindow("PhotodocumentWindow.fxml"),
     PreviewReportWindow("PreviewReportWindow.fxml"),
     UserWindow("UserWindow.fxml"),
     PreviewPicturesWindow("PreviewPictures.fxml"),
-    SmallOrBigWindow("SmallOrBigOrder.fxml");
+    SmallOrBigWindow("SmallOrBigOrder.fxml"),
+    LoginEmailWindow("LoginEmailWindow.fxml"),
+    LoginChipWindow("LoginChipWindow.fxml");
 
     private final String path;
 

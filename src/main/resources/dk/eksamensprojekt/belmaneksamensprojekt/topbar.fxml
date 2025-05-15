@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Label fx:id="lblCurrentOrder" alignment="CENTER" layoutX="556.0" layoutY="13.0" prefHeight="66.0" prefWidth="588.0" styleClass="bigText" textFill="WHITE">
+            <Label fx:id="lblCurrentOrder" alignment="CENTER" layoutX="484.5" layoutY="13.0" prefHeight="66.0" prefWidth="588.0" styleClass="bigText" textFill="WHITE">
                <font>
                   <Font size="32.0" />
                </font>
