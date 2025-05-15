@@ -8,8 +8,9 @@ public enum Windows {
     PreviewReportWindow("PreviewReportWindow.fxml"),
     UserWindow("UserWindow.fxml"),
     PreviewPicturesWindow("PreviewPictures.fxml"),
+    SmallOrBigWindow("SmallOrBigOrder.fxml"),
     LoginEmailWindow("LoginEmailWindow.fxml"),
-    LoginChipWindow("LoginChipWindow.fxml"),;
+    LoginChipWindow("LoginChipWindow.fxml");
 
     private final String path;
 

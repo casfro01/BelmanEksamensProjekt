@@ -6,6 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.PhotoDocumentController">
     <children>
@@ -31,5 +32,10 @@
             <Image url="@Icons/camera.png" />
          </image>
       </ImageView>
+      <Text fx:id="guideLabel" layoutX="802.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="1015.46875">
+         <font>
+            <Font name="System Bold" size="55.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

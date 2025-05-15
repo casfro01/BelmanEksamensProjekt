@@ -54,7 +54,7 @@ public class OperatorWindowController extends Controller implements Initializabl
 
         Order order = orderModel.searchOrder(txt);
         orderModel.setCurrentOrder(order);
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.SmallOrBigWindow));
     }
 
     @FXML
