@@ -2,7 +2,9 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoFacade implements Repository<Order, String> {
@@ -47,6 +49,14 @@ public class OrderDaoFacade implements Repository<Order, String> {
         // opdatér billeder:
         imageDAO.updateAll(order.getImageList());
 
+        // opdaterer imagelisten
+        List<Image> tempList = new ArrayList<>();
+        for(int i = 0; i < order.getImageList().size(); i++) {
+            if (order.getImageList().get(i).getOrderID() > 0){
+                tempList.add(order.getImageList().get(i));
+            }
+        }
+        order.getImageList().setAll(tempList);
         // opdatér report
         if (order.getReport() != null && order.getReport().getUser() != null) {
             Report report = reportDAO.create(order.getReport());
