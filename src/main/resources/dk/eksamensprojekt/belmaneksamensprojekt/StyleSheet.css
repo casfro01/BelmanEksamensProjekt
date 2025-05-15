@@ -48,7 +48,7 @@
     -fx-font-size: 24px;
 }
 .orderItemText{
-    -fx-text-fill: #004884;
+    -fx-text-fill: #333535;
 }
 .table-view .column-header-background .label {
     -fx-font-size: 16px;

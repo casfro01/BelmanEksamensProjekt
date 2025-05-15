@@ -61,6 +61,10 @@ public class MainWindowController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
+
+        // TODO : måske en bedre fiks
+        orderModel.setCurrentOrder(null);
+
         //orderList = FXCollections.observableArrayList();
         fillData();
     }
