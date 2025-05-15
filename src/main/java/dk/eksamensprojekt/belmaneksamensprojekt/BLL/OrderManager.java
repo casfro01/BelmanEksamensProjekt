@@ -37,6 +37,13 @@ public class OrderManager {
 
             String userHome = System.getProperty("user.home");
             Path cameraRoll = Paths.get(userHome, "Pictures", "Camera Roll");
+            if (!Files.exists(cameraRoll)) {
+                cameraRoll = Paths.get(userHome, "Onedrive", "Pictures", "Camera Roll");
+            }
+
+            if (!Files.exists(cameraRoll)) {
+                throw new RuntimeException("Camera Roll not found");
+            }
 
             WatchService watchService = FileSystems.getDefault().newWatchService();
             cameraRoll.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);

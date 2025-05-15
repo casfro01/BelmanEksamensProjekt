@@ -7,9 +7,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,36 +15,20 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
+import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
+
 public class PhotoDocumentController extends Controller implements Initializable {
-    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
-    private static double DISPLAY_TIME = 1.5;
     private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
-    private ObservableList<Image> replicaImageList = FXCollections.observableArrayList();
-    private boolean syncingLists = false;
-
-    private static final int SMALL_ORDER_MIN = 5;
-    private static final int SMALL_ORDER_MAX = 10;
-    private static final int LARGE_ORDER_MIN = 10;
-    private static final int LARGE_ORDER_MAX = 100;
-    private static final List<String> GUIDANCE_TEXT = new ArrayList<>(Arrays.asList(
-            "left", "right", "above", "behind", "the front"
-    ));
 
     @FXML
     private Text guideLabel;
@@ -60,19 +42,6 @@ public class PhotoDocumentController extends Controller implements Initializable
         modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
-        replicaImageList.addAll(currentOrder.getImageList());
-
-        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> {
-            if (syncingLists) return;
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    replicaImageList.addAll(change.getAddedSubList());
-                }
-                if (change.wasRemoved()) {
-                    replicaImageList.removeAll(change.getRemoved());
-                }
-            }
-        });
 
         initializeScrollPane();
     }
@@ -93,8 +62,8 @@ public class PhotoDocumentController extends Controller implements Initializable
             int row = 0;
             int col = 0;
 
-            for (Image img : replicaImageList) {
-                javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
+            for (Image img : currentOrder.getImageList()) {
+                ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);
                 imageView.setPreserveRatio(false);
@@ -121,10 +90,11 @@ public class PhotoDocumentController extends Controller implements Initializable
                     deleteButton.setVisible(true);
                 });
 
-                deleteButton.setOnAction(e -> {
+                deleteButton.setOnAction(_ -> {
                     try {
                         promptUserDeleteImage(img);
                     } catch (Exception ex) {
+                        DisplayError("Error", ex);
                         throw new RuntimeException(ex);
                     }
                 });
@@ -136,113 +106,33 @@ public class PhotoDocumentController extends Controller implements Initializable
                     row++;
                 }
             }
-
-            if (model.getCurrentOrderType() == OrderType.Small) {
-                if (grid.getChildren().size() < GUIDANCE_TEXT.size()) {
-                    guideLabel.setFill(Color.RED);
-                    guideLabel.setText(grid.getChildren().size() + " / 10"  + " - Take picture from " + GUIDANCE_TEXT.get(grid.getChildren().size()));
-                } else {
-                    guideLabel.setFill(Color.GREEN);
-                    guideLabel.setText(grid.getChildren().size() + " / 10"  + " Take extra pictures");
-                }
-            } else {
-                guideLabel.setText(grid.getChildren().size() + " / " + LARGE_ORDER_MAX  + " Take more pictures");
-
-                if (grid.getChildren().size() < LARGE_ORDER_MIN) {
-                    guideLabel.setFill(Color.RED);
-                } else {
-                    guideLabel.setFill(Color.GREEN);
-                }
-            }
         };
 
         updateGrid.run();
-        replicaImageList.addListener((ListChangeListener<Image>) change -> updateGrid.run());
-    }
-
-    private void promptUserDeleteImage(Image img) throws Exception {
-        replicaImageList.remove(img);
-        ShowAlerts.splashMessage("Deletion", "Image deleted", DISPLAY_TIME);
+        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
     }
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        if (canAddPicture(replicaImageList.size())) {
-            try {
-                replicaImageList.add(model.takePictureClicked());
-                save();
-            } catch (Exception ex) {
-                ShowAlerts.displayMessage("Couldn't add picture", ex.getMessage(), Alert.AlertType.ERROR);
-            }
-        } else {
-            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
-        }
+        model.takePictureClicked();
     }
 
     @FXML
-    private void addPictureClicked(ActionEvent event) throws Exception {
-        if (canAddPicture(replicaImageList.size())) {
-            try {
-                replicaImageList.add(model.addPictureClicked());
-                save();
-            } catch (Exception ex) {
-                ShowAlerts.displayMessage("Couldn't add picture", ex.getMessage(), Alert.AlertType.ERROR);
-            }
-        } else {
-            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
-        }
-    }
-
-    private boolean canAddPicture(int pictures) {
-        if (model.getCurrentOrderType() == OrderType.Small) {
-            return pictures < SMALL_ORDER_MAX;
-        } else if (model.getCurrentOrderType() == OrderType.Large) {
-            return pictures < LARGE_ORDER_MAX;
-        }
-
-        return true;
-    }
-
-    @FXML
-    private void saveButtonClicked(ActionEvent event) throws Exception {
-        save();
-        ShowAlerts.splashMessage("Save", "Saving order...", DISPLAY_TIME);
-        // back to main?
-    }
-
-    @FXML
-    private void submitButtonClicked(ActionEvent event) throws Exception {
+    private void submitButtonClicked() throws Exception {
         model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();
     }
 
-    private void backToMain(){
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
+    private void promptUserDeleteImage(Image img) throws Exception {
+        img.setOrderId(0);
+        model.saveButtonClicked();
+        currentOrder.getImageList().remove(img);
+        ShowAlerts.splashMessage("Deletion", "Image deleted", DISPLAY_TIME);
     }
 
-    private void save() throws Exception {
-        syncingLists = true;
-
-        try {
-            for (Image img : currentOrder.getImageList()) {
-                if (!replicaImageList.contains(img)) {
-                    img.setOrderId(0);
-                }
-            }
-
-            List<Image> copy = new ArrayList<>(replicaImageList);
-            for (Image img : copy) {
-                if (!currentOrder.getImageList().contains(img)) {
-                    img.setOrderId(currentOrder.getId());
-                    currentOrder.getImageList().add(img);
-                }
-            }
-
-            model.saveButtonClicked();
-        } finally {
-            syncingLists = false;
-        }
+    private void backToMain(){
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
     }
 }
