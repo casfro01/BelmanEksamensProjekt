@@ -23,7 +23,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     @Override
     public Image create(Image image) throws Exception {
         String sql = """
-                INSERT INTO Pictures (Path, UserID, OrderID) VALUES (?, ?, ?);
+                INSERT INTO Pictures (Path, UserID, OrderID, PicturePosition) VALUES (?, ?, ?, ?);
                 """;
         DBConnector connector = new DBConnector();
         // siden at der ikke bliver lavet en forbindelse til db før man kalder getConnection - så er det fint det her
@@ -31,13 +31,14 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
             ps.setString(1, image.getPath());
             ps.setInt(2, image.getUser().getId());
             ps.setInt(3, image.getOrderID());
+            ps.setInt(4, image.getImagePosition().toInt());
 
             ps.executeUpdate();
 
             // get keys -> to be returned
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return new Image(rs.getInt(1), image.getPath(), image.isApproved(), image.getUser(), image.getOrderID());
+                return new Image(rs.getInt(1), image.getPath(), image.isApproved(), image.getUser(), image.getOrderID(), image.getImagePosition());
             }
         } catch (Exception e) {
             throw new Exception("Could not save image: " + e.getMessage());

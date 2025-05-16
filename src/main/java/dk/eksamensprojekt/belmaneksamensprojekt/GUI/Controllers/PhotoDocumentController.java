@@ -62,7 +62,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             int col = 0;
 
             for (Image img : currentOrder.getImageList()) {
-                if (img.getImagePosition() != ImagePosition.Extra) {
+                if (img.getImagePosition() != ImagePosition.EXTRA) {
                     continue;
                 }
 
