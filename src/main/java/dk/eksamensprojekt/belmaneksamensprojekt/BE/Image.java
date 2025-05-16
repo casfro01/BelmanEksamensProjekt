@@ -17,6 +17,15 @@ public class Image {
         this.user = null;
     }
 
+    public Image(int id, String path, Approved isApproved, User user, int orderID) {
+        this.id = id;
+        this.path = path;
+        this.isApproved = isApproved;
+        this.user = user;
+        this.orderID = orderID;
+        this.imagePosition = ImagePosition.EXTRA;
+    }
+
     public Image(int id, String path, Approved isApproved, User user, int orderID, ImagePosition imagePosition) {
         this.id = id;
         this.path = path;
