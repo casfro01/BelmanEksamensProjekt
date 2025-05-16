@@ -31,14 +31,13 @@ public class PhotoDocumentController extends Controller implements Initializable
     private Order currentOrder;
 
     @FXML
-    private Label guideLabel;
+    private GridPane gridPaneAngles;
 
     @FXML
-    private ScrollPane imagesScrollPane;
+    private ScrollPane extraImagesPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        guideLabel.getStyleClass().add("bigText");
         modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
@@ -53,8 +52,8 @@ public class PhotoDocumentController extends Controller implements Initializable
         grid.setPadding(new Insets(10));
         grid.setAlignment(Pos.TOP_LEFT);
 
-        imagesScrollPane.setFitToWidth(true);
-        imagesScrollPane.setContent(grid);
+        extraImagesPane.setFitToWidth(true);
+        extraImagesPane.setContent(grid);
 
         Runnable updateGrid = () -> {
             grid.getChildren().clear();
@@ -63,6 +62,10 @@ public class PhotoDocumentController extends Controller implements Initializable
             int col = 0;
 
             for (Image img : currentOrder.getImageList()) {
+                if (img.getImagePosition() != ImagePosition.Extra) {
+                    continue;
+                }
+
                 ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);

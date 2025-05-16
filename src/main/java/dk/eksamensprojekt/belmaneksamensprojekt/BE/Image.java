@@ -6,6 +6,7 @@ public class Image {
     private Approved isApproved;
     private User user;
     private int orderID;
+    private ImagePosition imagePosition;
 
     public Image(int id, String path, Approved isApproved) {
         this.id = id;
@@ -13,12 +14,13 @@ public class Image {
         this.isApproved = isApproved;
     }
 
-    public Image(int id, String path, Approved isApproved, User user, int orderID) {
+    public Image(int id, String path, Approved isApproved, User user, int orderID, ImagePosition imagePosition) {
         this.id = id;
         this.path = path;
         this.isApproved = isApproved;
         this.user = user;
         this.orderID = orderID;
+        this.imagePosition = imagePosition;
     }
 
     public String getPath() {
@@ -33,9 +35,6 @@ public class Image {
         return isApproved;
     }
 
-    public void setApproved(Approved approved) {
-        isApproved = approved;
-    }
     public int getId() {
         return id;
     }
@@ -45,8 +44,11 @@ public class Image {
     public int getOrderID() {
         return orderID;
     }
+    public ImagePosition getImagePosition() { return imagePosition; }
 
-    public void setOrderId(int id) {
-        this.orderID = id;
+    public void setImagePosition(ImagePosition imagePosition) { this.imagePosition = imagePosition; }
+    public void setApproved(Approved approved) {
+        isApproved = approved;
     }
+    public void setOrderId(int id) { this.orderID = id; }
 }
