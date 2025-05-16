@@ -130,7 +130,6 @@ public class PhotoDocumentController extends Controller implements Initializable
         img.setOrderId(0);
         model.saveButtonClicked();
         currentOrder.getImageList().remove(img);
-        ShowAlerts.splashMessage("Deletion", "Image deleted", DISPLAY_TIME);
     }
 
     private void backToMain(){
