@@ -1,8 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -75,7 +73,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 WHERE ID = ?;
                 """;
         String sqlCreatepic = """
-                INSERT INTO Pictures (Path, UserID, OrderID) VALUES (?, ?, ?);
+                INSERT INTO Pictures (Path, UserID, OrderID, PicturePosition) VALUES (?, ?, ?, ?);
                 """;
         DBConnector connector = new DBConnector();
         try(Connection conn = connector.getConnection()) {
@@ -98,6 +96,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                         ps.setString(1, image.getPath());
                         ps.setInt(2, image.getUser().getId());
                         ps.setInt(3, image.getOrderID());
+                        ps.setInt(4, image.getImagePosition().toInt());
                         if (image.isApproved() == Approved.NOT_REVIEWED)
                             ps.setNull(4, Types.BIT);
                         else
@@ -136,7 +135,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     public List<Image> getImageByOrder(Integer orderID) throws Exception {
         List<Image> images = new ArrayList<>();
         String sql = """
-                SELECT Pictures.ID, Path, UserID, Approved, [User].FullName, [User].Email, [User].Role FROM Pictures
+                SELECT Pictures.ID, Path, UserID, Approved, PicturePosition, [User].FullName, [User].Email, [User].Role FROM Pictures
                 INNER JOIN [User] ON [User].ID = Pictures.UserID
                 WHERE OrderID = ?;
                 """;
@@ -146,14 +145,14 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // find user & lav user
-                User u = new User(rs.getInt(3), rs.getInt(7), rs.getString(6), rs.getString(5));
+                User u = new User(rs.getInt(3), rs.getInt(8), rs.getString(7), rs.getString(6));
                 // find hvilken approved
                 Approved app = Approved.valueOfBoolean(rs.getBoolean(4));
                 if (rs.wasNull()) {
                     app = Approved.NOT_REVIEWED;
                 }
                 // lav billede objekt
-                Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID);
+                Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID, ImagePosition.fromInt(rs.getInt(5)));
                 images.add(img);
             }
         } catch (Exception e) {
