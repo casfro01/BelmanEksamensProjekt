@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -63,6 +64,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
             for (Image img : currentOrder.getImageList()) {
                 if (img.getImagePosition() != ImagePosition.EXTRA) {
+                    addImageToGrid(img);
                     continue;
                 }
 
@@ -117,8 +119,26 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        currentOrder.getImageList().add(model.takePictureClicked());
+        Image image = model.takePictureClicked(getImageLocation());
+        currentOrder.getImageList().add(image);
+        System.out.println(image.getPath());
         model.saveButtonClicked();
+    }
+
+    private ImagePosition getImageLocation() {
+        int i = 0;
+        for (Node node : gridPaneAngles.getChildren()) {
+            i+= 1;
+            if (node instanceof VBox) {
+                VBox vbox = (VBox) node;
+                ImageView imageView = (ImageView) vbox.getChildren().get(1);
+                if (imageView.getImage() == null) {
+                    return ImagePosition.fromInt(i);
+                }
+            }
+        }
+
+        return ImagePosition.EXTRA;
     }
 
     @FXML
@@ -127,6 +147,11 @@ public class PhotoDocumentController extends Controller implements Initializable
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();
+    }
+
+    private void addImageToGrid(Image image) {
+        // TODO find den rigtige grid node og find imageview og sæt image til image path file
+        
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
