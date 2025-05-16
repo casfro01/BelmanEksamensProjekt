@@ -32,7 +32,7 @@ public class TopBarController extends Controller implements Initializable {
         // indsæt hvem der er logget ind
         userModel = ModelManager.INSTANCE.getUserModel();
         lblName.setText(userModel.getSelectedUser().get().getName());
-        lblRole.setText(userModel.getSelectedUser().get().getRole().toString().toLowerCase());
+        lblRole.setText(userModel.getSelectedUser().get().getRole().toString());
 
         // nuværende ordre
         orderModel = ModelManager.INSTANCE.getOrderModel();

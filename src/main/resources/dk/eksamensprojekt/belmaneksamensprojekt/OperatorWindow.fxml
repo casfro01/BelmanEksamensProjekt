@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.OperatorWindowController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.OperatorWindowController">
    <children>
-      <TextField fx:id="txtSearchOrdernumb" layoutX="701.0" layoutY="502.0" onKeyReleased="#onEnterPressed" prefHeight="75.0" prefWidth="434.4" promptText="  Search Ordernumber" styleClass="bigText">
+      <TextField fx:id="txtSearchOrdernumb" layoutX="700.0" layoutY="228.0" onKeyReleased="#onEnterPressed" prefHeight="75.0" prefWidth="434.4" promptText="  Search Ordernumber" styleClass="bigText">
          <font>
             <Font size="35.0" />
          </font>
          <opaqueInsets>
             <Insets />
          </opaqueInsets></TextField>
-      <ImageView fx:id="imgSearchOrderNumber" fitHeight="50.0" fitWidth="50.0" layoutX="1169.0" layoutY="515.0" onMouseClicked="#searchOrderPressed" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgSearchOrderNumber" fitHeight="50.0" fitWidth="50.0" layoutX="1168.0" layoutY="241.0" onMouseClicked="#searchOrderPressed" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Icons/searchIcon.jpg" />
          </image>
@@ -26,6 +26,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ListView fx:id="lstOrders" layoutX="701.0" layoutY="600.0" prefHeight="438.0" prefWidth="518.0" />
+      <ListView fx:id="lstOrders" layoutX="700.0" layoutY="328.0" prefHeight="660.0" prefWidth="518.0" />
    </children>
 </AnchorPane>
