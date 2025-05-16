@@ -96,7 +96,6 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                         ps.setString(1, image.getPath());
                         ps.setInt(2, image.getUser().getId());
                         ps.setInt(3, image.getOrderID());
-                        ps.setInt(4, image.getImagePosition().toInt());
                         if (image.isApproved() == Approved.NOT_REVIEWED)
                             ps.setNull(4, Types.BIT);
                         else
@@ -110,6 +109,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                         psCreatepic.setString(1, image.getPath());
                         psCreatepic.setInt(2, image.getUser().getId());
                         psCreatepic.setInt(3, image.getOrderID());
+                        psCreatepic.setInt(4, image.getImagePosition().toInt());
                         psCreatepic.addBatch();
                     }
 
@@ -121,7 +121,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 conn.commit();
             } catch (Exception e) {
                 conn.rollback();
-                throw new Exception("Could not update image" + e.getMessage());
+                throw new Exception("Could not update image " + e.getMessage());
             }
             finally {
                 // reset til standard
