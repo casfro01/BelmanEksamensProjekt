@@ -121,7 +121,6 @@ public class PhotoDocumentController extends Controller implements Initializable
     private void takePictureClicked(ActionEvent event) throws Exception {
         Image image = model.takePictureClicked(getImageLocation());
         currentOrder.getImageList().add(image);
-        System.out.println(image.getPath());
         model.saveButtonClicked();
     }
 
@@ -149,9 +148,11 @@ public class PhotoDocumentController extends Controller implements Initializable
         backToMain();
     }
 
-    private void addImageToGrid(Image image) {
-        // TODO find den rigtige grid node og find imageview og sæt image til image path file
-        
+    private void addImageToGrid(Image imageBE) {
+        VBox vbox = (VBox) gridPaneAngles.getChildren().get(imageBE.getImagePosition().toInt() - 1); // - 1 fordi Extra forskyder det
+        ImageView imageView = (ImageView) vbox.getChildren().get(1);
+        javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
+        imageView.setImage(image);
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
