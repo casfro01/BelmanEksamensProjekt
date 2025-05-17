@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
 public class UserManager {
     private final Repository<User, Integer> userDAO;
     private final IHashing passwordHashing;
-    private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-    private static final Pattern pattern = Pattern.compile(emailRegex);
 
     public UserManager() {
         this.userDAO = new UserDAO();
@@ -45,7 +43,7 @@ public class UserManager {
     public User create(User user) throws Exception {
         if (user.getName() == null || user.getName().isEmpty())
             throw new Exception("Name is required");
-        if (pattern.matcher(user.getEmail()).matches())
+        if (EmailValidator.validate(user.getEmail()))
             throw new Exception("Email is invalid");
         //if (user.getPassword() == null || user.getPassword().length() < 6)
         //        throw new Exception("Password must be at least 6 characters");
