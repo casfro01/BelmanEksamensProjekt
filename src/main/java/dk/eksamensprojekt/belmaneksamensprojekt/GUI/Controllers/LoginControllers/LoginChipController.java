@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
@@ -9,46 +9,31 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.shape.Circle;
 
-import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
-@Deprecated()
-public class LoginWindowController extends Controller implements Initializable {
-
+public class LoginChipController extends Controller implements Initializable {
     private UserModel userModel;
-    // Til bll?
-    private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-    private static final Pattern pattern = Pattern.compile(emailRegex);
     @FXML
     private ScrollPane scrollPaneUser;
-    @FXML
-    private TextField txtUsername;
-    @FXML
-    private TextField txtPassword;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userModel = ModelManager.INSTANCE.getUserModel();
         fillOutUsers();
     }
+
 
     private void fillOutUsers() {
         // henter brugere
@@ -114,7 +99,7 @@ public class LoginWindowController extends Controller implements Initializable {
         name.setLayoutX(iv.getLayoutX() + iv.getFitWidth() + spacing * 2);
         name.setLayoutY(spacing);
         // rolle
-        Label role = new Label(user.getRole().toString().toLowerCase());
+        Label role = new Label(user.getRole().toString());
         ap.getChildren().add(role);
         role.getStyleClass().add("userPaneText");
         role.setLayoutX(iv.getLayoutX() + iv.getFitWidth() + spacing * 2);
@@ -133,27 +118,6 @@ public class LoginWindowController extends Controller implements Initializable {
         // hvis andet gå til main admin el. qc user
         else{
             getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
-        }
-    }
-
-
-    @FXML
-    private void loginIn(ActionEvent actionEvent) {
-        try {
-            if (pattern.matcher(txtUsername.getText().trim()).matches()) {
-                // til loginUser?
-                User u = userModel.login(txtUsername.getText(), txtPassword.getText());
-                if (u != null) {
-                    loginAsUser(u);
-                }
-                else
-                    throw new Exception("Wrong email or password!");
-            }
-            else
-                throw new Exception("Unsupported email!");
-        } catch (Exception e) {
-            // TODO : refactor til noget andet - så som et error label
-            ShowAlerts.displayMessage("Login Error", "Could not login: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 }

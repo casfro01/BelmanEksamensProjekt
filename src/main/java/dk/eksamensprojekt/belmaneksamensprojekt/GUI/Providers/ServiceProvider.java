@@ -2,7 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.Command;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services.WindowService;
 
 public class ServiceProvider {
     // Hvis dette skal opskalere, så ændre det til et map, så man er fri for at lave så mange ifs

@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowController">
+<AnchorPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowController">
    <children>
       <AnchorPane id="sideMenu" fx:id="sideMenu" layoutX="25.0" layoutY="209.0" prefHeight="840.0" prefWidth="285.0" stylesheets="@StyleSheet.css">
          <padding>
@@ -22,66 +18,52 @@
             <Separator layoutX="13.0" layoutY="160.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="215.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
             <Separator layoutX="13.0" layoutY="270.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
-            <Label onMouseClicked="#manageUsers" fx:id="lblUser" layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
+            <Separator layoutX="13.0" layoutY="325.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Separator layoutX="13.0" layoutY="380.0" prefHeight="3.0" prefWidth="214.0" stylesheets="@StyleSheet.css" />
+            <Label layoutX="13.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#loadAllOrders" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="All orders">
                <font>
                   <Font size="32.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Label>
-            <Label fx:id="lblLogs" onMouseClicked="#manageLogs" layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Logs" visible="false">
+            <Label layoutX="12.8" layoutY="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#showOrderForApproval" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="For approval">
                <font>
                   <Font size="32.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Label>
             <Label fx:id="lblGallery" layoutX="13.0" layoutY="220.0" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Gallery" visible="false">
                <font>
                   <Font size="32.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="lblUser" layoutX="13.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#manageUsers" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Manage users" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="lblLogs" layoutX="13.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#manageLogs" prefHeight="46.0" prefWidth="214.0" styleClass="bigText" text="Logs" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane id="paneBackground" fx:id="paneOrder" layoutX="380.8" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
-         <children>
-            <TableView fx:id="orderTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="819.0" stylesheets="@StyleSheet.css">
-               <columns>
-                  <TableColumn fx:id="tblColOrderNumber" prefWidth="190.3999900817871" text="Order Number" />
-                  <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="137.59999084472656" text="Approved" />
-                  <TableColumn fx:id="tblColDocumented" minWidth="0.0" prefWidth="143.20001220703125" text="Documented" />
-                  <TableColumn fx:id="tblColAvaliableReports" minWidth="0.0" prefWidth="217.60003662109375" text="Avaliable reports" />
-               </columns>
-            </TableView>
-            <TextField fx:id="txtOrderSearchbar" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders" styleClass="smallText">
-               <font>
-                  <Font size="16.0" />
-               </font></TextField>
-            <ImageView fx:id="imgSearchOrder" fitHeight="30.0" fitWidth="30.0" layoutX="833.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </AnchorPane>
-      <AnchorPane id="paneBackground" fx:id="paneApprovalOrder" layoutX="1391.0" layoutY="209.0" prefHeight="840.0" prefWidth="503.0" stylesheets="@StyleSheet.css">
-         <children>
-            <ScrollPane fx:id="scrollPaneOrderApproval" layoutX="22.0" layoutY="45.0" prefHeight="758.0" prefWidth="463.0">
-              <content>
-                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="749.0" prefWidth="453.0" />
-              </content>
-            </ScrollPane>
-            <TextField fx:id="txtSearchOrderApproval" layoutX="68.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="360.0" promptText="Search in orders for approval" styleClass="smallText" visible="false">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TextField>
-            <ImageView fx:id="imgSearchApproval" fitHeight="30.0" fitWidth="30.0" layoutX="428.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </AnchorPane>
+      <AnchorPane fx:id="showPane" layoutX="381.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1350.0" stylesheets="@StyleSheet.css" />
       <Label fx:id="lblMenu" alignment="CENTER" layoutX="21.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="66.0" prefWidth="286.0" styleClass="bigText" text="Menu">
-         <font>
-            <Font name="System Bold Italic" size="45.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblAllOrders" alignment="CENTER" layoutX="380.0" layoutY="138.0" prefHeight="66.0" prefWidth="926.0" styleClass="bigText" text="All Orders">
-         <font>
-            <Font name="System Bold Italic" size="45.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblOrdersForapproval" alignment="CENTER" layoutX="1391.0" layoutY="138.0" prefHeight="66.0" prefWidth="503.0" styleClass="bigText" text="Orders for approval">
          <font>
             <Font name="System Bold Italic" size="45.0" />
          </font>

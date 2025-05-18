@@ -1,7 +1,6 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.Command;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
@@ -11,9 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
 
 public class WindowService {
     private Stage rootStage;
