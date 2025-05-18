@@ -1,10 +1,13 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -119,6 +122,7 @@ public class OrdersForApprovalController implements Initializable {
     }
 
     private void openDocumentWindow(Order order){
-
+        orderModel.setCurrentOrder(order);
+        InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 }
