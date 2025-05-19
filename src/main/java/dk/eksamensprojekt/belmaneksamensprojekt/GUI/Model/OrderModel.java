@@ -89,4 +89,5 @@ public class OrderModel {
     public void setCurrentOrderType(OrderType type) {
         this.currentOrderType = type;
     }
+
 }

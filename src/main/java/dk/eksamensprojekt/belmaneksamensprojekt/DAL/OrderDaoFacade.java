@@ -63,7 +63,13 @@ public class OrderDaoFacade implements Repository<Order, String> {
                 imageDAO.delete(image);
             }
         }
+        for (Image image : order.getImageList()){
+            System.out.println(image.toString());
+        }
         order.getImageList().setAll(tempList);
+        for (Image image : order.getImageList()){
+            System.out.println(image.toString());
+        }
 
         // opdatér report
         if (order.getReport() != null && order.getReport().getId() <= 0 && order.getReport().getUser() != null) {
