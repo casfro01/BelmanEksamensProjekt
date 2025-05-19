@@ -6,13 +6,10 @@ public enum Windows {
     OperatorWindow("OperatorWindow.fxml"),
     PhotoDocWindow("PhotodocumentWindow.fxml"),
     PreviewReportWindow("PreviewReportWindow.fxml"),
-    UserWindow("UserWindow.fxml"),
     PreviewPicturesWindow("PreviewPictures.fxml"),
     SmallOrBigWindow("SmallOrBigOrder.fxml"),
     LoginEmailWindow("LoginEmailWindow.fxml"),
-    LoginChipWindow("LoginChipWindow.fxml"),
-    AdminUserWindow("UserWindow.fxml"),
-    AdminLogWindow("AdminLogWindow.fxml");
+    LoginChipWindow("LoginChipWindow.fxml");
 
     private final String path;
 

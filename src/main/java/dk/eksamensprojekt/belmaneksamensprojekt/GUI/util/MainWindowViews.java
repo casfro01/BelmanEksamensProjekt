@@ -2,7 +2,9 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
 public enum MainWindowViews {
     AllOrdersWindow("AllOrdersWindow.fxml"),
-    OrderForApprovalWindow("OrderforApprovalWindow.fxml");
+    OrderForApprovalWindow("OrderforApprovalWindow.fxml"),
+    UserWindow("UserWindow.fxml"),
+    AdminLogWindow("AdminLogWindow.fxml");
 
 
 

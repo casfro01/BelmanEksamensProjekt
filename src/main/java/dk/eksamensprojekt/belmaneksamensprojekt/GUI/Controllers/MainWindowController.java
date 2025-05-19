@@ -88,14 +88,14 @@ public class MainWindowController extends Controller implements Initializable {
     @FXML
     private void manageUsers(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            getInvoker().executeCommand(new SwitchWindowCommand(Windows.UserWindow));
+            getInvoker().executeCommand(new SwitchMainView(mainWindowService, MainWindowViews.UserWindow));
         }
     }
 
     @FXML
     private void manageLogs(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            getInvoker().executeCommand(new SwitchWindowCommand(Windows.AdminLogWindow));
+            getInvoker().executeCommand(new SwitchMainView(mainWindowService, MainWindowViews.AdminLogWindow));
         }
     }
 
