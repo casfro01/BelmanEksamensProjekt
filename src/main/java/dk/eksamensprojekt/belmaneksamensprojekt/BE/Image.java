@@ -63,4 +63,16 @@ public class Image {
         isApproved = approved;
     }
     public void setOrderId(int id) { this.orderID = id; }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", path='" + path + '\'' +
+                ", isApproved=" + isApproved +
+                ", user=" + user +
+                ", orderID=" + orderID +
+                ", imagePosition=" + imagePosition +
+                '}';
+    }
 }
