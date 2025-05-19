@@ -130,7 +130,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             i+= 1;
             if (node instanceof VBox) {
                 VBox vbox = (VBox) node;
-                ImageView imageView = (ImageView) vbox.getChildren().get(1);
+                ImageView imageView = (ImageView) vbox.getChildren().get(0);
                 if (imageView.getImage() == null) {
                     return ImagePosition.fromInt(i);
                 }
@@ -150,7 +150,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     private void addImageToGrid(Image imageBE) {
         VBox vbox = (VBox) gridPaneAngles.getChildren().get(imageBE.getImagePosition().toInt() - 1); // - 1 fordi Extra forskyder det
-        ImageView imageView = (ImageView) vbox.getChildren().get(1);
+        ImageView imageView = (ImageView) vbox.getChildren().get(0);
         javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
         imageView.setImage(image);
     }
