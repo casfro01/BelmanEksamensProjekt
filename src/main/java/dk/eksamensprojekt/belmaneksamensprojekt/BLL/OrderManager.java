@@ -1,9 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 
@@ -31,12 +28,19 @@ public class OrderManager {
         ordersDAO.update(order);
     }
 
-    public Image openCamera(Order order, User user) throws Exception {
+    public Image openCamera(Order order, User user, ImagePosition imagePosition) throws Exception {
         try {
             Runtime.getRuntime().exec("cmd.exe /C start microsoft.windows.camera:");
 
             String userHome = System.getProperty("user.home");
             Path cameraRoll = Paths.get(userHome, "Pictures", "Camera Roll");
+            if (!Files.exists(cameraRoll)) {
+                cameraRoll = Paths.get(userHome, "OneDrive", "Pictures", "Filmrulle");
+            }
+
+            if (!Files.exists(cameraRoll)) {
+                throw new RuntimeException("Camera Roll not found");
+            }
 
             WatchService watchService = FileSystems.getDefault().newWatchService();
             cameraRoll.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
@@ -63,7 +67,8 @@ public class OrderManager {
                                 fileName.toString(),
                                 Approved.NOT_REVIEWED,
                                 user,
-                                order.getId()
+                                order.getId(),
+                                imagePosition
                         );
 
                         Runtime.getRuntime().exec("taskkill /IM WindowsCamera.exe /F");
@@ -86,7 +91,7 @@ public class OrderManager {
                 if (Files.exists(path)) {
                     long size = Files.size(path);
                     if (size == previousSize) {
-                        return true; // Size stable = probably not being written
+                        return true;
                     }
                     previousSize = size;
                 }
@@ -96,22 +101,6 @@ public class OrderManager {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public Image addPicFromFolder(Order order, User user) throws Exception {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose Image");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
-        );
-        File file = fileChooser.showOpenDialog(null);
-        Path newLocation = Paths.get(IMAGES_PATH + file.getName());
-        if (Files.exists(newLocation)) {
-            throw new RuntimeException("Image already exists.");
-        }
-        Files.copy(file.getAbsoluteFile().toPath(), newLocation);
-        return new Image(-1, file.getName(), Approved.NOT_REVIEWED, user, order.getId());
     }
 
     public void submitOrder(Order currentOrder) throws Exception {

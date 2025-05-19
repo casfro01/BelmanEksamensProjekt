@@ -25,4 +25,15 @@ public enum UserRole {
             default -> null;
         };
     }
+
+    @Override
+    public String toString(){
+        String[] name = name().toLowerCase().split("_");
+        StringBuilder roleName = new StringBuilder();
+        for (String s : name) {
+            roleName.append(s).append(" ");
+        }
+        roleName.replace(0, 1, roleName.substring(0, 1).toUpperCase());
+        return roleName.toString();
+    }
 }

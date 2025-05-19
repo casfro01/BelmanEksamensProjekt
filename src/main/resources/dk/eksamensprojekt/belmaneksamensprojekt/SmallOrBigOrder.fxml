@@ -35,7 +35,7 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Text>
-            <Text fill="#575757" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Minimum of 5 pictures">
+            <Text fill="#575757" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Between 5 and 10 pictures">
                <font>
                   <Font size="14.0" />
                </font>

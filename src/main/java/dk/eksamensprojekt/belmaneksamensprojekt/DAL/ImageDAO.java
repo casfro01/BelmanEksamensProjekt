@@ -1,8 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -23,7 +21,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     @Override
     public Image create(Image image) throws Exception {
         String sql = """
-                INSERT INTO Pictures (Path, UserID, OrderID) VALUES (?, ?, ?);
+                INSERT INTO Pictures (Path, UserID, OrderID, PicturePosition) VALUES (?, ?, ?, ?);
                 """;
         DBConnector connector = new DBConnector();
         // siden at der ikke bliver lavet en forbindelse til db før man kalder getConnection - så er det fint det her
@@ -31,13 +29,14 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
             ps.setString(1, image.getPath());
             ps.setInt(2, image.getUser().getId());
             ps.setInt(3, image.getOrderID());
+            ps.setInt(4, image.getImagePosition().toInt());
 
             ps.executeUpdate();
 
             // get keys -> to be returned
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return new Image(rs.getInt(1), image.getPath(), image.isApproved(), image.getUser(), image.getOrderID());
+                return new Image(rs.getInt(1), image.getPath(), image.isApproved(), image.getUser(), image.getOrderID(), image.getImagePosition());
             }
         } catch (Exception e) {
             throw new Exception("Could not save image: " + e.getMessage());
@@ -74,7 +73,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 WHERE ID = ?;
                 """;
         String sqlCreatepic = """
-                INSERT INTO Pictures (Path, UserID, OrderID) VALUES (?, ?, ?);
+                INSERT INTO Pictures (Path, UserID, OrderID, PicturePosition) VALUES (?, ?, ?, ?);
                 """;
         DBConnector connector = new DBConnector();
         try(Connection conn = connector.getConnection()) {
@@ -110,6 +109,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                         psCreatepic.setString(1, image.getPath());
                         psCreatepic.setInt(2, image.getUser().getId());
                         psCreatepic.setInt(3, image.getOrderID());
+                        psCreatepic.setInt(4, image.getImagePosition().toInt());
                         psCreatepic.addBatch();
                     }
 
@@ -121,7 +121,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                 conn.commit();
             } catch (Exception e) {
                 conn.rollback();
-                throw new Exception("Could not update image" + e.getMessage());
+                throw new Exception("Could not update image " + e.getMessage());
             }
             finally {
                 // reset til standard
@@ -135,7 +135,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     public List<Image> getImageByOrder(Integer orderID) throws Exception {
         List<Image> images = new ArrayList<>();
         String sql = """
-                SELECT Pictures.ID, Path, UserID, Approved, [User].FullName, [User].Email, [User].Role FROM Pictures
+                SELECT Pictures.ID, Path, UserID, Approved, PicturePosition, [User].FullName, [User].Email, [User].Role FROM Pictures
                 INNER JOIN [User] ON [User].ID = Pictures.UserID
                 WHERE OrderID = ?;
                 """;
@@ -145,14 +145,14 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 // find user & lav user
-                User u = new User(rs.getInt(3), rs.getInt(7), rs.getString(6), rs.getString(5));
+                User u = new User(rs.getInt(3), rs.getInt(8), rs.getString(7), rs.getString(6));
                 // find hvilken approved
                 Approved app = Approved.valueOfBoolean(rs.getBoolean(4));
                 if (rs.wasNull()) {
                     app = Approved.NOT_REVIEWED;
                 }
                 // lav billede objekt
-                Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID);
+                Image img = new Image(rs.getInt(1), rs.getString(2), app, u, orderID, ImagePosition.fromInt(rs.getInt(5)));
                 images.add(img);
             }
         } catch (Exception e) {

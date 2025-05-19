@@ -7,73 +7,41 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
 
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
 
 public class PhotoDocumentController extends Controller implements Initializable {
-    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
-    private static double DISPLAY_TIME = 1.5;
-    private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
-    private ObservableList<Image> replicaImageList = FXCollections.observableArrayList();
-    private boolean syncingLists = false;
-
-    private static final int SMALL_ORDER_MIN = 5;
-    private static final int LARGE_ORDER_MIN = 10;
-    private static final int LARGE_ORDER_MAX = 100;
-    private static final List<String> GUIDANCE_TEXT = new ArrayList<>(Arrays.asList(
-            "venstre", "højre", "under", "oppe", "bag", "foran"
-    ));
 
     @FXML
-    private Text guideLabel;
+    private GridPane gridPaneAngles;
 
     @FXML
-    private ScrollPane imagesScrollPane;
+    private ScrollPane extraImagesPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.INSTANCE;
+        ModelManager modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
-        replicaImageList.addAll(currentOrder.getImageList());
-
-        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> {
-            if (syncingLists) return;
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    replicaImageList.addAll(change.getAddedSubList());
-                }
-                if (change.wasRemoved()) {
-                    replicaImageList.removeAll(change.getRemoved());
-                }
-            }
-        });
 
         initializeScrollPane();
     }
@@ -85,150 +53,158 @@ public class PhotoDocumentController extends Controller implements Initializable
         grid.setPadding(new Insets(10));
         grid.setAlignment(Pos.TOP_LEFT);
 
-        imagesScrollPane.setFitToWidth(true);
-        imagesScrollPane.setContent(grid);
+        extraImagesPane.setFitToWidth(true);
+        extraImagesPane.setContent(grid);
 
         Runnable updateGrid = () -> {
             grid.getChildren().clear();
+            resetGridPane();
             int columns = 4;
             int row = 0;
             int col = 0;
 
-            for (Image img : replicaImageList) {
-                javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
+            for (Image img : currentOrder.getImageList()) {
+                if (img.getImagePosition() != ImagePosition.EXTRA) {
+                    addImageToGrid(img);
+                    continue;
+                }
+
+                ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(230);
                 imageView.setPreserveRatio(false);
 
-                Button deleteButton = new Button("X");
-                deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                deleteButton.setVisible(false);
+                StackPane pane = createDeleteButton(img, imageView, grid);
 
-                StackPane imagePane = new StackPane(imageView, deleteButton);
-                imagePane.setPrefSize(150, 150);
-                if (img.isApproved() == Approved.NOT_APPROVED)
-                    imagePane.getStyleClass().add("notApproved");
-                else
-                    imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
-                StackPane.setMargin(deleteButton, new Insets(10));
-
-                imagePane.setOnMouseClicked(e -> {
-                    for (Node node : grid.getChildren()) {
-                        if (node instanceof StackPane sp && sp.getChildren().size() > 1) {
-                            sp.getChildren().get(1).setVisible(false);
-                        }
-                    }
-                    deleteButton.setVisible(true);
-                });
-
-                deleteButton.setOnAction(e -> {
-                    try {
-                        promptUserDeleteImage(img);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
-                    }
-                });
-
-                grid.add(imagePane, col, row);
+                grid.add(pane, col, row);
                 col++;
                 if (col >= columns) {
                     col = 0;
                     row++;
                 }
             }
-
-            if (grid.getChildren().size() < GUIDANCE_TEXT.size()) {
-                guideLabel.setText("Tag billede " + GUIDANCE_TEXT.get(grid.getChildren().size()));
-            } else {
-                guideLabel.setText("");
-            }
         };
 
         updateGrid.run();
-        replicaImageList.addListener((ListChangeListener<Image>) change -> updateGrid.run());
+        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
     }
 
-    private void promptUserDeleteImage(Image img) throws Exception {
-        replicaImageList.remove(img);
-        ShowAlerts.splashMessage("Deletion", "Image deleted", DISPLAY_TIME);
+    private void resetGridPane() {
+        for (Node node : gridPaneAngles.getChildren()) {
+            ImageView imageView = getFirstImageView((VBox) node);
+            if (imageView != null) {
+                imageView.setImage(null);
+            } else {
+                System.out.println("Couldnt find imageview when resetting gridpane");
+            }
+        }
+    }
+
+    private StackPane createDeleteButton(Image img, ImageView imageView, GridPane grid) {
+        Button deleteButton = new Button("X");
+        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        deleteButton.setVisible(false);
+
+        StackPane pane = new StackPane(imageView, deleteButton);
+        pane.setPrefSize(150, 150);
+        if (img.isApproved() == Approved.NOT_APPROVED)
+            pane.getStyleClass().add("notApproved");
+        else
+            pane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
+        StackPane.setMargin(deleteButton, new Insets(10));
+
+        pane.setOnMouseClicked(e -> {
+            for (Node node : grid.getChildren()) {
+                if (node instanceof StackPane sp && sp.getChildren().size() > 1) {
+                    sp.getChildren().get(1).setVisible(false);
+                }
+            }
+            deleteButton.setVisible(true);
+        });
+
+        deleteButton.setOnAction(_ -> {
+            try {
+                deleteButton.setVisible(false);
+                promptUserDeleteImage(img);
+            } catch (Exception ex) {
+                DisplayError("Error", ex);
+                throw new RuntimeException(ex);
+            }
+        });
+
+        return pane;
     }
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        if (replicaImageList.size() < GUIDANCE_TEXT.size()) {
-            replicaImageList.add(model.takePictureClicked());
-        } else {
-            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
-        }
+        Image image = model.takePictureClicked(getNextImageLocation());
+        image.setOrderId(currentOrder.getId());
+        currentOrder.getImageList().add(image);
+        model.saveButtonClicked();
     }
 
-    @FXML
-    private void addPictureClicked(ActionEvent event) throws Exception {
-        if (replicaImageList.size() < GUIDANCE_TEXT.size()) {
-            try {
-                replicaImageList.add(model.addPictureClicked());
-            } catch (Exception ex) {
-                ShowAlerts.displayMessage("Image exists", "This image already exists!", Alert.AlertType.ERROR);
+    private ImagePosition getNextImageLocation() {
+        int i = 0;
+        for (Node node : gridPaneAngles.getChildren()) {
+            i+= 1;
+            ImageView imageView = getFirstImageView((VBox)node);
+            if (imageView != null) {
+                if (imageView.getImage() == null) {
+                    return ImagePosition.fromInt(i);
+                }
             }
-        } else {
-            ShowAlerts.displayMessage("Max Pictures", "You can't add more pictures!", Alert.AlertType.ERROR);
         }
+
+        return ImagePosition.EXTRA;
     }
 
     @FXML
-    private void saveButtonClicked(ActionEvent event) throws Exception {
-        save();
-        ShowAlerts.splashMessage("Save", "Saving order...", DISPLAY_TIME);
-        // back to main?
-    }
-
-    @FXML
-    private void submitButtonClicked(ActionEvent event) throws Exception {
+    private void submitButtonClicked() throws Exception {
         model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
         backToMain();
     }
 
-    public void backPressed() {
-        System.out.println("PhotoDoc : Back pressed");
-        for (Image image : replicaImageList) {
-            if (!currentOrder.getImageList().contains(image)) {
-                try {
-                    Files.delete(Paths.get(image.getPath()));
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+    private void addImageToGrid(Image imageBE) {
+        VBox vbox = (VBox) gridPaneAngles.getChildren().get(imageBE.getImagePosition().toInt() - 1); // - 1 fordi Extra forskyder det
+        StackPane pane;
+        if (vbox.getChildren().getFirst() instanceof ImageView) { // delete button isnt setup
+            pane = createDeleteButton(imageBE, (ImageView)vbox.getChildren().getFirst(), gridPaneAngles);
+            vbox.getChildren().add(pane);
+            System.out.println("creating pane because it doesnt exist");
+        } else {
+            pane = (StackPane) vbox.getChildren().getFirst();
+        }
+
+        ImageView imageView = (ImageView)pane.getChildren().getFirst();
+        javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
+        imageView.setImage(image);
+    }
+
+    private void promptUserDeleteImage(Image img) throws Exception {
+        System.out.println("pressed delete -> removing image");
+        img.setOrderId(0);
+        model.saveButtonClicked();
+        currentOrder.getImageList().remove(img);
+    }
+
+    private ImageView getFirstImageView(Parent grid) {
+        for (Node child : grid.getChildrenUnmodifiable()) {
+            if (child instanceof ImageView) {
+                return (ImageView) child;
+            } else if (child instanceof Parent) {
+                ImageView result = getFirstImageView((Parent) child);
+                if (result != null) {
+                    return result;
                 }
             }
         }
+        return null;
     }
 
     private void backToMain(){
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
-    }
-
-    private void save() throws Exception {
-        syncingLists = true;
-
-        try {
-            for (Image img : currentOrder.getImageList()) {
-                if (!replicaImageList.contains(img)) {
-                    img.setOrderId(0);
-                }
-            }
-
-            List<Image> copy = new ArrayList<>(replicaImageList);
-            for (Image img : copy) {
-                if (!currentOrder.getImageList().contains(img)) {
-                    img.setOrderId(currentOrder.getId());
-                    currentOrder.getImageList().add(img);
-                }
-            }
-
-            model.saveButtonClicked();
-        } finally {
-            syncingLists = false;
-        }
     }
 }

@@ -15,10 +15,8 @@ public class OrdersDAO implements Repository<Order, String>{
     public List<Order> getAll() throws Exception{
         List<Order> orders = new ArrayList<>();
         String SQL = """
-                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented FROM Orders
-                WHERE Orders.OrderNumber IS NOT NULL;
+                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented FROM Orders;
                 """;
-        //FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
             ResultSet rs = ps.executeQuery();

@@ -42,6 +42,11 @@ public class OperatorWindowController extends Controller implements Initializabl
         pattern = Pattern.compile(regex);
         modelManager = ModelManager.INSTANCE;
         orderModel = modelManager.getOrderModel();
+
+        // TODO : måske en bedre fiks
+        orderModel.setCurrentOrder(null);
+
+
         initializeListView();
     }
 

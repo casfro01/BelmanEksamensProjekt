@@ -2,6 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -26,13 +27,14 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
 import javafx.util.Callback;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -57,30 +59,38 @@ public class MainWindowController extends Controller implements Initializable {
      */
     @FXML
     private TextField txtOrderSearchbar;
+    @FXML
+    private Label lblUser;
+    @FXML
+    private Label lblLogs;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
+
+        // TODO : måske en bedre fiks
+        orderModel.setCurrentOrder(null);
+
+        isAdmin();
         //orderList = FXCollections.observableArrayList();
         fillData();
     }
 
-    private void fillData(){
-        // hvis der allerede er ting i -> så kun opdatér data i orders for approval
-        /*
-        if (!orderModel.getOrderList().isEmpty()){
-            createOrderForApprovalView();
-            return;
+    private void isAdmin() {
+        if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() == UserRole.ADMIN){
+            lblUser.setVisible(true);
+            lblLogs.setVisible(true);
         }
-         */
+    }
+
+    private void fillData(){
         BackgroundTask.execute(
             () ->{ // hvad skal der ske
                 // vil error ikke fange exception?
                 try{
                     return orderModel.getOrderList();
                 } catch (Exception e) {
-                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
-                    return null;
+                    throw new Error(e);
                 }
             },
             orders -> { // når tasken er færdiggjort
@@ -224,5 +234,19 @@ public class MainWindowController extends Controller implements Initializable {
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
+    }
+
+    @FXML
+    private void manageUsers(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY){
+            getInvoker().executeCommand(new SwitchWindowCommand(Windows.UserWindow));
+        }
+    }
+
+    @FXML
+    private void manageLogs(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.PRIMARY){
+            getInvoker().executeCommand(new SwitchWindowCommand(Windows.AdminLogWindow));
+        }
     }
 }

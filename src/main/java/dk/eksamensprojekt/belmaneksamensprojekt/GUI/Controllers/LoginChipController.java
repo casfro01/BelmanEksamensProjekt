@@ -99,7 +99,7 @@ public class LoginChipController extends Controller implements Initializable {
         name.setLayoutX(iv.getLayoutX() + iv.getFitWidth() + spacing * 2);
         name.setLayoutY(spacing);
         // rolle
-        Label role = new Label(user.getRole().toString().toLowerCase());
+        Label role = new Label(user.getRole().toString());
         ap.getChildren().add(role);
         role.getStyleClass().add("userPaneText");
         role.setLayoutX(iv.getLayoutX() + iv.getFitWidth() + spacing * 2);

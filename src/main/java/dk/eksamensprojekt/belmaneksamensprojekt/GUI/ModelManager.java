@@ -22,15 +22,6 @@ public enum ModelManager {
         this.LOG_MODEL = new LogModel();
     }
 
-    /*
-    public static ModelManager getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ModelManager();
-        }
-        return INSTANCE;
-    }
-     */
-
     // getters and setters
     public OrderModel getOrderModel(){ return ORDER_MODEL; }
     public UserModel getUserModel() { return USER_MODEL; }
