@@ -46,17 +46,26 @@ public class OrderDaoFacade implements Repository<Order, String> {
 
     @Override
     public void update(Order order) throws Exception {
+        // TODO : find en bedre løsning
         // opdatér billeder:
         imageDAO.updateAll(order.getImageList());
-
-        // opdaterer imagelisten
         List<Image> tempList = new ArrayList<>();
-        for(int i = 0; i < order.getImageList().size(); i++) {
-            if (order.getImageList().get(i).getOrderID() > 0){
-                tempList.add(order.getImageList().get(i));
+        for (Image image : order.getImageList()) {
+            if (image.getOrderID() > 0){
+                if (image.getId() > 0){
+                    imageDAO.update(image);
+                    tempList.add(image);
+                }
+                else{
+                    tempList.add(imageDAO.create(image));
+                }
+            }
+            else{
+                imageDAO.delete(image);
             }
         }
         order.getImageList().setAll(tempList);
+
         // opdatér report
         if (order.getReport() != null && order.getReport().getId() <= 0 && order.getReport().getUser() != null) {
             Report report = reportDAO.create(order.getReport());
