@@ -19,8 +19,6 @@ public enum ImagePosition {
     }
 
     public static ImagePosition fromInt(int id){
-
-
         // hvis id'et er udenfor rækkevidden - så skal den returnere default
         ImagePosition[] positions = ImagePosition.values();
         if (id < 0 || id >= positions.length)
@@ -28,5 +26,12 @@ public enum ImagePosition {
 
         // Dette virker fordi vi har valgt at sætte dem i rækkefølge.
         return positions[id];
+    }
+
+    @Override
+    public String toString() {
+        String name = name().toLowerCase();
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return name;
     }
 }

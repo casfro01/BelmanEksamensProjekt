@@ -16,13 +16,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.File;
 import java.net.URL;
@@ -98,8 +96,11 @@ public class PreviewPictures extends Controller implements Initializable {
             image.setApproved(Approved.NOT_APPROVED);
         });
 
+        // lav label som fortæller orientering
+        Label lblOrientation = new Label(image.getImagePosition().toString());
+        lblOrientation.setFont(new Font(16.0d));
         // lav vbox
-        VBox vBox = new VBox(imageView, rBApproved, rBReject);
+        VBox vBox = new VBox(lblOrientation, imageView, rBApproved, rBReject);
 
         // set placering
         grid.add(vBox, col, row);
