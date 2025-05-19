@@ -66,6 +66,10 @@
     -fx-border-style: solid;
 }
 
+.roundedTextField{
+    -fx-background-radius: 10px;
+}
+
 #topBar{
     -fx-background-color: #004B88;
 }

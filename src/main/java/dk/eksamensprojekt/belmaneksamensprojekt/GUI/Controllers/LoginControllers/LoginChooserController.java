@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;

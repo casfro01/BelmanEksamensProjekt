@@ -3,7 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.ServiceProvider;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services.WindowService;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.application.Application;
 import javafx.stage.Stage;

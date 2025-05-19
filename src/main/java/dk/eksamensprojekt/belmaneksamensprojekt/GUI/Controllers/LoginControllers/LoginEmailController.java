@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
@@ -12,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;

@@ -8,6 +8,7 @@ public class EmailValidatorTest {
     @Test
     @DisplayName("Valid emails")
     void validEmails(){
+        // arrange
         String email1 = "john.doe@example.com";
         String email2 = "user_name123@sub.domain.co.uk";
         String email3 = "email123@domain.net";
@@ -15,6 +16,7 @@ public class EmailValidatorTest {
         String email5 = "a.b.c.d@letters.io";
         String email6 = "user@domain.info";
 
+        // act
         boolean expected = true;
 
         boolean email1Res = EmailValidator.validate(email1);
@@ -24,6 +26,7 @@ public class EmailValidatorTest {
         boolean email5Res = EmailValidator.validate(email5);
         boolean email6Res = EmailValidator.validate(email6);
 
+        // assert
         Assertions.assertAll(
                 () -> Assertions.assertEquals(expected, email1Res),
                 () -> Assertions.assertEquals(expected, email2Res),
@@ -37,6 +40,7 @@ public class EmailValidatorTest {
     @Test
     @DisplayName("Invalid emails")
     void invalidEmails(){
+        // arrange
         String email1 = "plainaddress"; // mangler @
         String email2 = "@missingusername.com"; // mangler front
         String email3 = "username@.com"; // mangler domæne
@@ -44,6 +48,7 @@ public class EmailValidatorTest {
         String email5 = "user@domain..com"; // dobbelt punktum
         String email6 = "user@domain.toolongtld"; // for lang top-level domæne
 
+        // act
         boolean expected = false;
 
         boolean email1Res = EmailValidator.validate(email1);
@@ -53,6 +58,7 @@ public class EmailValidatorTest {
         boolean email5Res = EmailValidator.validate(email5);
         boolean email6Res = EmailValidator.validate(email6);
 
+        // assert
         Assertions.assertAll(
                 () -> Assertions.assertEquals(expected, email1Res),
                 () -> Assertions.assertEquals(expected, email2Res),

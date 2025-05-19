@@ -3,6 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -15,13 +16,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.io.File;
 import java.net.URL;
@@ -32,10 +31,7 @@ import java.util.ResourceBundle;
 public class PreviewPictures extends Controller implements Initializable {
     OrderModel orderModel;
 
-    private List<Image> images = new ArrayList<>();
-    private List<CheckBox> checkboxes = new ArrayList<>();
     private final static int COLUMNS = 2;
-    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
     private int row = 0;
     private int col = 0;
 
@@ -49,6 +45,9 @@ public class PreviewPictures extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
+
+        radNotApproved.setSelected(true);
+        radApproved.setSelected(false);
         Platform.runLater(() -> initializeScrollPane(orderModel.getCurrentOrder()));
     }
 
@@ -58,11 +57,6 @@ public class PreviewPictures extends Controller implements Initializable {
         grid.setVgap(50);
         grid.setPadding(new Insets(10));
         grid.setAlignment(Pos.TOP_RIGHT);
-
-        /*
-        CheckboxscrollPane.setFitToWidth(true);
-        CheckboxscrollPane.setContent(grid);
-         */
 
         grid.getChildren().clear();
 
@@ -74,26 +68,41 @@ public class PreviewPictures extends Controller implements Initializable {
     }
 
     private void addImage(GridPane grid, Image image) {
-        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + image.getPath()));
+        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + Constants.IMAGES_PATH + image.getPath()));
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(500);
         imageView.setFitHeight(300);
 
-        CheckBox checkBox = new CheckBox("Image approved");
-        checkBox.setStyle("-fx-font-size: 16px; -fx-padding: 10px;");
-        checkBox.setSelected(image.isApproved() == Approved.NOT_REVIEWED ? true : image.isApproved().toBoolean());
-        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            image.setApproved(Approved.valueOfBoolean(newValue));
+        // lav buttons
+        RadioButton rBApproved = new RadioButton("Approve");
+        rBApproved.getStyleClass().add("smallText");
+        rBApproved.setSelected(image.isApproved() == Approved.APPROVED);
+
+        RadioButton rBReject = new RadioButton("Reject");
+        rBReject.getStyleClass().add("smallText");
+        rBReject.setSelected(image.isApproved() == Approved.NOT_APPROVED);
+
+        // lav on actions til knapperne
+        rBApproved.setOnAction(event -> {
+            if (rBReject.isSelected()) {
+                rBReject.setSelected(false);
+            }
+            image.setApproved(Approved.APPROVED);
+        });
+        rBReject.setOnAction(event -> {
+            if (rBApproved.isSelected()) {
+                rBApproved.setSelected(false);
+            }
+            image.setApproved(Approved.NOT_APPROVED);
         });
 
-        VBox vBox = new VBox(imageView, checkBox);
-        vBox.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-        //StackPane.setAlignment(checkBox, Pos.BOTTOM_LEFT);
-        StackPane.setMargin(checkBox, new Insets(10));
+        // lav label som fortæller orientering
+        Label lblOrientation = new Label(image.getImagePosition().toString());
+        lblOrientation.setFont(new Font(16.0d));
+        // lav vbox
+        VBox vBox = new VBox(lblOrientation, imageView, rBApproved, rBReject);
 
-        checkboxes.add(checkBox);
-        images.add(image);
-
+        // set placering
         grid.add(vBox, col, row);
         col++;
         if (col >= COLUMNS) {
@@ -114,9 +123,8 @@ public class PreviewPictures extends Controller implements Initializable {
         try {
             orderModel.getCurrentOrder().getImageList().forEach(img -> System.out.println(img.isApproved()));
             orderModel.saveButtonClicked();
-            ShowAlerts.splashMessage("Update", "Order status saved", 1.5);
+            ShowAlerts.splashMessage("Update", "Order status saved", Constants.DISPLAY_TIME);
         } catch (Exception e) {
-            // viser en fejlbesked i 3 sekunder, som fortæller brugeren at opdateringen mislykkes, dog kan det også være at man skal lave den som kræver brugerens interaktion
             ShowAlerts.displayMessage("Update failed", "Could not save order. Try again later. " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
