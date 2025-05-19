@@ -131,8 +131,11 @@ public class PhotoDocumentController extends Controller implements Initializable
                 DisplayError("Error", ex);
                 throw new RuntimeException(ex);
             } finally {
-                pane.getChildren().remove(deleteButton);
-                grid.getChildren().remove(pane);
+                if (img.getImagePosition() != ImagePosition.EXTRA) {
+                    VBox box = (VBox) imageView.getParent().getParent();
+                    box.getChildren().add(imageView);
+                    box.getChildren().remove(pane);
+                }
             }
         });
 
@@ -141,7 +144,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_APPROVED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
+        Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
         //Image image = model.takePictureClicked(getNextImageLocation());
         image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
