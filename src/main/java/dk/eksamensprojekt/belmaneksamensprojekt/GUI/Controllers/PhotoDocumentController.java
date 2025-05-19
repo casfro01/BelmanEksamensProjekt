@@ -14,20 +14,20 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
 
 public class PhotoDocumentController extends Controller implements Initializable {
-    private ModelManager modelManager;
     private OrderModel model;
     private Order currentOrder;
 
@@ -39,7 +39,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        modelManager = ModelManager.INSTANCE;
+        ModelManager modelManager = ModelManager.INSTANCE;
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
 
@@ -58,6 +58,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
         Runnable updateGrid = () -> {
             grid.getChildren().clear();
+            resetGridPane();
             int columns = 4;
             int row = 0;
             int col = 0;
@@ -73,38 +74,9 @@ public class PhotoDocumentController extends Controller implements Initializable
                 imageView.setFitHeight(230);
                 imageView.setPreserveRatio(false);
 
-                Button deleteButton = new Button("X");
-                deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                deleteButton.setVisible(false);
+                StackPane pane = createDeleteButton(img, imageView, grid);
 
-                StackPane imagePane = new StackPane(imageView, deleteButton);
-                imagePane.setPrefSize(150, 150);
-                if (img.isApproved() == Approved.NOT_APPROVED)
-                    imagePane.getStyleClass().add("notApproved");
-                else
-                    imagePane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-                StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
-                StackPane.setMargin(deleteButton, new Insets(10));
-
-                imagePane.setOnMouseClicked(e -> {
-                    for (Node node : grid.getChildren()) {
-                        if (node instanceof StackPane sp && sp.getChildren().size() > 1) {
-                            sp.getChildren().get(1).setVisible(false);
-                        }
-                    }
-                    deleteButton.setVisible(true);
-                });
-
-                deleteButton.setOnAction(_ -> {
-                    try {
-                        promptUserDeleteImage(img);
-                    } catch (Exception ex) {
-                        DisplayError("Error", ex);
-                        throw new RuntimeException(ex);
-                    }
-                });
-
-                grid.add(imagePane, col, row);
+                grid.add(pane, col, row);
                 col++;
                 if (col >= columns) {
                     col = 0;
@@ -117,20 +89,67 @@ public class PhotoDocumentController extends Controller implements Initializable
         currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
     }
 
+    private void resetGridPane() {
+        for (Node node : gridPaneAngles.getChildren()) {
+            ImageView imageView = getFirstImageView((VBox) node);
+            if (imageView != null) {
+                imageView.setImage(null);
+            } else {
+                System.out.println("Couldnt find imageview when resetting gridpane");
+            }
+        }
+    }
+
+    private StackPane createDeleteButton(Image img, ImageView imageView, GridPane grid) {
+        Button deleteButton = new Button("X");
+        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        deleteButton.setVisible(false);
+
+        StackPane pane = new StackPane(imageView, deleteButton);
+        pane.setPrefSize(150, 150);
+        if (img.isApproved() == Approved.NOT_APPROVED)
+            pane.getStyleClass().add("notApproved");
+        else
+            pane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
+        StackPane.setMargin(deleteButton, new Insets(10));
+
+        pane.setOnMouseClicked(e -> {
+            for (Node node : grid.getChildren()) {
+                if (node instanceof StackPane sp && sp.getChildren().size() > 1) {
+                    sp.getChildren().get(1).setVisible(false);
+                }
+            }
+            deleteButton.setVisible(true);
+        });
+
+        deleteButton.setOnAction(_ -> {
+            try {
+                deleteButton.setVisible(false);
+                promptUserDeleteImage(img);
+            } catch (Exception ex) {
+                DisplayError("Error", ex);
+                throw new RuntimeException(ex);
+            }
+        });
+
+        return pane;
+    }
+
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        Image image = model.takePictureClicked(getImageLocation());
+        Image image = model.takePictureClicked(getNextImageLocation());
+        image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
         model.saveButtonClicked();
     }
 
-    private ImagePosition getImageLocation() {
+    private ImagePosition getNextImageLocation() {
         int i = 0;
         for (Node node : gridPaneAngles.getChildren()) {
             i+= 1;
-            if (node instanceof VBox) {
-                VBox vbox = (VBox) node;
-                ImageView imageView = (ImageView) vbox.getChildren().get(0);
+            ImageView imageView = getFirstImageView((VBox)node);
+            if (imageView != null) {
                 if (imageView.getImage() == null) {
                     return ImagePosition.fromInt(i);
                 }
@@ -150,15 +169,39 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     private void addImageToGrid(Image imageBE) {
         VBox vbox = (VBox) gridPaneAngles.getChildren().get(imageBE.getImagePosition().toInt() - 1); // - 1 fordi Extra forskyder det
-        ImageView imageView = (ImageView) vbox.getChildren().get(0);
+        StackPane pane;
+        if (vbox.getChildren().getFirst() instanceof ImageView) { // delete button isnt setup
+            pane = createDeleteButton(imageBE, (ImageView)vbox.getChildren().getFirst(), gridPaneAngles);
+            vbox.getChildren().add(pane);
+            System.out.println("creating pane because it doesnt exist");
+        } else {
+            pane = (StackPane) vbox.getChildren().getFirst();
+        }
+
+        ImageView imageView = (ImageView)pane.getChildren().getFirst();
         javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
         imageView.setImage(image);
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
+        System.out.println("pressed delete -> removing image");
         img.setOrderId(0);
         model.saveButtonClicked();
         currentOrder.getImageList().remove(img);
+    }
+
+    private ImageView getFirstImageView(Parent grid) {
+        for (Node child : grid.getChildrenUnmodifiable()) {
+            if (child instanceof ImageView) {
+                return (ImageView) child;
+            } else if (child instanceof Parent) {
+                ImageView result = getFirstImageView((Parent) child);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        return null;
     }
 
     private void backToMain(){
