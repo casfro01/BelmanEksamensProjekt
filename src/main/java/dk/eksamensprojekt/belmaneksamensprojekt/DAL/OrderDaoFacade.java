@@ -48,7 +48,6 @@ public class OrderDaoFacade implements Repository<Order, String> {
     public void update(Order order) throws Exception {
         // TODO : find en bedre løsning
         // opdatér billeder:
-        imageDAO.updateAll(order.getImageList());
         List<Image> tempList = new ArrayList<>();
         for (Image image : order.getImageList()) {
             if (image.getOrderID() > 0){
