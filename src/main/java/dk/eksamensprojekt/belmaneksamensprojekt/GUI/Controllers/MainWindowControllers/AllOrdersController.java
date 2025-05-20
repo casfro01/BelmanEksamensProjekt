@@ -131,7 +131,6 @@ public class AllOrdersController implements Initializable {
 
             // set redigeringsknappen
             tblColAvailableReports.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
-
                 @Override
                 public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
                     return new TableCell<Order, Button>() {
@@ -153,6 +152,27 @@ public class AllOrdersController implements Initializable {
             if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() != UserRole.ADMIN){
                 colOrderInfo.setVisible(false);
             }
+            else{
+                colOrderInfo.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
+                    @Override
+                    public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
+                        return new TableCell<Order, Button>() {
+                            protected void updateItem(Button item, boolean empty) {
+                                if (empty)
+                                    setGraphic(null);
+                                else{
+                                    Order curOrder = getTableView().getItems().get(getIndex());
+                                    Button infoButton = new Button("Get info");
+                                    infoButton.setOnAction(event -> {
+                                        getInfo(curOrder);
+                                    });
+                                    setGraphic(infoButton);
+                                }
+                            }
+                        };
+                    }
+                });
+            }
             // sæt ordrene ind
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
@@ -163,5 +183,9 @@ public class AllOrdersController implements Initializable {
     private void editOrder(Order order){
         orderModel.setCurrentOrder(order);
         InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
+    }
+
+    private void getInfo(Order order){
+        // TODO : åben en form for vindue
     }
 }
