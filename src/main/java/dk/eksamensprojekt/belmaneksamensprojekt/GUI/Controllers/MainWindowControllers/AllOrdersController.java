@@ -1,10 +1,14 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -34,6 +38,10 @@ public class AllOrdersController implements Initializable {
     private TableColumn<Order, String> tblColApproved;
     @FXML
     private TableColumn<Order, Boolean> tblColDocumented;
+    @FXML
+    private TableColumn<Order, Button> tblColAvailableReports;
+    @FXML
+    private TableColumn<Order, Button> colOrderInfo;
 
 
     @Override
@@ -120,10 +128,40 @@ public class AllOrdersController implements Initializable {
             });
             // Sorterer ift. true og false -> dette gør det lidt langsomt, eller så er det fordi vi har billeder
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
+
+            // set redigeringsknappen
+            tblColAvailableReports.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
+
+                @Override
+                public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
+                    return new TableCell<Order, Button>() {
+                        protected void updateItem(Button item, boolean empty) {
+                            if (empty)
+                                setGraphic(null);
+                            else{
+                                Order curOrder = getTableView().getItems().get(getIndex());
+                                Button editButton = new Button("Edit");
+                                editButton.setOnAction(event -> {
+                                    editOrder(curOrder);
+                                });
+                                setGraphic(editButton);
+                            }
+                        }
+                    };
+                }
+            });
+            if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() != UserRole.ADMIN){
+                colOrderInfo.setVisible(false);
+            }
             // sæt ordrene ind
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private void editOrder(Order order){
+        orderModel.setCurrentOrder(order);
+        InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 }
