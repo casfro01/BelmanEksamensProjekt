@@ -46,4 +46,8 @@ public class UserModel {
     public User login(String email, String password) throws Exception {
         return userManager.login(email, password);
     }
+
+    public void updateUser(User user) throws Exception {
+        userManager.update(user);
+    }
 }

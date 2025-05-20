@@ -44,4 +44,5 @@ public class User {
 
     public String getImagePath() { return ImagePath;}
     public void setImagePath(String imagePath) {ImagePath = imagePath;}
+    public void setRole(UserRole role) {this.role = role;}
 }
