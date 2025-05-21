@@ -80,6 +80,6 @@ public class LogController extends Controller implements Initializable {
 
     }
     private boolean searchInLogs(Log log) {
-
+        return false;
     }
 }

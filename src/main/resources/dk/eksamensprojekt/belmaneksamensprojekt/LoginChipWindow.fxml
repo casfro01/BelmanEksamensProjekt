@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers.LoginChipController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers.LoginChipController">
    <children>
-      <ScrollPane fx:id="scrollPaneUser" layoutX="650.0" layoutY="365.0" prefHeight="349.0" prefWidth="620.0">
+      <ScrollPane fx:id="scrollPaneUser" layoutX="650.0" layoutY="395.0" prefHeight="349.0" prefWidth="620.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="344.0" prefWidth="618.0" />
         </content>
@@ -22,7 +22,7 @@
          <image>
             <Image url="@Icons/BELMAN_Logo.png" />
          </image></ImageView>
-      <Label layoutX="650.0" layoutY="305.0" prefHeight="47.0" prefWidth="620.0" styleClass="normalText" text="Choose user:">
+      <Label layoutX="650.0" layoutY="335.0" prefHeight="47.0" prefWidth="620.0" styleClass="normalText" text="Choose user:">
          <font>
             <Font size="32.0" />
          </font>

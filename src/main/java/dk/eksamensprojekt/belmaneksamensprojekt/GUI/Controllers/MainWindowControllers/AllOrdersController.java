@@ -2,7 +2,9 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowContr
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.InfoWindowController;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
@@ -16,14 +18,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AllOrdersController implements Initializable {
     private OrderModel orderModel;
@@ -185,7 +192,46 @@ public class AllOrdersController implements Initializable {
         InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 
+    // TODO : måske få den til at fylde mindre
     private void getInfo(Order order){
         // TODO : åben en form for vindue
+        Stage window = new Stage();
+        window.setTitle("Order info: " + order.getOrderNumber());
+        window.setResizable(false);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("InfoWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+            window.setScene(scene);
+
+            // udfyld labels
+            InfoWindowController controller = loader.getController();
+            List<String> content = new ArrayList<>();
+            content.add("Order number: " + order.getOrderNumber());
+
+            // hent brugere som har taget billeder
+            Set<String> names = new HashSet<>();
+            for (Image i : order.getImageList()){
+                names.add(i.getUser().getName());
+            }
+            StringBuilder sb = new StringBuilder("Pictures taken by:\n");
+            names.forEach(name -> sb.append(" - ").append(name).append("\n"));
+            content.add(sb.toString());
+
+            if (order.getReport() != null && order.getReport().getUser() != null){
+                content.add("Report by:\n" + " - " + order.getReport().getUser().getName());
+            }
+            else{
+                content.add("Report: None");
+            }
+
+            controller.setContent(content.toArray(new String[0]));
+
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            ShowAlerts.displayMessage("Window error", "Unable to load window, try again later!", Alert.AlertType.ERROR);
+        }
     }
 }
