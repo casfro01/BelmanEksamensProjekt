@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -41,6 +42,10 @@ public class PreviewPictures extends Controller implements Initializable {
     private RadioButton radNotApproved;
     @FXML
     private RadioButton radApproved;
+    @FXML
+    private ImageView fullscreenImageView;
+    @FXML
+    private Button closeButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -48,6 +53,17 @@ public class PreviewPictures extends Controller implements Initializable {
 
         radNotApproved.setSelected(true);
         radApproved.setSelected(false);
+        closeButton.setVisible(false);
+        fullscreenImageView.setVisible(false);
+
+        closeButton.setOnMousePressed(event -> {
+            toggleFullScreen();
+        });
+
+        fullscreenImageView.setOnMousePressed(event -> {
+            toggleFullScreen();
+        });
+
         Platform.runLater(() -> initializeScrollPane(orderModel.getCurrentOrder()));
     }
 
@@ -67,8 +83,21 @@ public class PreviewPictures extends Controller implements Initializable {
         imageScrollPane.setContent(grid);
     }
 
+    private void toggleFullScreen() {
+        if (fullscreenImageView.isVisible()) {
+            fullscreenImageView.setVisible(false);
+            fullscreenImageView.setImage(null);
+            closeButton.setVisible(false);
+
+        } else {
+            fullscreenImageView.setVisible(true);
+            closeButton.setVisible(true);
+        }
+    }
+
     private void addImage(GridPane grid, Image image) {
-        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + Constants.IMAGES_PATH + image.getPath()));
+        javafx.scene.image.Image imageToView = new javafx.scene.image.Image("file:\\" + Constants.IMAGES_PATH + image.getPath());
+        javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(imageToView);
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(500);
         imageView.setFitHeight(300);
@@ -81,6 +110,12 @@ public class PreviewPictures extends Controller implements Initializable {
         RadioButton rBReject = new RadioButton("Reject");
         rBReject.getStyleClass().add("smallText");
         rBReject.setSelected(image.isApproved() == Approved.NOT_APPROVED);
+
+        // on action tryk på imageview
+        imageView.setOnMousePressed(event -> {
+            toggleFullScreen();
+            fullscreenImageView.setImage(imageToView);
+        });
 
         // lav on actions til knapperne
         rBApproved.setOnAction(event -> {
