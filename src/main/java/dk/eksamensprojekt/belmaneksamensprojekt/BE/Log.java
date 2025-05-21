@@ -1,16 +1,16 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 public class Log{
 
     private int id;
     private int UserID ;
-    private Date dateTime;
+    private LocalDate dateTime;
     private int OrderID;
 
-    public Log(int id, int UserID, Date dateTime, int OrderID) {
+    public Log(int id, int UserID, LocalDate dateTime, int OrderID) {
         this.id = id;
         this.UserID = UserID;
         this.dateTime = dateTime;
@@ -25,7 +25,7 @@ public class Log{
         return UserID;
     }
 
-    public Date getDateTime() {
+    public LocalDate getDateTime() {
         return dateTime;
     }
 
