@@ -1,13 +1,10 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,11 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class UserWindowController extends Controller implements Initializable {
+public class UserWindowController implements Initializable {
 
 @FXML
 private SplitMenuButton btnsplitMenu;
@@ -67,5 +62,9 @@ private TableView tblUsers;
                 }
 
         );
+    }
+
+    @FXML
+    private void BrowsefilesClicked(ActionEvent actionEvent) {
     }
 }

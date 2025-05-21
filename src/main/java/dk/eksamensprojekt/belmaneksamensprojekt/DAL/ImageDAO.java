@@ -87,10 +87,6 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
                     if (image.getOrderID() <= 0)
                         delete(image);
                     // hvis billedet allerede ligger i databasen
-                    /*
-                    else if (image.getId() > 0)
-                        continue;
-                     */
 
                     if (image.getId() > 0){
                         ps.setString(1, image.getPath());

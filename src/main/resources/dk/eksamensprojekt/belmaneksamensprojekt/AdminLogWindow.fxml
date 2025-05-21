@@ -7,25 +7,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Ba" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LogController">
+<AnchorPane id="paneBackground" fx:id="paneOrder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="926.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers.AdminLogWindow">
    <children>
-      <AnchorPane id="paneBackground" fx:id="paneOrder" layoutX="380.8" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="926.0" stylesheets="@StyleSheet.css">
-         <children>
-            <TableView fx:id="logTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="819.0" stylesheets="@StyleSheet.css">
-               <columns>
-                  <TableColumn fx:id="tblColOrderNumberAdmin" prefWidth="190.3999900817871" text="Order Number" />
-                  <TableColumn fx:id="tblColDate" minWidth="0.0" prefWidth="110.40003967285156" text="Date" />
-                  <TableColumn fx:id="tblColName" minWidth="0.0" prefWidth="132.0" text="Name" />
-                  <TableColumn fx:id="tblColSignature" minWidth="0.0" prefWidth="132.0" text="Signature" />
-               </columns>
-            </TableView>
-            <TextField fx:id="txtOrderSearchbarAdmin" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders" styleClass="smallText">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TextField>
-            <ImageView fx:id="imgSearchAdmin" fitHeight="30.0" fitWidth="30.0" layoutX="833.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </AnchorPane>
+      <TableView fx:id="logTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="819.0" stylesheets="@StyleSheet.css">
+         <columns>
+            <TableColumn fx:id="tblColOrderNumberAdmin" prefWidth="190.3999900817871" text="Order Number" />
+            <TableColumn fx:id="tblColDate" minWidth="0.0" prefWidth="110.40003967285156" text="Date" />
+            <TableColumn fx:id="tblColName" minWidth="0.0" prefWidth="132.0" text="Name" />
+            <TableColumn fx:id="tblColSignature" minWidth="0.0" prefWidth="132.0" text="Signature" />
+         </columns>
+      </TableView>
+      <TextField fx:id="txtOrderSearchbarAdmin" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in documented orders" styleClass="smallText">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <ImageView fx:id="imgSearchAdmin" fitHeight="30.0" fitWidth="30.0" layoutX="833.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

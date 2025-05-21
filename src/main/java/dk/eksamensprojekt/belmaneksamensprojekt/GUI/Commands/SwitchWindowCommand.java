@@ -3,7 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.ServiceProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.WindowService;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services.WindowService;
 
 public class SwitchWindowCommand implements Command, UndoableCommand{
     private WindowService windowService;
@@ -24,7 +24,7 @@ public class SwitchWindowCommand implements Command, UndoableCommand{
         switch (WINDOW){
             case PhotoDocWindow -> windowService.setPane(Windows.SmallOrBigWindow);
             case SmallOrBigWindow -> windowService.setPane(Windows.OperatorWindow);
-            case UserWindow, PreviewPicturesWindow -> windowService.setPane(Windows.MainWindow);
+            case PreviewPicturesWindow -> windowService.setPane(Windows.MainWindow);
             case PreviewReportWindow -> windowService.setPane(Windows.PreviewPicturesWindow);
             default -> windowService.setPane(Windows.LoginWindow);
         }

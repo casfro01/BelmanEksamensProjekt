@@ -28,8 +28,10 @@ import java.util.Stack;
 import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
 
 public class PhotoDocumentController extends Controller implements Initializable {
+    private final static int COLUMNS = 4;
     private OrderModel model;
     private Order currentOrder;
+    private GridPane scollGridPane;
 
     @FXML
     private GridPane gridPaneAngles;
@@ -43,51 +45,50 @@ public class PhotoDocumentController extends Controller implements Initializable
         model = modelManager.getOrderModel();
         currentOrder = model.getCurrentOrder();
 
-        initializeScrollPane();
-    }
-
-    private void initializeScrollPane() {
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(10));
-        grid.setAlignment(Pos.TOP_LEFT);
+        scollGridPane = new GridPane();
+        scollGridPane.setHgap(10);
+        scollGridPane.setVgap(10);
+        scollGridPane.setPadding(new Insets(10));
+        scollGridPane.setAlignment(Pos.TOP_LEFT);
 
         extraImagesPane.setFitToWidth(true);
-        extraImagesPane.setContent(grid);
+        extraImagesPane.setContent(scollGridPane);
 
-        Runnable updateGrid = () -> {
-            grid.getChildren().clear();
-            resetGridPane();
-            int columns = 4;
-            int row = 0;
-            int col = 0;
+        refreshGrids();
+    }
 
-            for (Image img : currentOrder.getImageList()) {
-                if (img.getImagePosition() != ImagePosition.EXTRA) {
-                    addImageToGrid(img);
-                    continue;
-                }
+    private void refreshGrids() {
+        scollGridPane.getChildren().clear();
+        resetGridPane();
 
-                ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
-                imageView.setFitWidth(230);
-                imageView.setFitHeight(230);
-                imageView.setPreserveRatio(false);
+        int col = 0;
+        int row = 0;
 
-                StackPane pane = createDeleteButton(img, imageView, grid);
-
-                grid.add(pane, col, row);
+        for (Image img : currentOrder.getImageList()) {
+            if (img.getImagePosition() != ImagePosition.EXTRA) {
+                addImageToGrid(img);
+            } else {
                 col++;
-                if (col >= columns) {
+                if (col >= COLUMNS) {
                     col = 0;
                     row++;
                 }
+                addImageToExtras(img, col, row);
             }
-        };
-
-        updateGrid.run();
-        currentOrder.getImageList().addListener((ListChangeListener<Image>) change -> updateGrid.run());
+        }
     }
+
+    private void addImageToExtras(Image img, int col, int row) {
+        ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
+        imageView.setFitWidth(230);
+        imageView.setFitHeight(230);
+        imageView.setPreserveRatio(false);
+
+        StackPane pane = createDeleteButton(img, imageView, scollGridPane);
+
+        scollGridPane.add(pane, col, row);
+    }
+
 
     private void resetGridPane() {
         for (Node node : gridPaneAngles.getChildren()) {
@@ -125,11 +126,16 @@ public class PhotoDocumentController extends Controller implements Initializable
 
         deleteButton.setOnAction(_ -> {
             try {
-                deleteButton.setVisible(false);
                 promptUserDeleteImage(img);
             } catch (Exception ex) {
                 DisplayError("Error", ex);
                 throw new RuntimeException(ex);
+            } finally {
+                if (img.getImagePosition() != ImagePosition.EXTRA) {
+                    VBox box = (VBox) imageView.getParent().getParent();
+                    box.getChildren().add(imageView);
+                    box.getChildren().remove(pane);
+                }
             }
         });
 
@@ -138,10 +144,12 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
-        Image image = model.takePictureClicked(getNextImageLocation());
+        Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
+        //Image image = model.takePictureClicked(getNextImageLocation());
         image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
         model.saveButtonClicked();
+        refreshGrids();
     }
 
     private ImagePosition getNextImageLocation() {
@@ -173,11 +181,11 @@ public class PhotoDocumentController extends Controller implements Initializable
         if (vbox.getChildren().getFirst() instanceof ImageView) { // delete button isnt setup
             pane = createDeleteButton(imageBE, (ImageView)vbox.getChildren().getFirst(), gridPaneAngles);
             vbox.getChildren().add(pane);
-            System.out.println("creating pane because it doesnt exist");
         } else {
             pane = (StackPane) vbox.getChildren().getFirst();
         }
 
+        System.out.println("adding image to grid");
         ImageView imageView = (ImageView)pane.getChildren().getFirst();
         javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
         imageView.setImage(image);
@@ -188,6 +196,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         img.setOrderId(0);
         model.saveButtonClicked();
         currentOrder.getImageList().remove(img);
+        refreshGrids();
     }
 
     private ImageView getFirstImageView(Parent grid) {
