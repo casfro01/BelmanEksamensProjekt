@@ -36,4 +36,13 @@ public enum UserRole {
         roleName.replace(0, 1, roleName.substring(0, 1).toUpperCase());
         return roleName.toString();
     }
+
+    public static UserRole valueOfString(String value){
+        for (UserRole role : values()) {
+            if (role.toString().equalsIgnoreCase(value)) {
+                return role;
+            }
+        }
+        return null;
+    }
 }

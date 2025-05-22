@@ -6,10 +6,9 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 // javafx
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 
 // java
@@ -19,11 +18,23 @@ public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
 
-    public void initializeComponents(AnchorPane pane, double width, double height) {
+    public void initializeComponents(Pane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
+            // hent "children" fra andre panes
             if (n instanceof AnchorPane a){
                 initializeComponents(a, width, height);
             }
+            else if (n instanceof GridPane grid){
+                initializeComponents(grid, width, height);
+            }
+            else if (n instanceof VBox vbox){
+                initializeComponents(vbox, width, height);
+            }
+            else if (n instanceof StackPane stack){
+                initializeComponents(stack, width, height);
+            }
+
+            // tilføj komponenten til listen
             if (n instanceof Region region) {
                 windowItems.put(region, new ArrayList<>(){{
                     add(region.getPrefWidth() / width);
@@ -39,7 +50,6 @@ public abstract class Controller implements IController {
                     add(iv.getLayoutY() / height);}});
             }
         }
-
     }
 
     @Override

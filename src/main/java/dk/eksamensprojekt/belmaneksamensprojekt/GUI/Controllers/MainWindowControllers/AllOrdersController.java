@@ -1,10 +1,16 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.InfoWindowController;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,14 +18,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AllOrdersController implements Initializable {
     private OrderModel orderModel;
@@ -34,6 +45,10 @@ public class AllOrdersController implements Initializable {
     private TableColumn<Order, String> tblColApproved;
     @FXML
     private TableColumn<Order, Boolean> tblColDocumented;
+    @FXML
+    private TableColumn<Order, Button> tblColAvailableReports;
+    @FXML
+    private TableColumn<Order, Button> colOrderInfo;
 
 
     @Override
@@ -120,10 +135,103 @@ public class AllOrdersController implements Initializable {
             });
             // Sorterer ift. true og false -> dette gør det lidt langsomt, eller så er det fordi vi har billeder
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
+
+            // set redigeringsknappen
+            tblColAvailableReports.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
+                @Override
+                public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
+                    return new TableCell<Order, Button>() {
+                        protected void updateItem(Button item, boolean empty) {
+                            if (empty)
+                                setGraphic(null);
+                            else{
+                                Order curOrder = getTableView().getItems().get(getIndex());
+                                Button editButton = new Button("Edit");
+                                editButton.setOnAction(event -> {
+                                    editOrder(curOrder);
+                                });
+                                setGraphic(editButton);
+                            }
+                        }
+                    };
+                }
+            });
+            if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() != UserRole.ADMIN){
+                colOrderInfo.setVisible(false);
+            }
+            else{
+                colOrderInfo.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
+                    @Override
+                    public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
+                        return new TableCell<Order, Button>() {
+                            protected void updateItem(Button item, boolean empty) {
+                                if (empty)
+                                    setGraphic(null);
+                                else{
+                                    Order curOrder = getTableView().getItems().get(getIndex());
+                                    Button infoButton = new Button("Get info");
+                                    infoButton.setOnAction(event -> {
+                                        getInfo(curOrder);
+                                    });
+                                    setGraphic(infoButton);
+                                }
+                            }
+                        };
+                    }
+                });
+            }
             // sæt ordrene ind
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void editOrder(Order order){
+        orderModel.setCurrentOrder(order);
+        InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
+    }
+
+    // TODO : måske få den til at fylde mindre
+    private void getInfo(Order order){
+        // TODO : åben en form for vindue
+        Stage window = new Stage();
+        window.setTitle("Order info: " + order.getOrderNumber());
+        window.setResizable(false);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("InfoWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+            window.setScene(scene);
+
+            // udfyld labels
+            InfoWindowController controller = loader.getController();
+            List<String> content = new ArrayList<>();
+            content.add("Order number: " + order.getOrderNumber());
+
+            // hent brugere som har taget billeder
+            Set<String> names = new HashSet<>();
+            for (Image i : order.getImageList()){
+                names.add(i.getUser().getName());
+            }
+            StringBuilder sb = new StringBuilder("Pictures taken by:\n");
+            names.forEach(name -> sb.append(" - ").append(name).append("\n"));
+            content.add(sb.toString());
+
+            if (order.getReport() != null && order.getReport().getUser() != null){
+                content.add("Report by:\n" + " - " + order.getReport().getUser().getName());
+            }
+            else{
+                content.add("Report: None");
+            }
+
+            controller.setContent(content.toArray(new String[0]));
+
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            ShowAlerts.displayMessage("Window error", "Unable to load window, try again later!", Alert.AlertType.ERROR);
         }
     }
 }

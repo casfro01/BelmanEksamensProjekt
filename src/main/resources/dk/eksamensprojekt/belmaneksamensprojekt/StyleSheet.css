@@ -70,6 +70,10 @@
     -fx-background-radius: 10px;
 }
 
+.info-window-text{
+    -fx-font-size: 16px;
+}
+
 #topBar{
     -fx-background-color: #004B88;
 }

@@ -17,8 +17,9 @@
          <children>
             <TableView fx:id="tblUsers" layoutX="43.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="842.0" stylesheets="@StyleSheet.css">
                <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="colFullName" prefWidth="160.00006103515625" text="Full name" />
+                  <TableColumn fx:id="colEmail" prefWidth="315.9999694824219" text="Email" />
+                  <TableColumn fx:id="colRole" prefWidth="288.7999267578125" text="Role" />
                </columns>
             </TableView>
             <TextField fx:id="txtSearchUser" layoutX="94.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in users" styleClass="roundedTextField">
@@ -49,7 +50,7 @@
             <AnchorPane fx:id="paneAnchorUploadPhoto" layoutX="305.0" layoutY="321.0" prefHeight="137.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="imgUploadLogo" fitHeight="38.0" fitWidth="38.0" layoutX="81.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="lblUploadPhoto" layoutX="63.0" layoutY="60.0" prefHeight="18.0" prefWidth="95.0" text="Upload Photo" />
+                  <Label fx:id="lblUploadPhoto" alignment="CENTER" layoutX="31.0" layoutY="60.0" prefHeight="18.0" prefWidth="127.0" text="Upload Photo" />
                </children>
             </AnchorPane>
             <Label fx:id="lblFullName" layoutX="11.0" layoutY="61.0" prefHeight="18.0" prefWidth="490.0" styleClass="smallText" text="Full name">

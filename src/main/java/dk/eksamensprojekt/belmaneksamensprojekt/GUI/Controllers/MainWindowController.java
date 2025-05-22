@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchMainView;
@@ -9,39 +8,19 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services.MainWindowService;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.MainWindowViews;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
-import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import javax.swing.*;
-import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends Controller implements Initializable {
