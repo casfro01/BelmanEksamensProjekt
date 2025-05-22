@@ -22,13 +22,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.EnumSet;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
 import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
 
 public class PhotoDocumentController extends Controller implements Initializable {
-    private final static int COLUMNS = 4;
+    private final static int COLUMNS = 5;
     private OrderModel model;
     private Order currentOrder;
     private GridPane scollGridPane;
@@ -46,10 +47,10 @@ public class PhotoDocumentController extends Controller implements Initializable
         currentOrder = model.getCurrentOrder();
 
         scollGridPane = new GridPane();
-        scollGridPane.setHgap(10);
-        scollGridPane.setVgap(10);
-        scollGridPane.setPadding(new Insets(10));
-        scollGridPane.setAlignment(Pos.TOP_LEFT);
+        scollGridPane.setHgap(2);
+        scollGridPane.setVgap(5);
+        // scollGridPane.setPadding(new Insets(10));
+        // scollGridPane.setAlignment(Pos.TOP_LEFT);
 
         extraImagesPane.setFitToWidth(true);
         extraImagesPane.setContent(scollGridPane);
@@ -68,21 +69,22 @@ public class PhotoDocumentController extends Controller implements Initializable
             if (img.getImagePosition() != ImagePosition.EXTRA) {
                 addImageToGrid(img);
             } else {
+                addImageToExtras(img, col, row);
+
                 col++;
                 if (col >= COLUMNS) {
                     col = 0;
                     row++;
                 }
-                addImageToExtras(img, col, row);
             }
         }
     }
 
     private void addImageToExtras(Image img, int col, int row) {
         ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
-        imageView.setFitWidth(230);
-        imageView.setFitHeight(230);
-        imageView.setPreserveRatio(false);
+        imageView.setFitWidth(250);
+        imageView.setFitHeight(195);
+        imageView.setPreserveRatio(true);
 
         StackPane pane = createDeleteButton(img, imageView, scollGridPane);
 
@@ -128,7 +130,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             try {
                 promptUserDeleteImage(img);
             } catch (Exception ex) {
-                DisplayError("Error", ex);
+                DisplayError("Error", ex.getMessage());
                 throw new RuntimeException(ex);
             } finally {
                 if (img.getImagePosition() != ImagePosition.EXTRA) {
@@ -142,8 +144,46 @@ public class PhotoDocumentController extends Controller implements Initializable
         return pane;
     }
 
+    private boolean canAddPicture() {
+        if (model.getCurrentOrderType() == OrderType.Small) {
+            return currentOrder.getImageList().size() < SMALL_ORDER_MAX;
+        } else if (model.getCurrentOrderType() == OrderType.Large) {
+            return currentOrder.getImageList().size() < LARGE_ORDER_MAX;
+        }
+
+        return true;
+    }
+
+    private boolean hasEnoughPictures() {
+        EnumSet<ImagePosition> existingEnums = EnumSet.noneOf(ImagePosition.class);
+        EnumSet<ImagePosition> requiredEnums = EnumSet.allOf(ImagePosition.class);
+        requiredEnums.remove(ImagePosition.EXTRA);
+
+        for (Image img : currentOrder.getImageList()) {
+            if (img.getImagePosition() != ImagePosition.EXTRA) {
+                existingEnums.add(img.getImagePosition());
+            }
+        }
+        if (!existingEnums.containsAll(requiredEnums)) { // indeholder ikke front, left, right osv
+            return false;
+        }
+
+        if (model.getCurrentOrderType() == OrderType.Small) {
+            return currentOrder.getImageList().size() >= SMALL_ORDER_MIN;
+        } else if (model.getCurrentOrderType() == OrderType.Large) {
+            return currentOrder.getImageList().size() >= LARGE_ORDER_MIN;
+        }
+
+        return false;
+    }
+
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
+        if (!canAddPicture()) {
+            DisplayError("Can't add picture!", "Max Pictures Already");
+            return;
+        }
+
         Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
         //Image image = model.takePictureClicked(getNextImageLocation());
         image.setOrderId(currentOrder.getId());
@@ -169,6 +209,10 @@ public class PhotoDocumentController extends Controller implements Initializable
 
     @FXML
     private void submitButtonClicked() throws Exception {
+        if (!hasEnoughPictures()) {
+            DisplayError("Can't submit", "Not Enough Pictures");
+            return;
+        }
         model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
         ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
