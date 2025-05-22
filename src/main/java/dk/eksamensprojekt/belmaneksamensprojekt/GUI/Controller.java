@@ -20,19 +20,22 @@ public abstract class Controller implements IController {
 
     public void initializeComponents(Pane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
+            // hent "children" fra andre panes
             if (n instanceof AnchorPane a){
                 initializeComponents(a, width, height);
             }
-            if (n instanceof GridPane grid){
+            else if (n instanceof GridPane grid){
                 initializeComponents(grid, width, height);
             }
-            if (n instanceof VBox vbox){
+            else if (n instanceof VBox vbox){
                 System.out.println("Jens");
                 initializeComponents(vbox, width, height);
             }
-            if (n instanceof StackPane stack){
+            else if (n instanceof StackPane stack){
                 initializeComponents(stack, width, height);
             }
+
+            // tilføj komponenten til listen
             if (n instanceof Region region) {
                 windowItems.put(region, new ArrayList<>(){{
                     add(region.getPrefWidth() / width);
