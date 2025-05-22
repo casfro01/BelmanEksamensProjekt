@@ -129,7 +129,7 @@ public class UserWindowController implements Initializable {
             user.setRole(role);
             usermodel.updateUser(user);
         } catch (Exception e) {
-            Constants.DisplayError("Update error", e);
+            Constants.DisplayError("Update error", e.getMessage());
         }
     }
 }

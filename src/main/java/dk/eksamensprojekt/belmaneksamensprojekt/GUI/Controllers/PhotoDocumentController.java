@@ -17,11 +17,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.ResourceBundle;
 import java.util.Stack;
@@ -233,6 +232,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         ImageView imageView = (ImageView)pane.getChildren().getFirst();
         javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
         imageView.setImage(image);
+        System.out.println(imageView.getFitWidth());
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
