@@ -28,7 +28,6 @@ public abstract class Controller implements IController {
                 initializeComponents(grid, width, height);
             }
             else if (n instanceof VBox vbox){
-                System.out.println("Jens");
                 initializeComponents(vbox, width, height);
             }
             else if (n instanceof StackPane stack){
