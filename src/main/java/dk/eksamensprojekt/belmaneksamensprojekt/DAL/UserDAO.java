@@ -2,11 +2,13 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
+import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDAO implements Repository<User, Integer>, UserData{
 
@@ -15,7 +17,7 @@ public class UserDAO implements Repository<User, Integer>, UserData{
         List<User> users = new ArrayList<>();
 
         String sql = """
-                SELECT ID, FullName, Email, Role FROM [User];
+                SELECT * FROM [User];
                 """;
 
         DBConnector db = new DBConnector();
@@ -30,6 +32,12 @@ public class UserDAO implements Repository<User, Integer>, UserData{
                 int role = rs.getInt("Role");
 
                 User user = new User(id, role, email, fullName);
+
+                String ImagePath = rs.getString("ImagePath");
+                if (ImagePath != null) {
+                    user.setImagePath(ImagePath);
+                }
+
                 users.add(user);
             }
         }
@@ -88,15 +96,15 @@ public class UserDAO implements Repository<User, Integer>, UserData{
             ps.executeUpdate();
 
         } catch (Exception e) {
-            throw new Exception("Failed to update user role: " + e.getMessage());
+            throw new Exception("Failed to update user: " + e.getMessage());
         }
     }
 
     @Override
     public User create(User user) throws Exception {
         String sql = """
-               INSERT INTO [User] (FullName, Email, Role)
-               VALUES (?, ?, ?);
+               INSERT INTO [User] (FullName, Email, Role, ImagePath)
+               VALUES (?, ?, ?, ?);
                """;
         DBConnector connector = new DBConnector();
 
@@ -104,13 +112,14 @@ public class UserDAO implements Repository<User, Integer>, UserData{
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setInt(3, user.getRole().toInt());
+            ps.setString(4, user.getImagePath().equals(User.getBasicUserImage()) ? null : user.getImagePath());
 
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int newID = rs.getInt(1);
-                return new User(newID, user.getRole(), user.getName(), user.getEmail());
+                return new User(newID, user.getRole(), user.getEmail(), user.getName());
             } else {
                 throw new Exception("Failed to get userID");
             }
@@ -136,6 +145,22 @@ public class UserDAO implements Repository<User, Integer>, UserData{
             return null;
         } catch (Exception e) {
             throw new Exception("Failed to get login user: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void createLoginUser(LoginUser loginUser) throws Exception {
+        String sql = """
+                UPDATE [User] SET Password = ? WHERE Email = ?;
+                """;
+
+        DBConnector db = new DBConnector();
+        try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
+            ps.setString(1, loginUser.getPassword());
+            ps.setString(2, loginUser.getEmail());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("User creation failed: " + e.getMessage());
         }
     }
 }

@@ -56,10 +56,10 @@ public class UserModel {
      * Lav en ny bruger
      * @param baseUser bruger med basis detaljer, så som profilbillede, navn og email
      * @param loginDetails brugerens login detaljer, så som email og password
-     * @return Den nylavede bruger med nyt id
      */
-    public User createUser(User baseUser, LoginUser loginDetails) throws Exception {
+    public void createUser(User baseUser, LoginUser loginDetails) throws Exception {
         // indsæt logik
-        return null;
+        User newUser = userManager.create(baseUser, loginDetails);
+        users.add(newUser);
     }
 }

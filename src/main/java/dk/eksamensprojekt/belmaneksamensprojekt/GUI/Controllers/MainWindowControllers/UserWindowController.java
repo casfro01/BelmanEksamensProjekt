@@ -137,7 +137,6 @@ public class UserWindowController implements Initializable {
     @FXML
     private void BrowsefilesClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
-
         // Sæt initial directory til vores billede mappe -> som simulerer deres "folder"
         File initialDir = new File(Constants.IMAGES_PATH);
         if (initialDir.exists() && initialDir.isDirectory())
@@ -166,8 +165,8 @@ public class UserWindowController implements Initializable {
         final int STYLE_CLASS_POS = 1; // Positionen af feedback farven... måske en anden løsning kunne være bedre
         try {
             // konstruere bruger objekter
-            User baseUser = new User(-1, UserRole.valueOfString(btnsplitMenu.getText()), txtFullName.getText().trim(), txtEmail.getText().trim());
-            if (imgUploadLogo.getImage().getUrl() != null) {
+            User baseUser = new User(-1, UserRole.valueOfString(btnsplitMenu.getText()), txtEmail.getText().trim(), txtFullName.getText().trim());
+            if (imgUploadLogo.getImage() != null) {
                 String[] url = imgUploadLogo.getImage().getUrl().split("/");
                 baseUser.setImagePath(url[url.length - 1]); // sæt profilbillede -> hvis valgt
             }
@@ -181,7 +180,6 @@ public class UserWindowController implements Initializable {
             lblFeedback.setText("User created!");
             lblFeedback.getStyleClass().set(STYLE_CLASS_POS, "greenText");
         } catch (Exception e) {
-            e.printStackTrace();
             // opdatér feedbacken
             lblFeedback.setText("Unable to create user: " + e.getMessage());
             lblFeedback.getStyleClass().set(STYLE_CLASS_POS, "redText");

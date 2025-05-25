@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
+
 public class LoginChipController extends Controller implements Initializable {
     private UserModel userModel;
     @FXML
@@ -86,8 +88,9 @@ public class LoginChipController extends Controller implements Initializable {
         iv.setFitWidth(48);
         iv.setPreserveRatio(false);
 
-        // TODO : tilføj user pfp ægte
-        iv.setImage(new javafx.scene.image.Image(String.valueOf(Main.class.getResource("Icons/BasicUser.jpg"))));
+        // tilføj user pfp
+        String path = user.getImagePath().equals(User.getBasicUserImage()) ? String.valueOf(Main.class.getResource(User.getBasicUserImage())) : "file:\\" + IMAGES_PATH + user.getImagePath();
+        iv.setImage(new javafx.scene.image.Image(path));
         iv.setX(spacing);
         iv.setY(spacing);
         iv.setClip(new Circle((iv.getFitWidth() / 2) + iv.getX(), (iv.getFitHeight() / 2) + iv.getY(), 24));

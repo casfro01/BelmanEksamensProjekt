@@ -14,7 +14,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.id = id;
-        this.ImagePath = "Icons/BasicUser.jpg";
+        this.ImagePath = getBasicUserImage();
     }
 
     public User(int id, UserRole role, String email, String name) {
@@ -22,7 +22,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.id = id;
-        this.ImagePath = "Icons/BasicUser.jpg";
+        this.ImagePath = getBasicUserImage();
     }
 
 
@@ -45,4 +45,8 @@ public class User {
     public String getImagePath() { return ImagePath;}
     public void setImagePath(String imagePath) {ImagePath = imagePath;}
     public void setRole(UserRole role) {this.role = role;}
+
+    public static String getBasicUserImage(){
+        return "Icons/BasicUser.jpg";
+    }
 }
