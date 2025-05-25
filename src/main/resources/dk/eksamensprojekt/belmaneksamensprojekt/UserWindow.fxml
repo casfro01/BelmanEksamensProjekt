@@ -49,7 +49,7 @@
             </SplitMenuButton>
             <AnchorPane fx:id="paneAnchorUploadPhoto" layoutX="305.0" layoutY="321.0" prefHeight="137.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="imgUploadLogo" fitHeight="38.0" fitWidth="38.0" layoutX="81.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imgUploadLogo" fitHeight="138.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="lblUploadPhoto" alignment="CENTER" layoutX="31.0" layoutY="60.0" prefHeight="18.0" prefWidth="127.0" text="Upload Photo" />
                </children>
             </AnchorPane>

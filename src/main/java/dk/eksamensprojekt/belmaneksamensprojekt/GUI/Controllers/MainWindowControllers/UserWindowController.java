@@ -18,8 +18,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,6 +38,10 @@ public class UserWindowController implements Initializable {
     private TableColumn<User, String> colEmail;
     @FXML
     private TableColumn<User, SplitMenuButton> colRole;
+    @FXML
+    private ImageView imgUploadLogo;
+    @FXML
+    private Label lblUploadPhoto;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -122,6 +128,14 @@ public class UserWindowController implements Initializable {
     }
     @FXML
     private void BrowsefilesClicked(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            // sæt billede
+            javafx.scene.image.Image image = new javafx.scene.image.Image(file.toURI().toString());
+            imgUploadLogo.setImage(image);
+            lblUploadPhoto.setVisible(false);
+        }
     }
 
     private void changeUser(User user, UserRole role) {
