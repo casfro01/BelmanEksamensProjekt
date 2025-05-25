@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
@@ -7,7 +8,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
-import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -23,6 +22,7 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class UserWindowController implements Initializable {
@@ -42,6 +42,14 @@ public class UserWindowController implements Initializable {
     private ImageView imgUploadLogo;
     @FXML
     private Label lblUploadPhoto;
+    @FXML
+    private Label lblFeedback;
+    @FXML
+    private TextField txtFullName;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtPassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,7 +97,7 @@ public class UserWindowController implements Initializable {
                     return FXCollections.emptyObservableList();
                 },
                 users -> {
-                    Platform.runLater(() -> initTableCols());
+                    Platform.runLater(this::initTableCols);
                     tblUsers.setItems(users);
 
                 },
@@ -129,6 +137,12 @@ public class UserWindowController implements Initializable {
     @FXML
     private void BrowsefilesClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
+
+        // Sæt initial directory til vores billede mappe -> som simulerer deres "folder"
+        File initialDir = new File(Constants.IMAGES_PATH);
+        if (initialDir.exists() && initialDir.isDirectory())
+            fileChooser.setInitialDirectory(initialDir);
+
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
             // sæt billede
@@ -144,6 +158,33 @@ public class UserWindowController implements Initializable {
             usermodel.updateUser(user);
         } catch (Exception e) {
             Constants.DisplayError("Update error", e.getMessage());
+        }
+    }
+
+    @FXML
+    private void createUser(ActionEvent actionEvent) {
+        final int STYLE_CLASS_POS = 1; // Positionen af feedback farven... måske en anden løsning kunne være bedre
+        try {
+            // konstruere bruger objekter
+            User baseUser = new User(-1, UserRole.valueOfString(btnsplitMenu.getText()), txtFullName.getText().trim(), txtEmail.getText().trim());
+            if (imgUploadLogo.getImage().getUrl() != null) {
+                String[] url = imgUploadLogo.getImage().getUrl().split("/");
+                baseUser.setImagePath(url[url.length - 1]); // sæt profilbillede -> hvis valgt
+            }
+
+            LoginUser loginUser = new LoginUser(-1, txtEmail.getText().trim(), txtPassword.getText().trim());
+
+            // send til database
+            usermodel.createUser(baseUser, loginUser);
+
+            // opdatér feedbacken
+            lblFeedback.setText("User created!");
+            lblFeedback.getStyleClass().set(STYLE_CLASS_POS, "greenText");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // opdatér feedbacken
+            lblFeedback.setText("Unable to create user: " + e.getMessage());
+            lblFeedback.getStyleClass().set(STYLE_CLASS_POS, "redText");
         }
     }
 }

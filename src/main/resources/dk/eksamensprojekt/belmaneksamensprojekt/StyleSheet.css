@@ -74,6 +74,14 @@
     -fx-font-size: 16px;
 }
 
+.greenText{
+    -fx-text-fill: Green;
+}
+
+.redText{
+    -fx-text-fill: Red;
+}
+
 #topBar{
     -fx-background-color: #004B88;
 }
