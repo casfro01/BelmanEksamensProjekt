@@ -40,14 +40,26 @@ public class UserManager {
         else
             throw new Exception("Login Failed: This Login type is not supported");
     }
-    public User create(User user) throws Exception {
+    public User create(User user, LoginUser loginUser) throws Exception {
         if (user.getName() == null || user.getName().isEmpty())
             throw new Exception("Name is required");
-        if (EmailValidator.validate(user.getEmail()))
+        if (user.getRole() == null)
+            throw new Exception("Unknown role!");
+        if (!EmailValidator.validate(user.getEmail()))
             throw new Exception("Email is invalid");
-        //if (user.getPassword() == null || user.getPassword().length() < 6)
-        //        throw new Exception("Password must be at least 6 characters");
-        return userDAO.create(user);
+        if (loginUser.getPassword() == null || loginUser.getPassword().isEmpty())
+            throw new Exception("Password not set");
+
+        User newUser = userDAO.create(user);
+        newUser.setImagePath(user.getImagePath());
+
+        // gem login informationer
+        if (userDAO instanceof UserData uData){
+            LoginUser newLoginUser = new LoginUser(newUser.getId(), loginUser.getEmail(), passwordHashing.hashString(loginUser.getPassword()));
+            uData.createLoginUser(newLoginUser);
+        }
+
+        return newUser;
     }
 
     public void update(User user) throws Exception {

@@ -98,7 +98,7 @@ public class PreviewReportWindowController extends Controller implements Initial
 
     private void addImage(GridPane grid, Image image) {
         javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + image.getPath()));
-        imageView.setPreserveRatio(false);
+        imageView.setPreserveRatio(true);
         imageView.setFitWidth(500);
         imageView.setFitHeight(300);
 

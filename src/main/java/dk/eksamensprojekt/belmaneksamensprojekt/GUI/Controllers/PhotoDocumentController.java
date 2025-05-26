@@ -109,6 +109,7 @@ public class PhotoDocumentController extends Controller implements Initializable
 
         StackPane pane = new StackPane(imageView, deleteButton);
         pane.setPrefSize(150, 150);
+        pane.setAlignment(Pos.TOP_LEFT);
         if (img.isApproved() == Approved.NOT_APPROVED)
             pane.getStyleClass().add("notApproved");
         else

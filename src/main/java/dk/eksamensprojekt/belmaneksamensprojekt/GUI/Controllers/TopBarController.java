@@ -1,6 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
@@ -8,14 +9,18 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
+import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
 
 public class TopBarController extends Controller implements Initializable {
     private UserModel userModel;
@@ -26,6 +31,8 @@ public class TopBarController extends Controller implements Initializable {
     private Label lblRole;
     @FXML
     private Label lblCurrentOrder;
+    @FXML
+    private ImageView imgPicture;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,10 +40,18 @@ public class TopBarController extends Controller implements Initializable {
         userModel = ModelManager.INSTANCE.getUserModel();
         lblName.setText(userModel.getSelectedUser().get().getName());
         lblRole.setText(userModel.getSelectedUser().get().getRole().toString());
+        setImage();
 
         // nuværende ordre
         orderModel = ModelManager.INSTANCE.getOrderModel();
         lblCurrentOrder.setText(orderModel.getCurrentOrder() == null ? "" : orderModel.getCurrentOrder().getOrderNumber());
+    }
+
+    private void setImage(){
+        User user = userModel.getSelectedUser().get();
+        String path = user.getImagePath().equals(User.getBasicUserImage()) ? String.valueOf(Main.class.getResource(User.getBasicUserImage())) : "file:\\" + IMAGES_PATH + user.getImagePath();
+        imgPicture.setPreserveRatio(false);
+        imgPicture.setImage(new javafx.scene.image.Image(path));
     }
 
     @FXML

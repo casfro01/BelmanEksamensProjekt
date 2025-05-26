@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.UserManager;
 import javafx.beans.property.SimpleObjectProperty;
@@ -49,5 +50,16 @@ public class UserModel {
 
     public void updateUser(User user) throws Exception {
         userManager.update(user);
+    }
+
+    /**
+     * Lav en ny bruger
+     * @param baseUser bruger med basis detaljer, så som profilbillede, navn og email
+     * @param loginDetails brugerens login detaljer, så som email og password
+     */
+    public void createUser(User baseUser, LoginUser loginDetails) throws Exception {
+        // indsæt logik
+        User newUser = userManager.create(baseUser, loginDetails);
+        users.add(newUser);
     }
 }

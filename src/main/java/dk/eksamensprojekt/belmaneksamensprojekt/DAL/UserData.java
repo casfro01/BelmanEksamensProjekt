@@ -6,4 +6,5 @@ import java.sql.SQLException;
 
 public interface UserData {
     LoginUser getLoginUser(String email) throws Exception;
+    void createLoginUser(LoginUser loginUser) throws Exception;
 }

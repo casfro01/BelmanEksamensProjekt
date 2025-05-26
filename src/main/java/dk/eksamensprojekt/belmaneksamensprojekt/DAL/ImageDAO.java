@@ -47,7 +47,7 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
     @Override
     public void update(Image image) throws Exception {
         String sql = """
-                UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?
+                UPDATE Pictures SET Path = ?, UserID = ?, OrderID = ?, Approved = ?
                 WHERE ID = ?;
                 """;
         DBConnector connector = new DBConnector();
@@ -56,9 +56,10 @@ public class ImageDAO implements Repository<Image, Integer>, UpdateAll<Image> {
             ps.setString(1, image.getPath());
             ps.setInt(2, image.getUser().getId());
             ps.setInt(3, image.getOrderID());
+            ps.setBoolean(4, image.isApproved().toBoolean());
 
             // set where
-            ps.setInt(4, image.getId());
+            ps.setInt(5, image.getId());
 
             ps.executeUpdate();
         } catch (Exception e) {
