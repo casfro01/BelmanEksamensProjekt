@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="paneBackground" fx:id="paneOrder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="926.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers.AllOrdersController">
+<AnchorPane id="paneBackground" fx:id="paneOrder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="1003.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers.AllOrdersController">
    <children>
-      <TableView fx:id="orderTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="819.0" stylesheets="@StyleSheet.css">
+      <TableView fx:id="orderTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="888.0" stylesheets="@StyleSheet.css">
          <columns>
             <TableColumn fx:id="tblColOrderNumber" prefWidth="190.3999900817871" text="Order Number" />
             <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="137.59999084472656" text="Approved" />
@@ -18,7 +18,7 @@
             <TableColumn fx:id="colOrderInfo" minWidth="0.0" prefWidth="156.79998779296875" text="Info" />
          </columns>
       </TableView>
-      <TextField fx:id="txtOrderSearchbar" layoutX="93.0" layoutY="7.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in all orders" styleClass="smallText">
+      <TextField fx:id="txtOrderSearchbar" layoutX="56.0" layoutY="4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in all orders" styleClass="smallText">
          <font>
             <Font size="16.0" />
          </font>
