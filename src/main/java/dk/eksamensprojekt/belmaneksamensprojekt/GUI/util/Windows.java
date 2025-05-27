@@ -7,7 +7,7 @@ public enum Windows {
     PhotoDocWindow("PhotodocumentWindow.fxml"),
     PreviewReportWindow("PreviewReportWindow.fxml"),
     PreviewPicturesWindow("PreviewPictures.fxml"),
-    SmallOrBigWindow("SmallOrBigOrder.fxml"),
+    //SmallOrBigWindow("SmallOrBigOrder.fxml"),
     LoginEmailWindow("LoginEmailWindow.fxml"),
     LoginChipWindow("LoginChipWindow.fxml");
 

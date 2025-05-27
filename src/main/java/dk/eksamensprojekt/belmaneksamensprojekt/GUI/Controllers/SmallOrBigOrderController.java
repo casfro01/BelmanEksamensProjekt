@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider.getInvoker;
 
+@Deprecated
 public class SmallOrBigOrderController  extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -21,14 +22,13 @@ public class SmallOrBigOrderController  extends Controller implements Initializa
 
     @FXML
     private void chooseLarge() {
-        ModelManager.INSTANCE.getOrderModel().setCurrentOrderType(OrderType.Large);
+        //ModelManager.INSTANCE.getOrderModel().setCurrentOrderType(OrderType.Large);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
     }
 
     @FXML
     private void chooseSmall() {
-        ModelManager.INSTANCE.getOrderModel().setCurrentOrderType(OrderType.Small);
+        //ModelManager.INSTANCE.getOrderModel().setCurrentOrderType(OrderType.Small);
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
-
     }
 }

@@ -14,7 +14,6 @@ public class OrderModel {
     private OrderManager orderManager;
     private ObservableList<Order> orderList;
     private Order currentOrder;
-    private OrderType currentOrderType;
 
     public OrderModel() {
         this.orderManager = new OrderManager();
@@ -74,10 +73,6 @@ public class OrderModel {
         return ordersForApproval;
     }
 
-    public OrderType getCurrentOrderType() {
-        return this.currentOrderType;
-    }
-
     public void updateOrder(Order order) throws Exception {
         orderManager.updateOrder(order);
     }
@@ -85,9 +80,4 @@ public class OrderModel {
     public Order searchOrder(String txt) throws Exception {
         return orderManager.getById(txt);
     }
-
-    public void setCurrentOrderType(OrderType type) {
-        this.currentOrderType = type;
-    }
-
 }

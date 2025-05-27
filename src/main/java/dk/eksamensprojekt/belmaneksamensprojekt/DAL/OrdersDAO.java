@@ -3,6 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.OrderType;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
 import java.sql.*;
@@ -15,7 +16,7 @@ public class OrdersDAO implements Repository<Order, String>{
     public List<Order> getAll() throws Exception{
         List<Order> orders = new ArrayList<>();
         String SQL = """
-                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented FROM Orders;
+                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented, Orders.Size FROM Orders;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
@@ -33,6 +34,7 @@ public class OrdersDAO implements Repository<Order, String>{
                 }
 
                 Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum, rs.getBoolean(5));
+                current.setOrderType(OrderType.getTypeFromIndex(rs.getInt(6)));
                 orders.add(current);
             }
         }
@@ -50,13 +52,14 @@ public class OrdersDAO implements Repository<Order, String>{
     @Override
     public Order getById(String orderNumber) throws Exception{
         String sql = """
-                SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented FROM Orders
+                SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented, Orders.Size FROM Orders
                 FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
                 WHERE Orders.OrderNumber = ?;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(sql)){
 
+            // udfør
             ps.setString(1, orderNumber);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()) {
@@ -71,7 +74,9 @@ public class OrdersDAO implements Repository<Order, String>{
             Report r = repID == 0 ? null : new Report(repID, null, null);
 
             Order order = new Order(rs.getInt(1), orderNumber, r, apr, rs.getBoolean(4));
-
+            // sæt størrelse
+            order.setOrderType(OrderType.getTypeFromIndex(rs.getInt(5)));
+            // returnerer
             return order;
         } catch (Exception e) {
             throw new Exception("Could not get order " + orderNumber + " because: " + e);
@@ -79,8 +84,8 @@ public class OrdersDAO implements Repository<Order, String>{
     }
 
     @Override
-    public Order create(Order entity) {
-        return null;
+    public Order create(Order entity) throws Exception{
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -114,8 +119,8 @@ public class OrdersDAO implements Repository<Order, String>{
     }
 
     @Override
-    public void delete(Order entity) {
-
+    public void delete(Order entity) throws Exception{
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

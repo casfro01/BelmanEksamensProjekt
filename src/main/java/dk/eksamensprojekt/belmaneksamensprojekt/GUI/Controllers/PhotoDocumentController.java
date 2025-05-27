@@ -145,13 +145,17 @@ public class PhotoDocumentController extends Controller implements Initializable
     }
 
     private boolean canAddPicture() {
-        if (model.getCurrentOrderType() == OrderType.Small) {
+        /*
+        OrderType type = currentOrder.getType();
+        if (type == OrderType.Small) {
             return currentOrder.getImageList().size() < SMALL_ORDER_MAX;
-        } else if (model.getCurrentOrderType() == OrderType.Large) {
+        } else if (type == OrderType.Large) {
             return currentOrder.getImageList().size() < LARGE_ORDER_MAX;
         }
 
         return true;
+         */
+        return currentOrder.getImageList().size() < currentOrder.getType().getMax();
     }
 
     private boolean hasEnoughPictures() {
@@ -168,6 +172,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             return false;
         }
 
+        /*
         if (model.getCurrentOrderType() == OrderType.Small) {
             return currentOrder.getImageList().size() >= SMALL_ORDER_MIN;
         } else if (model.getCurrentOrderType() == OrderType.Large) {
@@ -175,6 +180,8 @@ public class PhotoDocumentController extends Controller implements Initializable
         }
 
         return false;
+         */
+        return currentOrder.getImageList().size() >= currentOrder.getType().getMin();
     }
 
     @FXML

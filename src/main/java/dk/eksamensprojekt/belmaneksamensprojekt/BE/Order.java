@@ -13,6 +13,7 @@ public class Order {
     private ObservableList<Image> images = FXCollections.observableArrayList();
     private Approved isApproved;
     private boolean documented;
+    private OrderType orderType;
 
     public Order(int id, String orderNumber, Report report, Approved isApproved) {
         this.id = id;
@@ -20,6 +21,7 @@ public class Order {
         this.report = report;
         this.isApproved = isApproved;
         this.documented = false;
+        this.orderType = OrderType.Small;
     }
     public Order(int id, String orderNumber, Report report, Approved isApproved, boolean documented) {
         this.id = id;
@@ -27,6 +29,7 @@ public class Order {
         this.report = report;
         this.isApproved = isApproved;
         this.documented = documented;
+        this.orderType = OrderType.Small;
     }
 
     public int getId() {
@@ -69,6 +72,13 @@ public class Order {
 
     public void setImageList(ObservableList<Image> replicaImageList) {
         this.images = replicaImageList;
+    }
+
+    public OrderType getType() {
+        return orderType;
+    }
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
     }
 
     @Override

@@ -82,7 +82,7 @@ public class OperatorWindowController extends Controller implements Initializabl
         lstOrders.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (lstOrders.getSelectionModel().getSelectedItem() != null){
                 orderModel.setCurrentOrder(lstOrders.getSelectionModel().getSelectedItem());
-                getInvoker().executeCommand(new SwitchWindowCommand(Windows.SmallOrBigWindow));
+                getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
             }
         });
     }
@@ -110,7 +110,7 @@ public class OperatorWindowController extends Controller implements Initializabl
 
         Order order = orderModel.searchOrder(txt);
         orderModel.setCurrentOrder(order);
-        getInvoker().executeCommand(new SwitchWindowCommand(Windows.SmallOrBigWindow));
+        getInvoker().executeCommand(new SwitchWindowCommand(Windows.PhotoDocWindow));
     }
 
     @FXML
