@@ -38,17 +38,28 @@ public class TopBarController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // indsæt hvem der er logget ind
         userModel = ModelManager.INSTANCE.getUserModel();
-        lblName.setText(userModel.getSelectedUser().get().getName());
-        lblRole.setText(userModel.getSelectedUser().get().getRole().toString());
-        setImage();
+        setUserInformation(userModel.getSelectedUser().get());
 
         // nuværende ordre
         orderModel = ModelManager.INSTANCE.getOrderModel();
         lblCurrentOrder.setText(orderModel.getCurrentOrder() == null ? "" : orderModel.getCurrentOrder().getOrderNumber());
     }
 
-    private void setImage(){
-        User user = userModel.getSelectedUser().get();
+    private void setUserInformation(User user) {
+        if (user != null) {
+            lblName.setText(user.getName());
+            lblRole.setText(user.getRole().toString());
+            setImage(user);
+        }
+        else{
+            lblRole.setText("");
+            lblName.setText("");
+            imgPicture.setVisible(false);
+        }
+    }
+
+    private void setImage(User user){
+        //User user = userModel.getSelectedUser().get();
         String path = user.getImagePath().equals(User.getBasicUserImage()) ? String.valueOf(Main.class.getResource(User.getBasicUserImage())) : "file:\\" + IMAGES_PATH + user.getImagePath();
         imgPicture.setPreserveRatio(false);
         imgPicture.setImage(new javafx.scene.image.Image(path));

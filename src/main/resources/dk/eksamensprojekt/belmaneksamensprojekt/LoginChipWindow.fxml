@@ -18,7 +18,7 @@
             <Insets />
          </opaqueInsets>
       </ScrollPane>
-      <ImageView fx:id="ImgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="62.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ImgLogo" fitHeight="126.0" fitWidth="126.0" layoutX="62.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@Icons/BELMAN_Logo.png" />
          </image></ImageView>

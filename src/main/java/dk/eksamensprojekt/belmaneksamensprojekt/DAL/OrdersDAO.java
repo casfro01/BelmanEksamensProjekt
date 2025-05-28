@@ -16,7 +16,7 @@ public class OrdersDAO implements Repository<Order, String>{
     public List<Order> getAll() throws Exception{
         List<Order> orders = new ArrayList<>();
         String SQL = """
-                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented, Orders.Size FROM Orders;
+                SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented, Orders.Size, Orders.OrderDate FROM Orders;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
@@ -35,6 +35,7 @@ public class OrdersDAO implements Repository<Order, String>{
 
                 Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum, rs.getBoolean(5));
                 current.setOrderType(OrderType.getTypeFromIndex(rs.getInt(6)));
+                current.setOrderDate(rs.getDate(7).toLocalDate());
                 orders.add(current);
             }
         }
@@ -52,7 +53,7 @@ public class OrdersDAO implements Repository<Order, String>{
     @Override
     public Order getById(String orderNumber) throws Exception{
         String sql = """
-                SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented, Orders.Size FROM Orders
+                SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented, Orders.Size, Orders.OrderDate FROM Orders
                 FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
                 WHERE Orders.OrderNumber = ?;
                 """;
@@ -76,6 +77,8 @@ public class OrdersDAO implements Repository<Order, String>{
             Order order = new Order(rs.getInt(1), orderNumber, r, apr, rs.getBoolean(4));
             // sæt størrelse
             order.setOrderType(OrderType.getTypeFromIndex(rs.getInt(5)));
+            // sæt dato
+            order.setOrderDate(rs.getDate(6).toLocalDate());
             // returnerer
             return order;
         } catch (Exception e) {
