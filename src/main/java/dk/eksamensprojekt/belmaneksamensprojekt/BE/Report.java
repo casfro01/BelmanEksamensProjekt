@@ -1,5 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import java.util.Arrays;
+
 public class Report {
     private byte[] reportBlob;
     private final int id;

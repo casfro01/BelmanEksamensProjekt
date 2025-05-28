@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -33,10 +34,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PreviewReportWindowController extends Controller implements Initializable {
-    private static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
-    private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
+import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
 
+public class PreviewReportWindowController extends Controller implements Initializable {
     private final static int COLUMNS = 2;
     private ModelManager modelManager;
     private OrderModel orderModel;
@@ -46,7 +46,6 @@ public class PreviewReportWindowController extends Controller implements Initial
     //private List<CheckBox> checkboxes = new ArrayList<>();
     private int row = 0;
     private int col = 0;
-
 
     @FXML
     private ScrollPane CheckboxscrollPane;
@@ -153,10 +152,7 @@ public class PreviewReportWindowController extends Controller implements Initial
         }
 
         Report databaseReport = reportModel.getReport(currentOrderReport.getId());
-        File outputFile = new File(REPORTS_PATH + databaseReport.getId() + ".pdf");
-        FileOutputStream fos = new FileOutputStream(outputFile);
-        fos.write(databaseReport.getReportBlob());
-        Desktop.getDesktop().open(outputFile);
+        orderModel.downloadReport(databaseReport);
     }
 
     public void savePressed(ActionEvent actionEvent) throws Exception {

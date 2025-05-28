@@ -1,8 +1,10 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
+import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.InfoWindowController;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -47,6 +49,8 @@ public class AllOrdersController implements Initializable {
     private TableColumn<Order, Boolean> tblColDocumented;
     @FXML
     private TableColumn<Order, Button> tblColAvailableReports;
+    @FXML
+    private TableColumn<Order, Button> tblColAvailableReports1;
     @FXML
     private TableColumn<Order, Button> colOrderInfo;
 
@@ -137,23 +141,38 @@ public class AllOrdersController implements Initializable {
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
 
             // set redigeringsknappen
-            tblColAvailableReports.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
-                @Override
-                public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
-                    return new TableCell<Order, Button>() {
-                        protected void updateItem(Button item, boolean empty) {
-                            if (empty)
-                                setGraphic(null);
-                            else{
-                                Order curOrder = getTableView().getItems().get(getIndex());
-                                Button editButton = new Button("Edit");
-                                editButton.setOnAction(event -> {
-                                    editOrder(curOrder);
-                                });
-                                setGraphic(editButton);
-                            }
+            tblColAvailableReports1.setCellFactory(param -> new TableCell<Order, Button>() {
+                final Button editButton = new Button("Edit");
+                final Button downloadButton = new Button("Download");
+
+                {
+                    editButton.setOnAction(e -> {
+                        Order curOrder = getTableView().getItems().get(getIndex());
+                        editOrder(curOrder);
+                    });
+
+                    downloadButton.setOnAction(e -> {
+                        try {
+                            Order curOrder = getTableView().getItems().get(getIndex());
+                            downloadOrder(curOrder);
+                        } catch (Exception ex) {
+                            Constants.DisplayError("Can't download", ex.getMessage());
+                            ex.printStackTrace();
                         }
-                    };
+                    });
+                }
+
+                protected void updateItem(Button item, boolean empty) {
+                    if (empty)
+                        setGraphic(null);
+                    else{
+                        Order curOrder = getTableView().getItems().get(getIndex());
+                        if (curOrder.getReport() != null) {
+                            setGraphic(curOrder.getReport().getReportBlob() == null ? editButton : downloadButton);
+                        } else {
+                            setGraphic(editButton);
+                        }
+                    }
                 }
             });
             if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() != UserRole.ADMIN){
@@ -184,6 +203,15 @@ public class AllOrdersController implements Initializable {
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void downloadOrder(Order curOrder) throws Exception {
+        Report databaseReport = ModelManager.INSTANCE.getReportModel().getReport(curOrder.getReport().getId());
+        if (databaseReport != null) {
+            orderModel.downloadReport(databaseReport);
+        } else {
+            throw new Exception("Report not found");
         }
     }
 

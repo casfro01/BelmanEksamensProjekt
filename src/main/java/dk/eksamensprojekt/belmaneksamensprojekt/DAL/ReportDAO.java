@@ -5,6 +5,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReportDAO implements Repository<Report, Integer> {
