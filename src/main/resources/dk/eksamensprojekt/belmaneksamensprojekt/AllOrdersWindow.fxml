@@ -15,7 +15,7 @@
             <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="137.59999084472656" text="Approved" />
             <TableColumn fx:id="tblColDocumented" minWidth="0.0" prefWidth="143.20001220703125" text="Documented" />
             <TableColumn fx:id="tblColAvailableReports" minWidth="0.0" prefWidth="75.20001220703125" text="Edit" />
-            <TableColumn fx:id="colOrderInfo" minWidth="0.0" prefWidth="156.79998779296875" text="Info" />
+            <TableColumn fx:id="colOrderInfo" minWidth="0.0" prefWidth="112.0001220703125" text="Info" />
          </columns>
       </TableView>
       <TextField fx:id="txtOrderSearchbar" layoutX="56.0" layoutY="4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in all orders" styleClass="smallText">
