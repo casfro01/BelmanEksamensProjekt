@@ -63,7 +63,7 @@ public class LoginChipController extends Controller implements Initializable {
             ap.getChildren().add(userPane);
             // ekstra formatering ift. hvordan den skal ligge
             userPane.setLayoutX(0);
-            userPane.setPrefWidth(scrollPaneUser.getPrefWidth() - spacing * 2);
+            userPane.setPrefWidth(scrollPaneUser.getPrefWidth() - spacing * 3);
             userPane.setPrefHeight(spacing + 5);
             userPane.setLayoutY((10 + spacing) * counter);
             // sætter en metode som man kan bruge når man skal logge ind

@@ -3,6 +3,8 @@ package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class Order {
     private Approved isApproved;
     private boolean documented;
     private OrderType orderType;
+    private LocalDate orderDate = LocalDate.now();
 
     public Order(int id, String orderNumber, Report report, Approved isApproved) {
         this.id = id;
@@ -79,6 +82,13 @@ public class Order {
     }
     public void setOrderType(OrderType orderType) {
         this.orderType = orderType;
+    }
+
+    public LocalDate getOrderDate(){
+        return orderDate;
+    }
+    public void setOrderDate(LocalDate date){
+        orderDate = date;
     }
 
     @Override

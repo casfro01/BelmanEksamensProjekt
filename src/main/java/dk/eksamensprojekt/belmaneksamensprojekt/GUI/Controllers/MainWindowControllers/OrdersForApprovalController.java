@@ -1,6 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
+import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
@@ -21,6 +22,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -67,6 +71,9 @@ public class OrdersForApprovalController implements Initializable {
         AnchorPane ap = new AnchorPane();
         //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
+        // sortere efter bestillings dag
+        todoOrders.sort(Comparator.comparing(Order::getOrderDate));
+
         int counter = 0;
         int estiHeight = 65;
         int spacing = 10;
@@ -97,6 +104,10 @@ public class OrdersForApprovalController implements Initializable {
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth() - spacing * 4, estiHeight + spacing * 2);
         ap.getStyleClass().add("orderItemPane");
 
+        // hvis ordren er en måned gammel (30 dage -> antal dage inde nu - antal dage da den blev oprettet)
+        if (LocalDate.now().getDayOfYear() - o.getOrderDate().getDayOfYear() >= 30)
+            ap.getStyleClass().add("notApproved");
+
         // label med order nummer
         Label lblOrderNumber = new Label(o.getOrderNumber());
         ap.getChildren().add(lblOrderNumber);
@@ -104,6 +115,12 @@ public class OrdersForApprovalController implements Initializable {
         lblOrderNumber.setLayoutY(spacing * 1.5f);
         lblOrderNumber.getStyleClass().addAll("orderItemText", "normalText");
 
+        // label med ordre bestilling dato
+        Label lblOrderDate = new Label(o.getOrderDate().format(DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)));
+        ap.getChildren().add(lblOrderDate);
+        lblOrderDate.setLayoutX(ap.getPrefWidth() / 2);
+        lblOrderDate.setLayoutY(spacing * 1.5f);
+        lblOrderDate.getStyleClass().addAll("orderItemText", "normalText");
 
         // den lille knap i siden
         ImageView iv = new ImageView();
