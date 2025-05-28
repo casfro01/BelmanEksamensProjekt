@@ -16,7 +16,7 @@ public class UserModel {
 
     public UserModel() {
         this.userManager = new UserManager();
-
+        selectedUser = new SimpleObjectProperty<>(null);
     }
     private List<User> loadUsers() throws Exception {
         return userManager.getAllUsers();
