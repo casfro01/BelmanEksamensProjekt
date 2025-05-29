@@ -1,28 +1,34 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
+// projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
+
+// javafx
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
+// java
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,14 +39,17 @@ public class OrdersForApprovalController implements Initializable {
 
     @FXML
     private ScrollPane scrollPaneOrderApproval;
+    @FXML
+    private TextField txtSearchOrderApproval;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
 
         fillData();
-    }
 
+        initializeSearchbar();
+    }
 
     private void fillData(){
         BackgroundTask.execute(
@@ -53,10 +62,10 @@ public class OrdersForApprovalController implements Initializable {
                 }
             },
             orders -> { // når tasken er færdiggjort
-                Platform.runLater(this::createOrderForApprovalView);
+                Platform.runLater(() -> createOrderForApprovalView(""));
             },
             error -> { // hvis der sker en fejl
-                ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR);
+                displayError("Database Error", "Could not fetch orders: " + error.getMessage());
             }
         );
     }
@@ -64,9 +73,19 @@ public class OrdersForApprovalController implements Initializable {
 
     // TODO : lav til listview og gør det der ig? eller så har jeg en anden ide -> Vbox ? -> new VBox(10, items1, item2, ...);
     // rename to load?
-    private void createOrderForApprovalView() {
+    private void createOrderForApprovalView(String filter) {
         // kan dette laves på en bedre måde?
         List<Order> todoOrders = orderModel.getOrdersForApproval();
+
+        // søge -> men det kan helt klart gøres bedre -> dette er den første og nemmeste. todo -> forbedre
+        List<Order> actual = new ArrayList<>();
+        for (Order order : todoOrders){
+            if (order.getOrderNumber().startsWith(filter)){
+                actual.add(order);
+            }
+        }
+        todoOrders = actual;
+
         AnchorPane ap = new AnchorPane();
         //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
@@ -140,5 +159,11 @@ public class OrdersForApprovalController implements Initializable {
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
         InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
+    }
+
+    private void initializeSearchbar() {
+        txtSearchOrderApproval.textProperty().addListener((observable, oldValue, newValue) -> {
+            createOrderForApprovalView(newValue);
+        });
     }
 }
