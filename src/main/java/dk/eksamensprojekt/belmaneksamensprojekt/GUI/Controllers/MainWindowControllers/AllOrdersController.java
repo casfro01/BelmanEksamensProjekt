@@ -253,7 +253,10 @@ public class AllOrdersController implements Initializable {
             names.forEach(name -> sb.append(" - ").append(name).append("\n"));
             content.add(sb.toString());
 
-            if (order.getReport() != null && order.getReport().getUser() != null){
+            Report orderReport = order.getReport();
+            if (orderReport != null && orderReport.getId() != 0){
+                if (orderReport.getUser() == null)
+                    order.setReport(ModelManager.INSTANCE.getReportModel().getReport(orderReport.getId()));
                 content.add("Report by:\n" + " - " + order.getReport().getUser().getName());
             }
             else{
@@ -264,7 +267,7 @@ public class AllOrdersController implements Initializable {
 
             window.initModality(Modality.APPLICATION_MODAL);
             window.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             //e.printStackTrace();
             displayError("Window error", "Unable to load window, try again later!");
         }
