@@ -64,7 +64,6 @@ public class AllOrdersController implements Initializable {
     private void fillData(){
         BackgroundTask.execute(
                 () ->{ // hvad skal der ske
-                    // vil error ikke fange exception?
                     try{
                         return orderModel.getOrderList();
                     } catch (Exception e) {

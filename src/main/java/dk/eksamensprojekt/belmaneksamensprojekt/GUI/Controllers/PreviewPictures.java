@@ -39,10 +39,6 @@ public class PreviewPictures extends Controller implements Initializable {
     @FXML
     private ScrollPane imageScrollPane;
     @FXML
-    private RadioButton radNotApproved;
-    @FXML
-    private RadioButton radApproved;
-    @FXML
     private ImageView fullscreenImageView;
     @FXML
     private Button closeButton;
@@ -51,8 +47,6 @@ public class PreviewPictures extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         orderModel = ModelManager.INSTANCE.getOrderModel();
 
-        radNotApproved.setSelected(true);
-        radApproved.setSelected(false);
         closeButton.setVisible(false);
         fullscreenImageView.setVisible(false);
 
@@ -148,35 +142,37 @@ public class PreviewPictures extends Controller implements Initializable {
 
     @FXML
     private void previewReport(ActionEvent actionEvent) {
+        // før man kan lave en rapport, så skal alle billeder være godkendt
+        for (Image img : orderModel.getCurrentOrder().getImageList()){
+            if (img.isApproved() != Approved.APPROVED){
+                ShowAlerts.displayMessage("Approval Required", "All pictures must be approved before you can generate a report.", Alert.AlertType.WARNING);
+                return;
+            }
+        }
         getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewReportWindow));
     }
 
     @FXML
     private void saveStatus(ActionEvent actionEvent) {
-        orderModel.getCurrentOrder().setApproved(Approved.valueOfBoolean(radApproved.isSelected()));
-        orderModel.getCurrentOrder().setDocumented(radApproved.isSelected());
+        Order currentOrder = orderModel.getCurrentOrder();
+        boolean noImageRejected = true;
+        for (Image img : currentOrder.getImageList()){
+            // hvis én af billederne ikke er blevet gennemset endnu og man gemmer, så skal en progression -
+            // stadig gemmes -> men ordren er stadig ikke godkendt, men først når alle billeder er godkendt
+            if (img.isApproved() == Approved.NOT_REVIEWED){
+                currentOrder.setApproved(Approved.NOT_APPROVED);
+                return;
+            }
+            else if (img.isApproved() == Approved.NOT_APPROVED)
+                noImageRejected = false;
+        }
+        currentOrder.setApproved(Approved.valueOfBoolean(noImageRejected));
+        currentOrder.setDocumented(noImageRejected); // hvis den er false -> så sendes den tilbage til operatøren
         try {
-            orderModel.getCurrentOrder().getImageList().forEach(img -> System.out.println(img.isApproved()));
             orderModel.saveButtonClicked();
             ShowAlerts.splashMessage("Update", "Order status saved", Constants.DISPLAY_TIME);
         } catch (Exception e) {
             ShowAlerts.displayMessage("Update failed", "Could not save order. Try again later. " + e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    private void setNotApproved(ActionEvent actionEvent) {
-        radNotApproved.setSelected(true);
-        if (radNotApproved.isSelected()) {
-            radApproved.setSelected(false);
-        }
-    }
-
-    @FXML
-    private void setApproved(ActionEvent actionEvent) {
-        radApproved.setSelected(true);
-        if (radApproved.isSelected()) {
-            radNotApproved.setSelected(false);
         }
     }
 }
