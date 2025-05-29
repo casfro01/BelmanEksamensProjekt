@@ -19,10 +19,6 @@ public class OrderDaoFacade implements Repository<Order, String> {
         // TODO : kan det gøres bedre - lige nu har vi N + 1 kald af sql sætninger
         for (Order order : orders) {
             order.getImageList().addAll(imageDAO.getImageByOrder(order.getId()));
-
-            if (order.getReport() != null) {
-                order.setReport(reportDAO.getById(order.getReport().getId()));
-            }
         }
 
         return orders;

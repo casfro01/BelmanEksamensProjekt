@@ -12,7 +12,7 @@ public class ReportDAO implements Repository<Report, Integer> {
 
     @Override
     public List<Report> getAll() throws Exception {
-        return List.of();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -67,10 +67,11 @@ public class ReportDAO implements Repository<Report, Integer> {
 
     @Override
     public void update(Report entity) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void delete(Report entity) throws Exception {
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

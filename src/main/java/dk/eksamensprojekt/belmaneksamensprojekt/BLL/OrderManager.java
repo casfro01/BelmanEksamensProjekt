@@ -5,18 +5,10 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
 
-import javafx.stage.FileChooser;
-
-import java.awt.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.Arrays;
 import java.util.List;
-
-// import konstanter
-import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Report.REPORTS_PATH;
 
 public class OrderManager {
     private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
@@ -117,13 +109,5 @@ public class OrderManager {
 
     public Order getById(String id) throws Exception {
         return ordersDAO.getById(id);
-    }
-
-    public void downloadReport(Report report) throws IOException {
-        System.out.println(Arrays.toString(report.getReportBlob()));
-        File outputFile = new File(REPORTS_PATH + report.getId() + ".pdf");
-        FileOutputStream fos = new FileOutputStream(outputFile);
-        fos.write(report.getReportBlob());
-        Desktop.getDesktop().open(outputFile);
     }
 }

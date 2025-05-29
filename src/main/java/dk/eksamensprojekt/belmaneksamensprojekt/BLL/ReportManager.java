@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
-import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -16,6 +15,7 @@ import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.ReportDAO;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;
@@ -26,11 +26,10 @@ import java.io.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.itextpdf.kernel.pdf.PdfName.BaseFont;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Report.REPORTS_PATH;
 
 public class ReportManager {
     private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
@@ -155,5 +154,13 @@ public class ReportManager {
 
     public Report getReport(Integer id) throws Exception {
         return reportRepository.getById(id);
+    }
+
+    public File downloadReport(Report report) throws IOException {
+        //System.out.println(Arrays.toString(report.getReportBlob()));
+        File outputFile = new File(REPORTS_PATH + report.getId() + ".pdf");
+        FileOutputStream fos = new FileOutputStream(outputFile);
+        fos.write(report.getReportBlob());
+        return outputFile;
     }
 }

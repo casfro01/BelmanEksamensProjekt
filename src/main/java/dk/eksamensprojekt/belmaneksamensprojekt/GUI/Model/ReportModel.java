@@ -6,6 +6,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.ReportManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 
+import java.io.File;
 import java.util.List;
 
 public class ReportModel {
@@ -27,5 +28,9 @@ public class ReportModel {
 
     public Report getReport(Integer id) throws Exception {
         return reportManager.getReport(id);
+    }
+
+    public File downloadReport(Report report) throws Exception {
+        return reportManager.downloadReport(report);
     }
 }

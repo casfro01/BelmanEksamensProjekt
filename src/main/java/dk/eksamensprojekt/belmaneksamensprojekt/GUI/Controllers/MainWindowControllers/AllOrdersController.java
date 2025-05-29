@@ -10,7 +10,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 import javafx.application.Platform;
@@ -24,16 +23,22 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
 public class AllOrdersController implements Initializable {
     private OrderModel orderModel;
@@ -76,7 +81,7 @@ public class AllOrdersController implements Initializable {
                 },
                 error -> { // hvis der sker en fejl
                     orderTableView.setPlaceholder(new Label("Could not fetch data."));
-                    ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR);
+                    displayError("Database Error", "Could not fetch orders: " + error.getMessage());
                 },
                 load -> { // imens vi venter
                     if (load)
@@ -140,7 +145,7 @@ public class AllOrdersController implements Initializable {
             // Sorterer ift. true og false -> dette gør det lidt langsomt, eller så er det fordi vi har billeder
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
 
-            // set redigeringsknappen
+            // sæt redigeringsknappen
             tblColAvailableReports1.setCellFactory(param -> new TableCell<Order, Button>() {
                 final Button editButton = new Button("Edit");
                 final Button downloadButton = new Button("Download");
@@ -157,7 +162,6 @@ public class AllOrdersController implements Initializable {
                             downloadOrder(curOrder);
                         } catch (Exception ex) {
                             displayError("Can't download", ex.getMessage());
-                            ex.printStackTrace();
                         }
                     });
                 }
@@ -167,8 +171,9 @@ public class AllOrdersController implements Initializable {
                         setGraphic(null);
                     else{
                         Order curOrder = getTableView().getItems().get(getIndex());
-                        if (curOrder.getReport() != null) {
-                            setGraphic(curOrder.getReport().getReportBlob() == null ? editButton : downloadButton);
+                        // hvis ordren er godkendt, er dokumenteret og har en rapport, så skal man kun have muligheden for at downloade rapporten
+                        if (curOrder.getReport() != null && curOrder.isApproved().toBoolean() && curOrder.isDocumented()) {
+                            setGraphic(downloadButton);
                         } else {
                             setGraphic(editButton);
                         }
@@ -207,9 +212,11 @@ public class AllOrdersController implements Initializable {
     }
 
     private void downloadOrder(Order curOrder) throws Exception {
+        splashMessage("Fetching report", "Fetching report for: " + curOrder.getOrderNumber(), DEFAULT_DISPLAY_TIME);
         Report databaseReport = ModelManager.INSTANCE.getReportModel().getReport(curOrder.getReport().getId());
         if (databaseReport != null) {
-            orderModel.downloadReport(databaseReport);
+            File outputFile = ModelManager.INSTANCE.getReportModel().downloadReport(databaseReport);
+            Desktop.getDesktop().open(outputFile);
         } else {
             throw new Exception("Report not found");
         }
@@ -222,7 +229,7 @@ public class AllOrdersController implements Initializable {
 
     // TODO : måske få den til at fylde mindre
     private void getInfo(Order order){
-        // TODO : åben en form for vindue
+        // TODO : måske åben en form for vindue
         Stage window = new Stage();
         window.setTitle("Order info: " + order.getOrderNumber());
         window.setResizable(false);

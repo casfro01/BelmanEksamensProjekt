@@ -80,8 +80,4 @@ public class OrderModel {
     public Order searchOrder(String txt) throws Exception {
         return orderManager.getById(txt);
     }
-
-    public void downloadReport(Report report) throws Exception {
-        orderManager.downloadReport(report);
-    }
 }

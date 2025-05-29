@@ -21,6 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -151,7 +152,8 @@ public class PreviewReportWindowController extends Controller implements Initial
         }
 
         Report databaseReport = reportModel.getReport(currentOrderReport.getId());
-        orderModel.downloadReport(databaseReport);
+        File outputFile = reportModel.downloadReport(databaseReport);
+        Desktop.getDesktop().open(outputFile);
     }
 
     public void savePressed(ActionEvent actionEvent) throws Exception {
