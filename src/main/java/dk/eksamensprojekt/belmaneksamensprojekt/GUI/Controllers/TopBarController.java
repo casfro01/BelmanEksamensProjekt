@@ -20,7 +20,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 
 public class TopBarController extends Controller implements Initializable {
     private UserModel userModel;
@@ -79,19 +79,6 @@ public class TopBarController extends Controller implements Initializable {
     // back metode
     @FXML
     private void backPressed(MouseEvent mouseEvent) {
-        /*
-        if (mouseEvent.getButton() == MouseButton.PRIMARY){
-            // nulstil current order
-            orderModel.setCurrentOrder(null);
-            // do back
-            if (userModel.getSelectedUser().get().getRole() == UserRole.OPERATOR) {
-                getInvoker().executeCommand(new SwitchWindowCommand(Windows.OperatorWindow));
-            }
-            else{
-                getInvoker().executeCommand(new SwitchWindowCommand(Windows.MainWindow));
-            }
-        }
-         */
         getInvoker().undoLastCommand();
     }
 }

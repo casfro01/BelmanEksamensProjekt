@@ -7,6 +7,7 @@ import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
 
 public class ShowAlerts {
+    public static double DEFAULT_DISPLAY_TIME = 1.5;
     /**
      * Dette vindue lader brugeren tage en beslutning - om brugeren trykker på knappen ok - eller ej
      * @param title Hvad skal titlen af advarslen være
@@ -19,6 +20,15 @@ public class ShowAlerts {
         confirmation.setContentText(warningMessage);
         var result = confirmation.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    /**
+     * Display en fejlbesked for brugeren
+     * @param title Titlen på vinduet
+     * @param message Hovedfejlen
+     */
+    public static void displayError(String title, String message){
+        displayMessage(title, message, Alert.AlertType.ERROR);
     }
 
     /**

@@ -15,7 +15,8 @@ import java.nio.file.*;
 import java.util.Arrays;
 import java.util.List;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.REPORTS_PATH;
+// import konstanter
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Report.REPORTS_PATH;
 
 public class OrderManager {
     private static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;

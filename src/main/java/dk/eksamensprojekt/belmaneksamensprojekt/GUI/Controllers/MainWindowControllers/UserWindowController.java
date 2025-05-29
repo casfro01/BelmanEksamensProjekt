@@ -3,7 +3,6 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowContr
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
-import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
@@ -24,6 +23,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 
 public class UserWindowController implements Initializable {
 
@@ -138,7 +140,7 @@ public class UserWindowController implements Initializable {
     private void BrowsefilesClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         // Sæt initial directory til vores billede mappe -> som simulerer deres "folder"
-        File initialDir = new File(Constants.IMAGES_PATH);
+        File initialDir = new File(IMAGES_PATH);
         if (initialDir.exists() && initialDir.isDirectory())
             fileChooser.setInitialDirectory(initialDir);
 
@@ -156,7 +158,7 @@ public class UserWindowController implements Initializable {
             user.setRole(role);
             usermodel.updateUser(user);
         } catch (Exception e) {
-            Constants.DisplayError("Update error", e.getMessage());
+            displayError("Update error", e.getMessage());
         }
     }
 

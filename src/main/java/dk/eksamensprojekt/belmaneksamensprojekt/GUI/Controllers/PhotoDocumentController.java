@@ -5,7 +5,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -25,7 +24,8 @@ import java.util.EnumSet;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.*;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
 public class PhotoDocumentController extends Controller implements Initializable {
     private final static int COLUMNS = 5;
@@ -130,7 +130,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             try {
                 promptUserDeleteImage(img);
             } catch (Exception ex) {
-                DisplayError("Error", ex.getMessage());
+                displayError("Error", ex.getMessage());
                 throw new RuntimeException(ex);
             } finally {
                 if (img.getImagePosition() != ImagePosition.EXTRA) {
@@ -187,7 +187,7 @@ public class PhotoDocumentController extends Controller implements Initializable
     @FXML
     private void takePictureClicked(ActionEvent event) throws Exception {
         if (!canAddPicture()) {
-            DisplayError("Can't add picture!", "Max Pictures Already");
+            displayError("Can't add picture!", "Max Pictures Already");
             return;
         }
 
@@ -217,12 +217,12 @@ public class PhotoDocumentController extends Controller implements Initializable
     @FXML
     private void submitButtonClicked() throws Exception {
         if (!hasEnoughPictures()) {
-            DisplayError("Can't submit", "Not Enough Pictures");
+            displayError("Can't submit", "Not Enough Pictures");
             return;
         }
         model.getCurrentOrder().setApproved(Approved.NOT_REVIEWED); // resetter dens status, da nye ting er kommet frem.
         model.submitButtonClicked();
-        ShowAlerts.splashMessage("Submit", "Submitting order...", DISPLAY_TIME);
+        splashMessage("Submit", "Submitting order...", DEFAULT_DISPLAY_TIME);
         backToMain();
     }
 

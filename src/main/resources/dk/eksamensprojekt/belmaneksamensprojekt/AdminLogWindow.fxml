@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="paneBackground" fx:id="paneOrder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="851.0" prefWidth="1172.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers.AdminLogWindow">
+<AnchorPane id="paneBackground" fx:id="paneOrder" minHeight="-Infinity" minWidth="-Infinity" prefHeight="851.0" prefWidth="1172.0" stylesheets="@StyleSheet.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers.LogController">
    <children>
       <TableView fx:id="logTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="1075.0" stylesheets="@StyleSheet.css">
          <columns>

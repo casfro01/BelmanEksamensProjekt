@@ -3,12 +3,10 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
-import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,6 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
 public class PreviewPictures extends Controller implements Initializable {
     OrderModel orderModel;
@@ -90,7 +91,7 @@ public class PreviewPictures extends Controller implements Initializable {
     }
 
     private void addImage(GridPane grid, Image image) {
-        javafx.scene.image.Image imageToView = new javafx.scene.image.Image("file:\\" + Constants.IMAGES_PATH + image.getPath());
+        javafx.scene.image.Image imageToView = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + image.getPath());
         javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(imageToView);
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(500);
@@ -145,7 +146,7 @@ public class PreviewPictures extends Controller implements Initializable {
         // før man kan lave en rapport, så skal alle billeder være godkendt
         for (Image img : orderModel.getCurrentOrder().getImageList()){
             if (img.isApproved() != Approved.APPROVED){
-                ShowAlerts.displayMessage("Approval Required", "All pictures must be approved before you can generate a report.", Alert.AlertType.WARNING);
+                displayMessage("Approval Required", "All pictures must be approved before you can generate a report.", Alert.AlertType.WARNING);
                 return;
             }
         }
@@ -170,9 +171,9 @@ public class PreviewPictures extends Controller implements Initializable {
         currentOrder.setDocumented(noImageRejected); // hvis den er false -> så sendes den tilbage til operatøren
         try {
             orderModel.saveButtonClicked();
-            ShowAlerts.splashMessage("Update", "Order status saved", Constants.DISPLAY_TIME);
+            splashMessage("Update", "Order status saved", DEFAULT_DISPLAY_TIME);
         } catch (Exception e) {
-            ShowAlerts.displayMessage("Update failed", "Could not save order. Try again later. " + e.getMessage(), Alert.AlertType.ERROR);
+            displayError("Update failed", "Could not save order. Try again later. " + e.getMessage());
         }
     }
 }

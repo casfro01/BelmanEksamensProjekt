@@ -1,17 +1,12 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
+package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Log;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.LogModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,10 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.ResourceBundle;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
 
 public class LogController extends Controller implements Initializable {
 
@@ -56,12 +51,10 @@ public class LogController extends Controller implements Initializable {
     private ImageView imgSearchAdmin;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logModel = ModelManager.INSTANCE.getLogModel();
         initializeTableView();
-
     }
 
     private void initializeTableView() {
@@ -73,12 +66,10 @@ public class LogController extends Controller implements Initializable {
         try {
             logTableView.setItems(logModel.getAllLogs());
         } catch (Exception e) {
-            ShowAlerts.displayMessage("Problem", "Could not load logs", Alert.AlertType.ERROR);
+            displayError("Problem", "Could not load logs.");
         }
-
-
-
     }
+
     private boolean searchInLogs(Log log) {
         return false;
     }

@@ -2,7 +2,6 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
-import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

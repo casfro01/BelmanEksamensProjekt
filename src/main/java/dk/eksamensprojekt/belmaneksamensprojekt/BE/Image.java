@@ -1,6 +1,12 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import java.io.File;
+
 public class Image {
+    // TODO : refactor måske til en metode hvor man kan .getAbsolutePath() -> for at undgå for mange statiske importer ?
+    // folder path
+    public static final String IMAGES_PATH = System.getProperty("user.dir") + File.separator + "Images" + File.separator;
+
     private int id;
     private String path;
     private Approved isApproved;

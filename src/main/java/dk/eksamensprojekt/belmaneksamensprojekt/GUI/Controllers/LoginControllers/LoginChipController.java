@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 
 public class LoginChipController extends Controller implements Initializable {
     private UserModel userModel;

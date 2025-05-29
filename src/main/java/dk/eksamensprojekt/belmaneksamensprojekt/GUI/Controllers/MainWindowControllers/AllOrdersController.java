@@ -4,7 +4,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
-import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.InfoWindowController;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
@@ -33,6 +32,8 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
 
 public class AllOrdersController implements Initializable {
     private OrderModel orderModel;
@@ -155,7 +156,7 @@ public class AllOrdersController implements Initializable {
                             Order curOrder = getTableView().getItems().get(getIndex());
                             downloadOrder(curOrder);
                         } catch (Exception ex) {
-                            Constants.DisplayError("Can't download", ex.getMessage());
+                            displayError("Can't download", ex.getMessage());
                             ex.printStackTrace();
                         }
                     });
@@ -201,7 +202,7 @@ public class AllOrdersController implements Initializable {
             // sæt ordrene ind
             orderTableView.setItems(sortedList);
         } catch (Exception e) {
-            ShowAlerts.displayMessage("Database Error", "Could not fetch orders: " + e.getMessage(), Alert.AlertType.ERROR);
+            displayError("Database Error", "Could not fetch orders: " + e.getMessage());
         }
     }
 
@@ -257,8 +258,8 @@ public class AllOrdersController implements Initializable {
             window.initModality(Modality.APPLICATION_MODAL);
             window.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            ShowAlerts.displayMessage("Window error", "Unable to load window, try again later!", Alert.AlertType.ERROR);
+            //e.printStackTrace();
+            displayError("Window error", "Unable to load window, try again later!");
         }
     }
 }

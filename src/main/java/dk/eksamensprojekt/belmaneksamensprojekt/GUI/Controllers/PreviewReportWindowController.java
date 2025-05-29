@@ -6,7 +6,6 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -34,7 +32,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
+import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.splashMessage;
 
 public class PreviewReportWindowController extends Controller implements Initializable {
     private final static int COLUMNS = 2;
@@ -140,7 +139,7 @@ public class PreviewReportWindowController extends Controller implements Initial
 
     private void initializeInformation() {
         lblOrderNumber.setText(orderModel.getCurrentOrder().getOrderNumber());
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(Order.DATE_FORMAT);
         lblDate.setText(LocalDate.now().format(dtf));
         lblCustomer.setText("??????????");
     }
@@ -175,6 +174,6 @@ public class PreviewReportWindowController extends Controller implements Initial
             }
         }
         reportModel.saveReport(strings);
-        ShowAlerts.splashMessage("Report saved", "The report has been saved!" , 1.5);
+        splashMessage("Report saved", "The report has been saved!" , 1.5);
     }
 }

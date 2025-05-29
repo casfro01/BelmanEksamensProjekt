@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class OperatorWindowController extends Controller implements Initializable {
+    // måske til bll / lav en verifier
     private static final String regex = "^\\d{3}-\\d{5}-\\d{3}-\\d$";
     private Pattern pattern;
     private ModelManager modelManager;

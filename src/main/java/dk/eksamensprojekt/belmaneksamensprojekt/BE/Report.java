@@ -1,8 +1,12 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Report {
+    // Konstanter
+    public static final String REPORTS_PATH = System.getProperty("user.dir") + File.separator + "Reports" + File.separator;
+
     private byte[] reportBlob;
     private final int id;
     private final User user;

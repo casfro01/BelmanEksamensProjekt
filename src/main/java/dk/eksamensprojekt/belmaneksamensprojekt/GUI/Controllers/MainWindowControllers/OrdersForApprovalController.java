@@ -1,7 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
-import dk.eksamensprojekt.belmaneksamensprojekt.Constants.Constants;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
@@ -116,7 +115,7 @@ public class OrdersForApprovalController implements Initializable {
         lblOrderNumber.getStyleClass().addAll("orderItemText", "normalText");
 
         // label med ordre bestilling dato
-        Label lblOrderDate = new Label(o.getOrderDate().format(DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)));
+        Label lblOrderDate = new Label(o.getOrderDate().format(DateTimeFormatter.ofPattern(Order.DATE_FORMAT)));
         ap.getChildren().add(lblOrderDate);
         lblOrderDate.setLayoutX(ap.getPrefWidth() / 2);
         lblOrderDate.setLayoutY(spacing * 1.5f);

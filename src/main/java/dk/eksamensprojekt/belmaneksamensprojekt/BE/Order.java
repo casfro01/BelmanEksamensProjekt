@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+    public static String DATE_FORMAT = "dd-MM-yyyy";
+
     private int id; // primærenøgle
     private Report report;
     private String orderNumber;
