@@ -4,16 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Order {
+public class Order extends BaseOrder{
     public static String DATE_FORMAT = "dd-MM-yyyy";
 
-    private int id; // primærenøgle
+   // private int id; // primærenøgle
     private Report report;
-    private String orderNumber;
+    //private String orderNumber;
     private ObservableList<Image> images = FXCollections.observableArrayList();
     private Approved isApproved;
     private boolean documented;
@@ -21,25 +18,30 @@ public class Order {
     private LocalDate orderDate = LocalDate.now();
 
     public Order(int id, String orderNumber, Report report, Approved isApproved) {
-        this.id = id;
-        this.orderNumber = orderNumber;
+        super(id, orderNumber);
+        //this.id = id;
+        //this.orderNumber = orderNumber;
         this.report = report;
         this.isApproved = isApproved;
         this.documented = false;
         this.orderType = OrderType.Small;
     }
     public Order(int id, String orderNumber, Report report, Approved isApproved, boolean documented) {
-        this.id = id;
-        this.orderNumber = orderNumber;
+        super(id, orderNumber);
+        //this.id = id;
+        //this.orderNumber = orderNumber;
         this.report = report;
         this.isApproved = isApproved;
         this.documented = documented;
         this.orderType = OrderType.Small;
     }
 
+    /*
     public int getId() {
         return id;
     }
+
+     */
 
     public Report getReport() {
         return report;
@@ -68,12 +70,16 @@ public class Order {
     public void setDocumented(boolean documented) {
         this.documented = documented;
     }
+    /*
     public String getOrderNumber() {
         return orderNumber;
     }
+     */
+    /*
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
+     */
 
     public void setImageList(ObservableList<Image> replicaImageList) {
         this.images = replicaImageList;
@@ -91,10 +97,5 @@ public class Order {
     }
     public void setOrderDate(LocalDate date){
         orderDate = date;
-    }
-
-    @Override
-    public String toString(){
-        return orderNumber;
     }
 }

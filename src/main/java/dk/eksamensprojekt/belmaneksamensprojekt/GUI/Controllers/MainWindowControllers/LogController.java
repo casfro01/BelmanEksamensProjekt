@@ -1,9 +1,12 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.BaseOrder;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.BaseUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Log;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.LogModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,11 +35,11 @@ public class LogController extends Controller implements Initializable {
 
     //Ordrenummer
     @FXML
-    private TableColumn<Log, String> tblColOrderNumberAdmin;
+    private TableColumn<Log, BaseOrder> tblColOrderNumberAdmin;
 
     //Navn på brugeren
     @FXML
-    private TableColumn<Log, String> tblColName;
+    private TableColumn<Log, BaseUser> tblColName;
 
     //handlingen
     @FXML
@@ -58,9 +61,9 @@ public class LogController extends Controller implements Initializable {
     }
 
     private void initializeTableView() {
-        tblColOrderNumberAdmin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
-        tblColName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
-        tblColSignature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
+        tblColOrderNumberAdmin.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getOrder()));
+        tblColName.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getUser()));
+        tblColSignature.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAction().toString()));
         tblColDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
 
         try {

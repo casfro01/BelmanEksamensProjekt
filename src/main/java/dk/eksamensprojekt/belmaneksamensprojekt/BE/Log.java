@@ -6,31 +6,37 @@ import java.time.LocalDate;
 public class Log{
 
     private int id;
-    private int UserID ;
+    private BaseUser user;
     private LocalDate dateTime;
-    private int OrderID;
+    private BaseOrder order;
+    private UserActions action;
 
-    public Log(int id, int UserID, LocalDate dateTime, int OrderID) {
+    public Log(int id, BaseUser user, UserActions action, LocalDate dateTime, BaseOrder order) {
         this.id = id;
-        this.UserID = UserID;
+        this.user = user;
+        this.action = action;
         this.dateTime = dateTime;
-        this.OrderID = OrderID;
+        this.order = order;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getuserID() {
-        return UserID;
+    public BaseUser getUser() {
+        return user;
     }
 
     public LocalDate getDateTime() {
         return dateTime;
     }
 
-    public int getOrderID() {
-        return OrderID;
+    public BaseOrder getOrder() {
+        return order;
+    }
+
+    public UserActions getAction() {
+        return action;
     }
 }
 
