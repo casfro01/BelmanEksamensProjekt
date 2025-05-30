@@ -2,7 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowContr
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.InfoWindowController;
@@ -33,7 +33,6 @@ import javafx.util.Callback;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

@@ -2,10 +2,9 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 
 import java.sql.*;
-import java.util.Arrays;
 import java.util.List;
 
 public class ReportDAO implements Repository<Report, Integer> {

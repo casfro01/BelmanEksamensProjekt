@@ -2,7 +2,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowContr
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
@@ -21,7 +21,6 @@ import javafx.util.Callback;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;

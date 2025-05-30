@@ -1,6 +1,5 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.ReportManager;
