@@ -11,14 +11,16 @@
    <children>
       <TableView fx:id="orderTableView" layoutX="55.0" layoutY="44.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="888.0" stylesheets="@StyleSheet.css">
          <columns>
-            <TableColumn fx:id="tblColOrderNumber" prefWidth="190.3999900817871" text="Order Number" />
-            <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="137.59999084472656" text="Approved" />
-            <TableColumn fx:id="tblColDocumented" minWidth="0.0" prefWidth="143.20001220703125" text="Documented" />
-            <TableColumn fx:id="tblColAvailableReports" minWidth="0.0" prefWidth="75.20001220703125" text="Edit">
+            <TableColumn fx:id="tblColOrderNumber" prefWidth="140.00003051757812" text="Order Number" />
+            <TableColumn fx:id="tblColApproved" minWidth="0.0" prefWidth="113.60000610351562" text="Approved" />
+            <TableColumn fx:id="tblColDocumented" minWidth="0.0" prefWidth="108.0" text="Documented" />
+            <TableColumn fx:id="tblColOrderDate" minWidth="0.0" prefWidth="111.20001220703125" text="Order Date" />
+            <TableColumn fx:id="tblColAvailableReports" minWidth="0.0" prefWidth="140.79998779296875" text="Edit">
                <columns>
-                  <TableColumn fx:id="tblColAvailableReports1" minWidth="0.0" prefWidth="76.0" text="Download" />
-               </columns></TableColumn>
-            <TableColumn fx:id="colOrderInfo" minWidth="0.0" prefWidth="156.79998779296875" text="Info" />
+                  <TableColumn fx:id="tblColAvailableReports1" minWidth="0.0" prefWidth="100.0" text="Download" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="colOrderInfo" minWidth="0.0" prefWidth="82.4000244140625" text="Info" />
          </columns>
       </TableView>
       <TextField fx:id="txtOrderSearchbar" layoutX="56.0" layoutY="4.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="740.0" promptText="Search in all orders" styleClass="smallText">

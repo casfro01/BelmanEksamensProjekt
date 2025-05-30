@@ -35,6 +35,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class AllOrdersController implements Initializable {
     private TableColumn<Order, Button> tblColAvailableReports1;
     @FXML
     private TableColumn<Order, Button> colOrderInfo;
+    @FXML
+    private TableColumn<Order, String> tblColOrderDate;
 
 
     @Override
@@ -116,6 +119,7 @@ public class AllOrdersController implements Initializable {
             // TODO : REFACTOR ! - tænker ikke det er godt
             tblColOrderNumber.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderNumber()));
             tblColApproved.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isApproved().toString()));
+            tblColOrderDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderDate().format(DateTimeFormatter.ofPattern(Order.DATE_FORMAT))));
 
             // sæt om ordren er dokumenteret - dette gøres med billeder og imageview
             tblColDocumented.setCellFactory(new Callback<>(){
