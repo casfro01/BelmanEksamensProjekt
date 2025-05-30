@@ -22,6 +22,10 @@ public class LogModel {
         return cachedLogs;
     }
 
+    public void reloadLogs() throws Exception {
+        cachedLogs.setAll(logManager.getAllLogs());
+    }
+
     public Log getLogByID(Integer id) throws Exception {
         return logManager.getLogById(id);
     }
