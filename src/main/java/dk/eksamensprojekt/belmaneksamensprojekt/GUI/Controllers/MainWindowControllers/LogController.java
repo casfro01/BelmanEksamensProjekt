@@ -69,7 +69,8 @@ public class LogController extends Controller implements Initializable {
         try {
             logTableView.setItems(logModel.getAllLogs());
         } catch (Exception e) {
-            displayError("Problem", "Could not load logs.");
+            e.printStackTrace();
+            displayError("Problem", e.getMessage());
         }
     }
 

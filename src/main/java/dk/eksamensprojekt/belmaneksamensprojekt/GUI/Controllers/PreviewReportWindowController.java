@@ -2,11 +2,13 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.LogCreatorHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -170,6 +172,7 @@ public class PreviewReportWindowController extends Controller implements Initial
             }
         }
         reportModel.saveReport(strings);
+        ModelManager.INSTANCE.getLogModel().createLog(LogCreatorHelper.logFactory(UserActions.CREATE_REPORT));
         splashMessage("Report saved", "The report has been saved!" , 1.5);
     }
 }

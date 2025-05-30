@@ -1,12 +1,14 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.LogCreatorHelper;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -154,10 +156,17 @@ public class PreviewPictures extends Controller implements Initializable {
         Order currentOrder = orderModel.getCurrentOrder();
         boolean noImageRejected = true;
         for (Image img : currentOrder.getImageList()){
-            // hvis én af billederne ikke er blevet gennemset endnu og man gemmer, så skal en progression -
+            // hvis én af billederne ikke er blevet gennemset endnu og man gemmer, så skal ens progression -
             // stadig gemmes -> men ordren er stadig ikke godkendt, men først når alle billeder er godkendt
             if (img.isApproved() == Approved.NOT_REVIEWED){
-                currentOrder.setApproved(Approved.NOT_APPROVED);
+                try {
+                    currentOrder.setApproved(Approved.NOT_REVIEWED);
+                    orderModel.saveButtonClicked();
+                    ModelManager.INSTANCE.getLogModel().createLog(LogCreatorHelper.logFactory(UserActions.EDIT_ORDER));
+                    displayMessage("Saved!", "Status is saved!", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    displayError("Not Saved", e.getMessage());
+                }
                 return;
             }
             else if (img.isApproved() == Approved.NOT_APPROVED)
@@ -167,6 +176,7 @@ public class PreviewPictures extends Controller implements Initializable {
         currentOrder.setDocumented(noImageRejected); // hvis den er false -> så sendes den tilbage til operatøren
         try {
             orderModel.saveButtonClicked();
+            ModelManager.INSTANCE.getLogModel().createLog(LogCreatorHelper.logFactory(noImageRejected ? UserActions.APPROVED_ORDER : UserActions.REJECT_ORDER));
             splashMessage("Update", "Order status saved", DEFAULT_DISPLAY_TIME);
         } catch (Exception e) {
             displayError("Update failed", "Could not save order. Try again later. " + e.getMessage());

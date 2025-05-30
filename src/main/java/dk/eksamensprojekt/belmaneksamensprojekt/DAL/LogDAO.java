@@ -25,7 +25,6 @@ public class LogDAO implements Repository<Log, Integer> {
                 """;
         DBConnector connector = new DBConnector();
     try (PreparedStatement ps = connector.getConnection().prepareStatement(sql)) {
-        ps.setInt(1, 1);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             // attributter
@@ -40,6 +39,8 @@ public class LogDAO implements Repository<Log, Integer> {
             Log log = new Log(id, new BaseUser(userId, userName), action, date, new BaseOrder(orderId, orderNumber));
             logs.add(log);
         }
+    } catch (Exception e) {
+        throw new Exception("Could not fetch logs " + e.getMessage());
     }
         return logs;
     }

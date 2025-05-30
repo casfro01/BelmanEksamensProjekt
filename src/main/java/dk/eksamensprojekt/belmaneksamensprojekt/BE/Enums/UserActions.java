@@ -4,13 +4,14 @@ import java.util.Arrays;
 
 public enum UserActions {
     DEFAULT(0),
-    DELETE_IMAGE(1),
+    DELETE_PICTURE(1),
     TAKE_PICTURE(2),
     CREATE_REPORT(3),
     APPROVED_PICTURE(4),
     REJECT_PICTURE(5),
     APPROVED_ORDER(6),
-    REJECT_ORDER(7);
+    REJECT_ORDER(7),
+    EDIT_ORDER(8);
 
     private int id;
 

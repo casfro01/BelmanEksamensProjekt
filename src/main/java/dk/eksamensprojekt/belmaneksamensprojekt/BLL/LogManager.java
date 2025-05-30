@@ -20,7 +20,7 @@ public class LogManager {
         return logDao.getById(id);
     }
 
-    public void createLog(Log log) throws Exception{
-        logDao.create(log);
+    public Log createLog(Log log) throws Exception{
+        return logDao.create(log);
     }
 }

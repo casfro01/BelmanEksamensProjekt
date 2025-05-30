@@ -25,6 +25,11 @@ public class LogModel {
     public Log getLogByID(Integer id) throws Exception {
         return logManager.getLogById(id);
     }
+
+    public void createLog(Log log) throws Exception {
+        Log newLog = logManager.createLog(log);
+        cachedLogs.add(newLog);
+    }
 }
 
 

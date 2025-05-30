@@ -3,10 +3,12 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.ImagePosition;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
+import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.LogCreatorHelper;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -195,6 +197,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
         model.saveButtonClicked();
+        ModelManager.INSTANCE.getLogModel().createLog(LogCreatorHelper.logFactory(UserActions.TAKE_PICTURE));
         refreshGrids();
     }
 
@@ -247,6 +250,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         img.setOrderId(0);
         model.saveButtonClicked();
         currentOrder.getImageList().remove(img);
+        ModelManager.INSTANCE.getLogModel().createLog(LogCreatorHelper.logFactory(UserActions.DELETE_PICTURE));
         refreshGrids();
     }
 
