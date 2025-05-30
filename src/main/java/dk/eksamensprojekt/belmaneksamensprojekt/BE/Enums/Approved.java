@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.BE;
+package dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums;
 
 public enum Approved {
     APPROVED(1),

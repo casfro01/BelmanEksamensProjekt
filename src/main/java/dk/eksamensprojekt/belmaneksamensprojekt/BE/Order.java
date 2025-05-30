@@ -1,5 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

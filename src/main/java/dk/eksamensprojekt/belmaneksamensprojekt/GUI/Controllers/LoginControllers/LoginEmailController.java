@@ -1,7 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserRole;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;

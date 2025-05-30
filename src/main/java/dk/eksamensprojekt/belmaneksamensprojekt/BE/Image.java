@@ -1,5 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.ImagePosition;
+
 import java.io.File;
 
 public class Image {

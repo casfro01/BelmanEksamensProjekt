@@ -1,4 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.BE;
+package dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums;
 
 public enum OrderType {
     Small(5, 10),

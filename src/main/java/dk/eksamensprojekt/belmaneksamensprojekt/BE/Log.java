@@ -1,5 +1,7 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
+
 import java.time.LocalDate;
 
 

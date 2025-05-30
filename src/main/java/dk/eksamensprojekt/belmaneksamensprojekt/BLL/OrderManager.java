@@ -1,7 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BLL;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.ImagePosition;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.OrderDaoFacade;
 import dk.eksamensprojekt.belmaneksamensprojekt.DAL.Repository;

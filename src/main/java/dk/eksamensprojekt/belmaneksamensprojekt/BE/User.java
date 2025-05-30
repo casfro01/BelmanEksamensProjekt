@@ -1,6 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
 
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
+
 public class User extends BaseUser{
 
     //private int id;

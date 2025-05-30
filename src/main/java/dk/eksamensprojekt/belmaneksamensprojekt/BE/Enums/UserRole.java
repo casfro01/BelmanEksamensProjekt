@@ -1,6 +1,4 @@
-package dk.eksamensprojekt.belmaneksamensprojekt.BE;
-
-import at.favre.lib.crypto.bcrypt.BCryptFormatter;
+package dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums;
 
 public enum UserRole {
     ADMIN(1),

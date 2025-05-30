@@ -1,9 +1,10 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.ImagePosition;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.OrderManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

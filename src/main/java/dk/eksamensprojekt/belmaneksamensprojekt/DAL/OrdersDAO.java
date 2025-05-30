@@ -1,9 +1,9 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Approved;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.OrderType;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.OrderType;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
 import java.sql.*;

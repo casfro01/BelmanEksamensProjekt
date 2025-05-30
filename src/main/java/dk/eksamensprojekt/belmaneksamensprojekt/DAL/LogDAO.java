@@ -3,7 +3,7 @@ package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.BaseOrder;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.BaseUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Log;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.UserActions;
+import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
