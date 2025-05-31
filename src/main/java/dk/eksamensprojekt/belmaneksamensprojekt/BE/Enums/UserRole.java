@@ -1,5 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums;
 
+/**
+ * Enum der repræsenterer brugerroller i systemet med korresponderende id'er
+ */
 public enum UserRole {
     ADMIN(1),
     QUALITY_ASSURANCE(2),
@@ -11,10 +14,19 @@ public enum UserRole {
         this.id = id;
     }
 
+    /**
+     * Henter id'et for rollen.
+     * @return Integer værdi for rollen.
+     */
     public int toInt() {
         return id;
     }
 
+    /**
+     * Konverterer et integer id til den korresponderende brugerrolle.
+     * @param id Integer id'et for rollen.
+     * @return Korresponderende brugerrolle, hvis ingen matcher så returneres der null.
+     */
     public static UserRole fromInt(int id) {
         return switch (id) {
             case 1 -> ADMIN;
@@ -24,6 +36,10 @@ public enum UserRole {
         };
     }
 
+    /**
+     * Konverterer enum navet til et bruger-venligt format.
+     * @return Formaterer rollenavnet til en tekst-streng
+     */
     @Override
     public String toString(){
         String[] name = name().toLowerCase().split("_");
@@ -35,6 +51,11 @@ public enum UserRole {
         return roleName.toString();
     }
 
+    /**
+     * Henter UserRole, der matcher en streng-repræsentation (case insensitive).
+     * @param value Den streng-værdi, der skal matches.
+     * @return Matchende brugerrolle eller null, hvis der ikke findes noget match.
+     */
     public static UserRole valueOfString(String value){
         for (UserRole role : values()) {
             if (role.toString().equalsIgnoreCase(value)) {
