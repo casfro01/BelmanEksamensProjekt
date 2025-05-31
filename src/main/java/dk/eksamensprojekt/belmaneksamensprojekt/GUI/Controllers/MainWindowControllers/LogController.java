@@ -10,6 +10,8 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -78,7 +80,13 @@ public class LogController extends Controller implements Initializable {
                         throw new Error(e.getMessage());
                     }
                 },
-                list -> logTableView.setItems(list),
+                list -> {
+                    FilteredList<Log> filteredList = new FilteredList<>(list);
+                    txtOrderSearchbarAdmin.textProperty().addListener((observable, oldValue, newValue)
+                            -> filteredList.setPredicate(log -> searchInLogs(log, newValue)));
+
+                    SortedList<Log> sortedList = new SortedList<>(filteredList);
+                    logTableView.setItems(sortedList);},
                 error ->{
                     displayError("Problem", error.getMessage());
                     logTableView.setPlaceholder(new Label("Unable to get logs... try again later!"));
@@ -89,7 +97,7 @@ public class LogController extends Controller implements Initializable {
         );
     }
 
-    private boolean searchInLogs(Log log) {
-        return false;
+    private boolean searchInLogs(Log log, String query) {
+        return log.getOrder().getOrderNumber().startsWith(query);
     }
 }
