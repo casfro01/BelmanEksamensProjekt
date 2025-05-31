@@ -65,7 +65,7 @@ public class OrderDaoFacade implements Repository<Order, String> {
             }
         }
         
-        order.getImageList().setAll(tempList);
+        order.setImageList(tempList);
 
         // opdatér report
         if (order.getReport() != null && order.getReport().getId() <= 0 && order.getReport().getUser() != null) {

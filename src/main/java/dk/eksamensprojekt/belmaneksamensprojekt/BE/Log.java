@@ -1,10 +1,15 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
-
 import java.time.LocalDate;
 
-
+/**
+ * Log klasse som indeholder informationer om hvad en bruger har foretaget sig.
+ * Disse informationer er hvem, hvad og hvornår -> på en specifik ordre.
+ * Dette hjælper med at "back-tracking" for at placere ansvar.
+ *
+ * Dog er det et godt spørgsmål, hvorvidt denne slags overvågning skal bruges og hvorvidt det er tilladt.
+ */
 public class Log{
 
     private int id;
