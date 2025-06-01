@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserActions;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Image;
@@ -10,6 +11,8 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.LogCreatorHelper;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
+
+// JavaFx
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,12 +25,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+// Java
 import java.net.URL;
 import java.util.ResourceBundle;
 
+// Statiske imports
 import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
+/**
+ * Denne kontroller håndterer godkendelsen af de forskellige billeder som befinder sig på et {@link Order} objekt.
+ */
 public class PreviewPictures extends Controller implements Initializable {
     OrderModel orderModel;
 
@@ -35,6 +43,9 @@ public class PreviewPictures extends Controller implements Initializable {
     private int row = 0;
     private int col = 0;
 
+    //
+    // JavaFx komponenter
+    //
     @FXML
     private ScrollPane imageScrollPane;
     @FXML
@@ -47,6 +58,8 @@ public class PreviewPictures extends Controller implements Initializable {
         orderModel = ModelManager.INSTANCE.getOrderModel();
 
         closeButton.setVisible(false);
+
+        // fullscreen af billeder:
         fullscreenImageView.setVisible(false);
 
         closeButton.setOnMousePressed(event -> {
@@ -57,10 +70,16 @@ public class PreviewPictures extends Controller implements Initializable {
             toggleFullScreen();
         });
 
+        // indsættelse af billeder
         Platform.runLater(() -> initializeScrollPane(orderModel.getCurrentOrder()));
     }
 
+    /**
+     * Indsætter billeder vinduet.
+     * @param order Den ordre hvis billeder skal vises.
+     */
     private void initializeScrollPane(Order order) {
+        // formatering
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(50);
@@ -69,6 +88,7 @@ public class PreviewPictures extends Controller implements Initializable {
 
         grid.getChildren().clear();
 
+        // indsættelse
         for (Image image : orderModel.getCurrentOrder().getImageList()) {
             addImage(grid, image);
         }
@@ -76,6 +96,9 @@ public class PreviewPictures extends Controller implements Initializable {
         imageScrollPane.setContent(grid);
     }
 
+    /**
+     * Viser / gemmer en stor version af det valgte billede.
+     */
     private void toggleFullScreen() {
         if (fullscreenImageView.isVisible()) {
             fullscreenImageView.setVisible(false);
@@ -88,6 +111,11 @@ public class PreviewPictures extends Controller implements Initializable {
         }
     }
 
+    /**
+     * Tilføjer det billede til det grid man indsætter
+     * @param grid Det {@link GridPane} som holder billeder
+     * @param image Det billede som skal tilføjes.
+     */
     private void addImage(GridPane grid, Image image) {
         javafx.scene.image.Image imageToView = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + image.getPath());
         javafx.scene.image.ImageView imageView = new javafx.scene.image.ImageView(imageToView);
