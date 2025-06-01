@@ -1,5 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
+/**
+ * Enum som holder styr på hvilke vinduer der kan skiftes til på main-vinduet.
+ */
 public enum MainWindowViews {
     AllOrdersWindow("AllOrdersWindow.fxml"),
     OrderForApprovalWindow("OrderforApprovalWindow.fxml"),

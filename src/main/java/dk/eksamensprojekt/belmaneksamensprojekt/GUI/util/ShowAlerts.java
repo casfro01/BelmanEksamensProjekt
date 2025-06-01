@@ -1,7 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.util.Duration;
