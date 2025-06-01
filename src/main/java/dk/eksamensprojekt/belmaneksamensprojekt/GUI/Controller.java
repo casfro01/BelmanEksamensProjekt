@@ -1,9 +1,9 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI;
 
-// projekt imports
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 
-// javafx
+// JavaFX
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,13 +11,25 @@ import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 
-// java
+// Java
 import java.util.*;
 
+/**
+ * Denne abstrakte klasse sørger for at holde styr på resizing.
+ * Hvis en kontroller nedarver fra denne, så kan dets komponenter resizes -> alt efter
+ * hvad der styrer skiftingen af vinduer -> desuden skal kontrolleren også forbindes til vinduet ->
+ * i form af "subscribers" på vinduets resize property.
+ */
 public abstract class Controller implements IController {
     private Map<Region, List<Double>> windowItems = new HashMap<>();
     private Map<ImageView, List<Double>> imageViews = new HashMap<>();
 
+    /**
+     * Gem komponenterne forbundet til vinduet hvori denne kontroller styrer.
+     * @param pane Grund panelet, hvorpå der befinder sig komponenter.
+     * @param width Base bredden af vinduet.
+     * @param height Base højden af vinduet.
+     */
     public void initializeComponents(Pane pane, double width, double height) {
         for (Node n : pane.getChildren()) {
             // hent "children" fra andre panes
@@ -52,11 +64,23 @@ public abstract class Controller implements IController {
         }
     }
 
+    /**
+     * Resize komponenterne på vinduet til en ny størrelse.
+     * @param width Ny bredde.
+     * @param height Ny højde
+     */
     @Override
     public void resizeItems(double width, double height) {
         resizeItems(windowItems, imageViews, width, height);
     }
 
+    /**
+     * Resize komponenterne på vinduet til en ny størrelse.
+     * @param components {@link Region} komponenter samlet i et {@link Map}.
+     * @param imageComponents {@link ImageView} komponenter samlet i et {@link Map}.
+     * @param width Ny bredde.
+     * @param height Ny højde.
+     */
     @Override
     public void resizeItems(Map<Region, List<Double>> components, Map<ImageView, List<Double>> imageComponents, double width, double height){
         width -= 15; // hold dig fra siden mand!
@@ -93,6 +117,14 @@ public abstract class Controller implements IController {
         }
     }
 
+    /**
+     * Resizer fonten (tekst str.) baseret på original størrelsen af vinduet -> teksten altid har
+     * samme procentvis størrelse.
+     * @param style Det styling som er på det nuværende tekstbaseret objekt.
+     * @param newWidth Ny bredde.
+     * @param newHeight Ny højde.
+     * @return {@link Font} som kan bruges til at resize tekst baseret objekter.
+     */
     @Override
     public Font getFont(ObservableList<String> style, double newWidth, double newHeight){
         double orgSize = style.contains("bigText") ? 32 : style.contains("normalText") ? 24 : 16;
