@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.LoginControllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
@@ -9,6 +10,8 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+
+// JavaFX
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -19,14 +22,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
+// Java
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+// Statiske imports
 import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 
+/**
+ * Denne kontroller håndtere brugerens "chip-login" når de "scanner" deres id/badge ...
+ * / Det er denne klasse om håndtere når brugeren vælger hvem de vil logge ind som.
+ */
 public class LoginChipController extends Controller implements Initializable {
     private UserModel userModel;
+
+    //
+    // JavaFX komponenter
+    //
     @FXML
     private ScrollPane scrollPaneUser;
 
@@ -37,19 +50,22 @@ public class LoginChipController extends Controller implements Initializable {
     }
 
 
+    /**
+     * Udfyldning af brugere i vinduet på scrollpanet.
+     */
     private void fillOutUsers() {
         // henter brugere
         List<User> users;
         try{
             users = userModel.getUsers();
         } catch (Exception e) {
-            ShowAlerts.displayMessage("Database Error", "Could not fetch users: " + e.getMessage(), Alert.AlertType.ERROR);
+            ShowAlerts.displayError("Database Error", "Could not fetch users: " + e.getMessage());
             return;
         }
         // hent anchorPane
         scrollPaneUser.getChildrenUnmodifiable().clear();
         AnchorPane ap = new AnchorPane();
-        // i think - sætter str.
+        // Sætter str. på ap
         ap.setPrefSize(ScrollPane.USE_COMPUTED_SIZE, ScrollPane.USE_COMPUTED_SIZE);
         scrollPaneUser.setStyle("-fx-background-color: #F2F2F2;");
 
@@ -67,9 +83,9 @@ public class LoginChipController extends Controller implements Initializable {
             userPane.setPrefHeight(spacing + 5);
             userPane.setLayoutY((10 + spacing) * counter);
             // sætter en metode som man kan bruge når man skal logge ind
-            userPane.setOnMouseClicked(event -> {loginAsUser(u);});
+            userPane.setOnMouseClicked(_ -> loginAsUser(u));
             userPane.setCursor(Cursor.HAND);
-            // hvilket element som man er nået til - så afstanden bliver dynamisk ift. mængden af elementer
+            // Hvilket element som man er nået til - så afstanden bliver dynamisk ift. mængden af elementer
             counter++;
         }
 
@@ -77,7 +93,8 @@ public class LoginChipController extends Controller implements Initializable {
     }
 
     private AnchorPane createUserPane(User user) {
-        AnchorPane ap = new AnchorPane(); // TODO : custom klasse som har en bruger når man klikker på den? - eller man kan lave en metode
+        // TODO : custom klasse el.lign. som har en bruger når man klikker på den? - eller man kan lave en metode ... måske et factory?
+        AnchorPane ap = new AnchorPane();
         ap.getStyleClass().add("userPane");
 
         int spacing = 10;
@@ -112,7 +129,7 @@ public class LoginChipController extends Controller implements Initializable {
 
 
     private void loginAsUser(User user){
-        // TODO : lav
+        // sætter den bruger, som brugeren har valgt.
         userModel.setSelectedUser(user);
         // hvis operator gå her
         if (user.getRole() == UserRole.OPERATOR){
