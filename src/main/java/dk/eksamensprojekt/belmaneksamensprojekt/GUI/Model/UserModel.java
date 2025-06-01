@@ -2,7 +2,6 @@ package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model;
 
 // Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
-import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BLL.UserManager;
 
