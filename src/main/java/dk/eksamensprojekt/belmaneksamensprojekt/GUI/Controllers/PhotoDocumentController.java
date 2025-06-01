@@ -213,8 +213,8 @@ public class PhotoDocumentController extends Controller implements Initializable
             return;
         }
 
-        Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
-        //Image image = model.takePictureClicked(getNextImageLocation());
+        //Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
+        Image image = model.takePictureClicked(getNextImageLocation());
         image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
         model.saveButtonClicked();
