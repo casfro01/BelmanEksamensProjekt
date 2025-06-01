@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
@@ -12,6 +13,8 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Providers.InvokerProvider;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+
+// JavaFX
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -31,6 +34,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+// Java
 import java.awt.*;
 import java.io.File;
 import java.net.URL;
@@ -38,11 +42,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
+// Statiske imports
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
+/**
+ * Denne kontroller håndtere alle-ordre-tabellen på hoved-vinduet.
+ */
 public class AllOrdersController implements Initializable {
     private OrderModel orderModel;
 
+    //
+    // JavaFX komponenter
+    //
     @FXML
     private TextField txtOrderSearchbar;
     @FXML
@@ -53,8 +64,6 @@ public class AllOrdersController implements Initializable {
     private TableColumn<Order, String> tblColApproved;
     @FXML
     private TableColumn<Order, Boolean> tblColDocumented;
-    @FXML
-    private TableColumn<Order, Button> tblColAvailableReports;
     @FXML
     private TableColumn<Order, Button> tblColAvailableReports1;
     @FXML
@@ -69,6 +78,9 @@ public class AllOrdersController implements Initializable {
         fillData();
     }
 
+    /**
+     * Henter dataet.
+     */
     private void fillData(){
         BackgroundTask.execute(
                 () ->{ // hvad skal der ske
@@ -94,6 +106,9 @@ public class AllOrdersController implements Initializable {
         );
     }
 
+    /**
+     * Opsætter kolonner + søgning til tabellen.
+     */
     public void setupTableFiltering() {
         // hent ordre
         try {
@@ -104,10 +119,8 @@ public class AllOrdersController implements Initializable {
                     if (newValue == null || newValue.isEmpty()) {
                         return true;
                     }
-                    //String lowerCaseFilter = newValue.toLowerCase(); tal til lowercase?
-                    // TODO : skal man også bare kunne søge på et ordrenummer sådan 128487523 istedet + begge? for 123-85433-.... ?
+                    // TODO : skal man også bare kunne søge på et ordrenummer sådan 128487523 i-stedet + begge? for 123-85433-.... ?
                     return order.getOrderNumber().startsWith(newValue);
-                    //return order.getOrderNumber().toLowerCase().contains(lowerCaseFilter); -> toLowercase ikke nødvendigt -> det er tal ... blev vi ikke lige enige om at det var startswith?
                 });
             });
 
@@ -115,7 +128,7 @@ public class AllOrdersController implements Initializable {
             SortedList<Order> sortedList = new SortedList<>(filteredList);
             sortedList.comparatorProperty().bind(orderTableView.comparatorProperty());
 
-            // TODO : REFACTOR ! - tænker ikke det er godt
+            // TODO : REFACTOR ! - tænker ikke det er godt -> måske have en item - klasse med disse properties.
             tblColOrderNumber.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderNumber()));
             tblColApproved.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isApproved().toString()));
             tblColOrderDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrderDate().format(DateTimeFormatter.ofPattern(Order.DATE_FORMAT))));
@@ -148,17 +161,19 @@ public class AllOrdersController implements Initializable {
             // Sorterer ift. true og false -> dette gør det lidt langsomt, eller så er det fordi vi har billeder
             tblColDocumented.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isDocumented()));
 
-            // sæt redigeringsknappen
+            // sæt redigeringsknappen / downloadknappen
             tblColAvailableReports1.setCellFactory(param -> new TableCell<Order, Button>() {
                 final Button editButton = new Button("Edit");
                 final Button downloadButton = new Button("Download");
 
                 {
+                    // edit knap action
                     editButton.setOnAction(e -> {
                         Order curOrder = getTableView().getItems().get(getIndex());
                         editOrder(curOrder);
                     });
 
+                    // download knap action
                     downloadButton.setOnAction(e -> {
                         try {
                             Order curOrder = getTableView().getItems().get(getIndex());
@@ -183,27 +198,23 @@ public class AllOrdersController implements Initializable {
                     }
                 }
             });
+            // hvis man ikke er admin, så skal man ikke kunne se info om de forskellige ordre
             if (ModelManager.INSTANCE.getUserModel().getSelectedUser().getValue().getRole() != UserRole.ADMIN){
                 colOrderInfo.setVisible(false);
             }
             else{
-                colOrderInfo.setCellFactory(new Callback<TableColumn<Order, Button>, TableCell<Order, Button>>() {
-                    @Override
-                    public TableCell<Order, Button> call(TableColumn<Order, Button> param) {
-                        return new TableCell<Order, Button>() {
-                            protected void updateItem(Button item, boolean empty) {
-                                if (empty)
-                                    setGraphic(null);
-                                else{
-                                    Order curOrder = getTableView().getItems().get(getIndex());
-                                    Button infoButton = new Button("Get info");
-                                    infoButton.setOnAction(event -> {
-                                        getInfo(curOrder);
-                                    });
-                                    setGraphic(infoButton);
-                                }
-                            }
-                        };
+                colOrderInfo.setCellFactory(param -> new TableCell<Order, Button>() {
+                    protected void updateItem(Button item, boolean empty) {
+                        if (empty)
+                            setGraphic(null);
+                        else{
+                            Order curOrder = getTableView().getItems().get(getIndex());
+                            Button infoButton = new Button("Get info");
+                            infoButton.setOnAction(event -> {
+                                getInfo(curOrder);
+                            });
+                            setGraphic(infoButton);
+                        }
                     }
                 });
             }
@@ -214,30 +225,47 @@ public class AllOrdersController implements Initializable {
         }
     }
 
+    /**
+     * Download en rapport
+     * @param curOrder Den ordre som holder rapporten
+     */
     private void downloadOrder(Order curOrder) throws Exception {
+        // vis brugeren vi henter rapporten
         splashMessage("Fetching report", "Fetching report for: " + curOrder.getOrderNumber(), DEFAULT_DISPLAY_TIME);
+        // hent den fra db
         Report databaseReport = ModelManager.INSTANCE.getReportModel().getReport(curOrder.getReport().getId());
+        // hvis der kommer én tilbage
         if (databaseReport != null) {
             File outputFile = ModelManager.INSTANCE.getReportModel().downloadReport(databaseReport);
+            // åben rapporten for brugeren
             Desktop.getDesktop().open(outputFile);
         } else {
             throw new Exception("Report not found");
         }
     }
 
+    /**
+     * Åbner preview picture vinduet - hvor man kan gennemgå det der er el. hvis man laver en fejl.
+     * @param order Den ordre som skal ændres.
+     */
     private void editOrder(Order order){
         orderModel.setCurrentOrder(order);
         InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 
-    // TODO : måske få den til at fylde mindre
+    /**
+     * Viser info for brugeren.
+     * @param order Den ordre hvis info skal vises.
+     */
+    // TODO : måske få den til at fylde mindre -> i egen klasse/controller klasse for vinduet?
     private void getInfo(Order order){
-        // TODO : måske åben en form for vindue
+        // laver ny stage
         Stage window = new Stage();
         window.setTitle("Order info: " + order.getOrderNumber());
         window.setResizable(false);
 
         try {
+            // load info vinduet
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("InfoWindow.fxml"));
             Scene scene = new Scene(loader.load());
             window.setScene(scene);
@@ -256,6 +284,7 @@ public class AllOrdersController implements Initializable {
             names.forEach(name -> sb.append(" - ").append(name).append("\n"));
             content.add(sb.toString());
 
+            // henter rapport info
             Report orderReport = order.getReport();
             if (orderReport != null && orderReport.getId() != 0){
                 if (orderReport.getUser() == null)
@@ -268,10 +297,10 @@ public class AllOrdersController implements Initializable {
 
             controller.setContent(content.toArray(new String[0]));
 
+            // vis vinduet
             window.initModality(Modality.APPLICATION_MODAL);
             window.show();
         } catch (Exception e) {
-            //e.printStackTrace();
             displayError("Window error", "Unable to load window, try again later!");
         }
     }
