@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers.MainWindowControllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.LoginUser;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.User;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
@@ -7,9 +8,10 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
+
+// JavaFX
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,18 +19,26 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.util.Callback;
 
+// Java
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+// Statiske imports
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
 import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 
+/**
+ * Denne kontroller håndterer bruger-vinduet på main-vinduet.
+ * Her kan brugerne (admin-brugeren) lave- og ændre brugere.
+ */
 public class UserWindowController implements Initializable {
-
     private UserModel usermodel;
+
+    //
+    // JavaFx komponenter
+    //
     @FXML
     private SplitMenuButton btnsplitMenu;
     @FXML
@@ -59,9 +69,12 @@ public class UserWindowController implements Initializable {
         initializeUsers();
     }
 
+    /**
+     * Indsætter roller i en {@link SplitMenuButton} på vinduet.
+     */
     private void initializeSplitMenuButton() {
         btnsplitMenu.getItems().clear();
-
+        // gennemløber alle roller som findes i programmet
         for (UserRole role : UserRole.values()) {
             MenuItem item = new MenuItem(role.toString());
             item.setOnAction(event -> btnsplitMenu.setText(role.toString()));
@@ -69,16 +82,22 @@ public class UserWindowController implements Initializable {
         }
     }
 
+    /**
+     * Laver en {@link SplitMenuButton} med brugerroller.
+     * Ken evt. bruges til at ændre brugerens rolle dynamisk -> når en rolle bliver valgt -
+     * så vil den automatisk opdatere den brugers rolle.
+     */
     private SplitMenuButton constructSplitMenuButton() {
         SplitMenuButton smb = new SplitMenuButton();
         smb.getItems().clear();
 
+        // gennemløber brugerroller i programmet
         for (UserRole role : UserRole.values()) {
             MenuItem item = new MenuItem(role.toString());
+            // når man har valgt en rolle, så skifter knappen tekst og programmet trykker på knappen for brugeren
             item.setOnAction(event -> {
                 smb.setText(role.toString());
-                smb.fire();
-                System.out.println("Fire in the hole");
+                smb.fire(); // trykker kunstigt på knappen.
             });
             smb.getItems().add(item);
         }
@@ -88,53 +107,54 @@ public class UserWindowController implements Initializable {
     private void initializeUsers() {
         tblUsers.getItems().clear();
         BackgroundTask.<ObservableList<User>>execute(
-                ()-> {
+                ()-> { // hvad skal der gøres
                     try {
                         return ModelManager.INSTANCE.getUserModel().getUsers();
                     }
                     catch (Exception e) {
-                        ShowAlerts.displayMessage("Database error", e.getMessage(), Alert.AlertType.ERROR);
+                        throw new Error(e);
                     }
-                    return FXCollections.emptyObservableList();
                 },
-                users -> {
+                users -> { // hvis det lykkes
                     Platform.runLater(this::initTableCols);
                     tblUsers.setItems(users);
 
                 },
-                error -> {
-                    ShowAlerts.displayMessage("Database error", error.getMessage(), Alert.AlertType.ERROR);
+                error -> { // hvis det fejler
+                    ShowAlerts.displayError("Database error", error.getMessage());
+                    tblUsers.setPlaceholder(new Label("Try again later."));
                 },
-                onLoading -> {
-                    tblUsers.setPlaceholder(new Label("Loading..."));
-                }
+                // når den loader
+                _ -> tblUsers.setPlaceholder(new Label("Loading..."))
 
         );
     }
 
-
+    /**
+     * Klargøre tableviewets kolonner.
+     */
     private void initTableCols() {
         colFullName.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getName()));
         colEmail.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getEmail()));
-        colRole.setCellFactory(new Callback<TableColumn<User, SplitMenuButton>, TableCell<User, SplitMenuButton>>() {
-            @Override
-            public TableCell<User, SplitMenuButton> call(TableColumn<User, SplitMenuButton> param) {
-                return new TableCell<>(){
-                    protected void updateItem(SplitMenuButton item, boolean empty) {
-                        if (empty)
-                            setGraphic(null);
-                        else{
-                            SplitMenuButton smb = constructSplitMenuButton();
-                            User user = getTableView().getItems().get(getIndex());
-                            smb.setOnAction(event -> changeUser(user, UserRole.valueOfString(smb.getText())));
-                            smb.setText(user.getRole().toString());
-                            setGraphic(smb);
-                        }
-                    }
-                };
+        // "indsæt" SplitMenuButton
+        colRole.setCellFactory(param -> new TableCell<>(){
+            protected void updateItem(SplitMenuButton item, boolean empty) {
+                if (empty)
+                    setGraphic(null);
+                else{
+                    SplitMenuButton smb = constructSplitMenuButton();
+                    User user = getTableView().getItems().get(getIndex());
+                    smb.setOnAction(event -> changeUser(user, UserRole.valueOfString(smb.getText())));
+                    smb.setText(user.getRole().toString());
+                    setGraphic(smb);
+                }
             }
         });
     }
+
+    /**
+     * Åben stifinder.
+     */
     @FXML
     private void BrowsefilesClicked(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();

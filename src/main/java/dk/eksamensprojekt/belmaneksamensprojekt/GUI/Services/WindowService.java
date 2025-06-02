@@ -1,16 +1,23 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Services;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
 import dk.eksamensprojekt.belmaneksamensprojekt.Main;
+
+// JavaFX imports
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Denne service har til formål at håndtere de vinduer som bliver vist i programmet (de "store" vinduer).
+ * Desuden holder den også styr på hvilken kontroller er i brug, og at komponenterne på vinduet resizer -
+ * som de skal.
+ */
 public class WindowService {
     private Stage rootStage;
     private Controller currentController;
@@ -25,6 +32,9 @@ public class WindowService {
         initRootWindow();
     }
 
+    /**
+     * Opstiller hvordan base vinduet skal se ud.
+     */
     private void initRootWindow(){
         this.rootStage.setWidth(1920);
         this.rootStage.setHeight(1080);
@@ -32,12 +42,16 @@ public class WindowService {
 
         setPane(Windows.LoginWindow);
 
-        // add listeners
+        // tilføj listeners
         rootStage.widthProperty().addListener((observable, oldValue, newValue) -> {currentController.resizeItems(newValue.doubleValue(), rootStage.getHeight());});
         rootStage.heightProperty().addListener((observable, oldValue, newValue) -> {currentController.resizeItems(rootStage.getWidth(), newValue.doubleValue());});
         rootStage.setMaximized(true);
     }
 
+    /**
+     * Skift vindue.
+     * @param window Det nye {@link Windows} som skal vises.
+     */
     public void setPane(Windows window) {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(window.getPath()));
@@ -46,10 +60,10 @@ public class WindowService {
             rootStage.show();
             currentController = fxmlLoader.getController();
 
-            // hvis hovedpanelet er et anchorpane så skal vi resize eller forbliver den bare som den er
+            // hvis hovedpanelet er et AnchorPane så skal vi resize ellers forbliver den bare som den er
             Parent parent = scene.getRoot();
             if (parent instanceof AnchorPane ap){
-                // alt andet end loginvinduet skal have topbar
+                // alt andet end login-vinduet skal have topbar
                 if (window != Windows.LoginWindow){
                     AnchorPane topbar = getTopBar();
                     ap.getChildren().add(topbar);
@@ -63,16 +77,20 @@ public class WindowService {
 
             currentController.resizeItems(rootStage.getWidth(), rootStage.getHeight());
         } catch (Exception e) {
-            e.printStackTrace();
-            ShowAlerts.displayMessage("Window Error", "Unable to load window: " + window.getName(), Alert.AlertType.ERROR);
+            ShowAlerts.displayError("Window Error", "Unable to load window: " + window.getName());
         }
     }
 
+    /**
+     * Hent topbaren.
+     * @return Et {@link AnchorPane} som består af forskellige komponenter - der udgør topbaren.
+     */
     private AnchorPane getTopBar() throws Exception{
         try {
+            // Load filen fra fxml vinduer
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("topbar.fxml"));
             fxmlLoader.load();
-            Controller c = fxmlLoader.getController();
+            //Controller c = fxmlLoader.getController();
 
             return fxmlLoader.getRoot();
         } catch (Exception e) {

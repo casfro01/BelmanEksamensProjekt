@@ -1,5 +1,8 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.util;
 
+/**
+ * Enum som holder styr på hvilke vinduer som kan åbnes.
+ */
 public enum Windows {
     LoginWindow("LoginChooserWindow.fxml"),
     MainWindow("MainWindow.fxml"),
@@ -7,7 +10,7 @@ public enum Windows {
     PhotoDocWindow("PhotodocumentWindow.fxml"),
     PreviewReportWindow("PreviewReportWindow.fxml"),
     PreviewPicturesWindow("PreviewPictures.fxml"),
-    //SmallOrBigWindow("SmallOrBigOrder.fxml"),
+    @Deprecated SmallOrBigWindow("SmallOrBigOrder.fxml"),
     LoginEmailWindow("LoginEmailWindow.fxml"),
     LoginChipWindow("LoginChipWindow.fxml");
 

@@ -1,22 +1,25 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.BE;
 
-
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.UserRole;
 
+/**
+ * Denne bruger klasse er en udvidelse af BaseUser med flere informationer så som bruger-rolle, profilbillede og email.
+ */
 public class User extends BaseUser{
-
-    //private int id;
-    //private String name;
+    //
+    // Instans-variabler
+    //
     private String email;
     private UserRole role;
     private String ImagePath;
 
+    //
+    // Constructors
+    //
     public User(int id, int role, String email, String name) {
         super(id, name);
         this.role = UserRole.fromInt(role);
         this.email = email;
-        //this.name = name;
-        //this.id = id;
         this.ImagePath = getBasicUserImage();
     }
 
@@ -24,23 +27,12 @@ public class User extends BaseUser{
         super(id, name);
         this.role = role;
         this.email = email;
-        //this.name = name;
-        //this.id = id;
         this.ImagePath = getBasicUserImage();
     }
 
-
-    /*
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-     */
-
+    //
+    // Getters
+    //
     public String getEmail() {
         return email;
     }
@@ -50,10 +42,11 @@ public class User extends BaseUser{
     }
 
     public String getImagePath() { return ImagePath;}
-    public void setImagePath(String imagePath) {ImagePath = imagePath;}
-    public void setRole(UserRole role) {this.role = role;}
+    public static String getBasicUserImage(){ return "Icons/BasicUser.jpg"; }
 
-    public static String getBasicUserImage(){
-        return "Icons/BasicUser.jpg";
-    }
+    //
+    // Setters
+    //
+    public void setImagePath(String imagePath) {ImagePath = imagePath;}
+    public void setRole(UserRole role) { this.role = role; }
 }

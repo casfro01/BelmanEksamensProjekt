@@ -12,7 +12,7 @@ import dk.eksamensprojekt.belmaneksamensprojekt.Main;
 
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.displayError;
 
-// javafx
+// JavaFX
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
-// java
+// Java
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,10 +33,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Denne kontroller håndterer ordre som skal godkendes - som ligger på main-vinduet.
+ */
 public class OrdersForApprovalController implements Initializable {
-
     private OrderModel orderModel;
 
+    //
+    // JavaFX komponenter
+    //
     @FXML
     private ScrollPane scrollPaneOrderApproval;
     @FXML
@@ -51,14 +56,16 @@ public class OrdersForApprovalController implements Initializable {
         initializeSearchbar();
     }
 
+    /**
+     * Udfyld dataet
+     */
     private void fillData(){
         BackgroundTask.execute(
             () ->{ // hvad skal der ske
-                // vil error ikke fange exception?
                 try{
-                    return orderModel.getOrderList();
+                    return orderModel.getOrderList(); // kast til onSuccess
                 } catch (Exception e) {
-                    throw new Error(e);
+                    throw new Error(e); // kast til onError
                 }
             },
             orders -> { // når tasken er færdiggjort
@@ -71,11 +78,13 @@ public class OrdersForApprovalController implements Initializable {
     }
 
 
+    /**
+     * Laver elementerne på i ordersForApproval boksen.
+     * @param filter Søge filteret / søge ord -> når der skal søges i ordrene.
+     */
     // TODO : lav til listview og gør det der ig? eller så har jeg en anden ide -> Vbox ? -> new VBox(10, items1, item2, ...);
-    // rename to load?
     private void createOrderForApprovalView(String filter) {
-        // kan dette laves på en bedre måde?
-        List<Order> todoOrders = orderModel.getOrdersForApproval();
+        List<Order> todoOrders = orderModel.getOrdersForApproval(); // hent ordre for approval
 
         // søge -> men det kan helt klart gøres bedre -> dette er den første og nemmeste. todo -> forbedre
         List<Order> actual = new ArrayList<>();
@@ -89,7 +98,7 @@ public class OrdersForApprovalController implements Initializable {
         AnchorPane ap = new AnchorPane();
         //ap.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-        // sortere efter bestillings dag
+        // sortere efter bestillings dag, for at få de ældste øverst
         todoOrders.sort(Comparator.comparing(Order::getOrderDate));
 
         int counter = 0;
@@ -103,7 +112,7 @@ public class OrdersForApprovalController implements Initializable {
             counter++;
         }
 
-        //scrollPaneOrderApproval.getChildrenUnmodifiable().clear();
+        // indsætter anchorPanet i scrollPanet.
         ap.setStyle("-fx-background-color: #c7c7c7;");
         ap.setPrefSize(scrollPaneOrderApproval.getPrefWidth(), Region.USE_COMPUTED_SIZE + spacing * 2);
         ap.setMinHeight(scrollPaneOrderApproval.getPrefHeight());
@@ -114,6 +123,11 @@ public class OrdersForApprovalController implements Initializable {
     }
 
 
+    /**
+     * Laver et {@link AnchorPane} for en ordre.
+     * @param o Den {@link Order} som skal have et {@link AnchorPane}, hvor dets informationer vises.
+     * @return Det {@link AnchorPane} som blev genereret baseret på ordren.
+     */
     private AnchorPane getOrderPane(Order o) {
         int spacing = 10;
         int estiHeight = 48;
@@ -156,11 +170,18 @@ public class OrdersForApprovalController implements Initializable {
         return ap;
     }
 
+    /**
+     * Åbner "Preview pictures" vinduet, hvor brugeren kan godkende ordrens informationer
+     * @param order Den {@link Order} som vinduet skal åbne for.
+     */
     private void openDocumentWindow(Order order){
         orderModel.setCurrentOrder(order);
         InvokerProvider.getInvoker().executeCommand(new SwitchWindowCommand(Windows.PreviewPicturesWindow));
     }
 
+    /**
+     * Opsætter søgebaren.
+     */
     private void initializeSearchbar() {
         txtSearchOrderApproval.textProperty().addListener((observable, oldValue, newValue) -> {
             createOrderForApprovalView(newValue);

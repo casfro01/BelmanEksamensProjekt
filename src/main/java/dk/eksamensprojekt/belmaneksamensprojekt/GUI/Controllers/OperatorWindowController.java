@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Commands.SwitchWindowCommand;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controller;
@@ -8,12 +9,12 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.BackgroundTask;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
+
+// JavaFX
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -21,11 +22,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+// Java
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+/**
+ * Denne kontroller håndterer ordrenummer-indtastning for operatøren -> (hjælper person med at skrive det ind).
+ */
 public class OperatorWindowController extends Controller implements Initializable {
     // måske til bll / lav en verifier
     private static final String regex = "^\\d{3}-\\d{5}-\\d{3}-\\d$";
@@ -33,6 +37,9 @@ public class OperatorWindowController extends Controller implements Initializabl
     private ModelManager modelManager;
     private OrderModel orderModel;
 
+    //
+    // JavaFX komponenter
+    //
     @FXML
     private TextField txtSearchOrdernumb;
     @FXML
@@ -51,26 +58,31 @@ public class OperatorWindowController extends Controller implements Initializabl
         initializeListView();
     }
 
+    /**
+     * Opsætter listviewet -> så den kan vise alle ordre for operatøren, så det er nemmere for brugeren
+     * at benytte.
+     */
     private void initializeListView() {
         // load liste
         BackgroundTask.execute(
             () -> {
                 try {
-                    FilteredList<Order> filteredList = new FilteredList<>(orderModel.getOrderList());
-                    return filteredList;
+                    return new FilteredList<>(orderModel.getOrderList());
                 } catch (Exception e) {
                     throw new Error(e);
                 }
             },
             orders -> {
                 Platform.runLater(() -> {
+                    // tilføj lytter til søgefelt
                     txtSearchOrdernumb.textProperty().addListener((observable, oldValue, newValue) -> {
                         orders.setPredicate(order -> filterOrder(order, newValue));
                     });
+                    // indsæt listen
                     lstOrders.setItems(orders);});
             },
             error ->{
-                Platform.runLater(() -> ShowAlerts.displayMessage("Database error", "Could not fetch orders: " + error.getMessage(), Alert.AlertType.ERROR));
+                Platform.runLater(() -> ShowAlerts.displayError("Database error", "Could not fetch orders: " + error.getMessage()));
             },
             loading -> {
                 Platform.runLater(() ->{
@@ -79,7 +91,7 @@ public class OperatorWindowController extends Controller implements Initializabl
             }
         );
 
-        // når man klikker på ordre
+        // når man klikker på en ordre
         lstOrders.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (lstOrders.getSelectionModel().getSelectedItem() != null){
                 orderModel.setCurrentOrder(lstOrders.getSelectionModel().getSelectedItem());
@@ -88,6 +100,12 @@ public class OperatorWindowController extends Controller implements Initializabl
         });
     }
 
+    /**
+     * Fortæller om en {@link Order}'s ordrenummer passer med søgetermen.
+     * @param order Den {@link Order} som skal "undersøges"
+     * @param query Søgeterm if form af {@link String}
+     * @return true eller false
+     */
     private boolean filterOrder(Order order, String query){
         return order.getOrderNumber().startsWith(query);
     }
@@ -99,6 +117,9 @@ public class OperatorWindowController extends Controller implements Initializabl
         }
     }
 
+    /**
+     * Tjekker om det indtastede passer med hvordan et ordrenummer er formateret
+     */
     private void searchOrder() throws Exception {
         String txt = txtSearchOrdernumb.getText();
         if (txt.isEmpty()) {
@@ -119,7 +140,7 @@ public class OperatorWindowController extends Controller implements Initializabl
         try {
             searchOrder();
         } catch (Exception e) {
-            ShowAlerts.displayMessage("Invalid Order", "Invalid order number " + e.getMessage(), Alert.AlertType.ERROR);
+            ShowAlerts.displayError("Invalid Order", "Invalid order number " + e.getMessage());
         }
     }
 }

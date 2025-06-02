@@ -1,5 +1,6 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.GUI.Controllers;
 
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.*;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.ImagePosition;
@@ -10,6 +11,8 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.ModelManager;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.LogCreatorHelper;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.Windows;
+
+// JavaFX
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,22 +24,29 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+// Java
 import java.net.URL;
 import java.util.EnumSet;
 import java.util.ResourceBundle;
 
+// Statiske imports
 import static dk.eksamensprojekt.belmaneksamensprojekt.BE.Image.IMAGES_PATH;
 import static dk.eksamensprojekt.belmaneksamensprojekt.GUI.util.ShowAlerts.*;
 
+/**
+ * Denne kontroller håndterer billede-fotografering for operatøren.
+ */
 public class PhotoDocumentController extends Controller implements Initializable {
     private final static int COLUMNS = 5;
     private OrderModel model;
     private Order currentOrder;
     private GridPane scollGridPane;
 
+    //
+    // JavaFX komponenter
+    //
     @FXML
     private GridPane gridPaneAngles;
-
     @FXML
     private ScrollPane extraImagesPane;
 
@@ -58,6 +68,9 @@ public class PhotoDocumentController extends Controller implements Initializable
         refreshGrids();
     }
 
+    /**
+     * Genindlæser billederne, som vises på vinduet.
+     */
     private void refreshGrids() {
         scollGridPane.getChildren().clear();
         resetGridPane();
@@ -65,6 +78,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         int col = 0;
         int row = 0;
 
+        // gennemløber alle billederne
         for (Image img : currentOrder.getImageList()) {
             if (img.getImagePosition() != ImagePosition.EXTRA) {
                 addImageToGrid(img);
@@ -80,6 +94,12 @@ public class PhotoDocumentController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Tilføjer et billede til det nederste pane (på vinduet).
+     * @param img Billede som skal tilføjes.
+     * @param col Hvilken kolonne den skal være på.
+     * @param row Hvilken rækker den skal være på.
+     */
     private void addImageToExtras(Image img, int col, int row) {
         ImageView imageView = new ImageView(new javafx.scene.image.Image("file:\\" + IMAGES_PATH + img.getPath()));
         imageView.setFitWidth(250);
@@ -92,6 +112,9 @@ public class PhotoDocumentController extends Controller implements Initializable
     }
 
 
+    /**
+     * Nulstiller den øverste billevisning (på vinduet)
+     */
     private void resetGridPane() {
         for (Node node : gridPaneAngles.getChildren()) {
             ImageView imageView = getFirstImageView((VBox) node);
@@ -103,11 +126,20 @@ public class PhotoDocumentController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Laver slet-knap til et billede
+     * @param img Det billede som skal have en slet-knap
+     * @param imageView Det view hvor billedet ligger på
+     * @param grid Den placering som billedet er på (øverste eller nederste pane)
+     * @return Et konstrueret {@link StackPane} med slet-knap på
+     */
     private StackPane createDeleteButton(Image img, ImageView imageView, GridPane grid) {
+        // laver knappen
         Button deleteButton = new Button("X");
         deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
         deleteButton.setVisible(false);
 
+        // laver et stackPane med billedet og slet-knappen
         StackPane pane = new StackPane(imageView, deleteButton);
         pane.setPrefSize(150, 150);
         pane.setAlignment(Pos.TOP_LEFT);
@@ -118,6 +150,7 @@ public class PhotoDocumentController extends Controller implements Initializable
         StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
         StackPane.setMargin(deleteButton, new Insets(10));
 
+        // tilføjer en aktion når man trykker på "billedet"
         pane.setOnMouseClicked(e -> {
             for (Node node : grid.getChildren()) {
                 if (node instanceof StackPane sp && sp.getChildren().size() > 1) {
@@ -127,6 +160,7 @@ public class PhotoDocumentController extends Controller implements Initializable
             deleteButton.setVisible(true);
         });
 
+        // når man trykker på slet knappen
         deleteButton.setOnAction(_ -> {
             try {
                 promptUserDeleteImage(img);
@@ -145,20 +179,16 @@ public class PhotoDocumentController extends Controller implements Initializable
         return pane;
     }
 
+    /**
+     * Tjekker om man kan tilføje et billede
+     */
     private boolean canAddPicture() {
-        /*
-        OrderType type = currentOrder.getType();
-        if (type == OrderType.Small) {
-            return currentOrder.getImageList().size() < SMALL_ORDER_MAX;
-        } else if (type == OrderType.Large) {
-            return currentOrder.getImageList().size() < LARGE_ORDER_MAX;
-        }
-
-        return true;
-         */
         return currentOrder.getImageList().size() < currentOrder.getType().getMax();
     }
 
+    /**
+     * Tjekker om man har nok billeder
+     */
     private boolean hasEnoughPictures() {
         EnumSet<ImagePosition> existingEnums = EnumSet.noneOf(ImagePosition.class);
         EnumSet<ImagePosition> requiredEnums = EnumSet.allOf(ImagePosition.class);
@@ -173,15 +203,6 @@ public class PhotoDocumentController extends Controller implements Initializable
             return false;
         }
 
-        /*
-        if (model.getCurrentOrderType() == OrderType.Small) {
-            return currentOrder.getImageList().size() >= SMALL_ORDER_MIN;
-        } else if (model.getCurrentOrderType() == OrderType.Large) {
-            return currentOrder.getImageList().size() >= LARGE_ORDER_MIN;
-        }
-
-        return false;
-         */
         return currentOrder.getImageList().size() >= currentOrder.getType().getMin();
     }
 
@@ -192,8 +213,8 @@ public class PhotoDocumentController extends Controller implements Initializable
             return;
         }
 
-        Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
-        //Image image = model.takePictureClicked(getNextImageLocation());
+        //Image image = new Image(-1, "WIN_20250516_11_55_30_Pro.jpg", Approved.NOT_REVIEWED, ModelManager.INSTANCE.getUserModel().getSelectedUser().get(), currentOrder.getId(), getNextImageLocation());
+        Image image = model.takePictureClicked(getNextImageLocation());
         image.setOrderId(currentOrder.getId());
         currentOrder.getImageList().add(image);
         model.saveButtonClicked();
@@ -201,6 +222,9 @@ public class PhotoDocumentController extends Controller implements Initializable
         refreshGrids();
     }
 
+    /**
+     * Henter den næste {@link ImagePosition} som et billede skal have (når man tager et billede)
+     */
     private ImagePosition getNextImageLocation() {
         int i = 0;
         for (Node node : gridPaneAngles.getChildren()) {
@@ -238,15 +262,12 @@ public class PhotoDocumentController extends Controller implements Initializable
             pane = (StackPane) vbox.getChildren().getFirst();
         }
 
-        System.out.println("adding image to grid");
         ImageView imageView = (ImageView)pane.getChildren().getFirst();
         javafx.scene.image.Image image = new javafx.scene.image.Image("file:\\" + IMAGES_PATH + imageBE.getPath());
         imageView.setImage(image);
-        System.out.println(imageView.getFitWidth());
     }
 
     private void promptUserDeleteImage(Image img) throws Exception {
-        System.out.println("pressed delete -> removing image");
         img.setOrderId(0);
         model.saveButtonClicked();
         currentOrder.getImageList().remove(img);

@@ -5,9 +5,13 @@ import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.OrderModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.ReportModel;
 import dk.eksamensprojekt.belmaneksamensprojekt.GUI.Model.UserModel;
 
+/**
+ * Denne klasse er en singleton enum - der holder alle modellerne,
+ * så de kan blive brugt over alt i gui-laget.
+ * Dette sikre konsistent data gennem hele gui-laget, hvilket gør det nemmere at få fat i data.
+ */
 public enum ModelManager {
     INSTANCE;
-
 
     private final OrderModel ORDER_MODEL;
     private final UserModel USER_MODEL;
@@ -22,7 +26,7 @@ public enum ModelManager {
         this.LOG_MODEL = new LogModel();
     }
 
-    // getters and setters
+    // getters
     public OrderModel getOrderModel(){ return ORDER_MODEL; }
     public UserModel getUserModel() { return USER_MODEL; }
     public ReportModel getReportModel() { return REPORT_MODEL; }

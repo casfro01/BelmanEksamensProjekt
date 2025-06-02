@@ -1,28 +1,38 @@
 package dk.eksamensprojekt.belmaneksamensprojekt.DAL;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
+// Projekt imports
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.Approved;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Order;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Enums.OrderType;
 import dk.eksamensprojekt.belmaneksamensprojekt.BE.Report;
 
+// Java imports
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Denne klasse håndterer ordrens base information udenfor billeder og rapport, da det er flyttet til en anden klasse.
+ * Datakilden er microsoft-sql-database
+ */
 public class OrdersDAO implements Repository<Order, String>{
 
     @Override
     public List<Order> getAll() throws Exception{
-        List<Order> orders = new ArrayList<>();
+        List<Order> orders = new ArrayList<>(); // retur liste
+        // sql-sætning til at hente alle ordre
         String SQL = """
                 SELECT Orders.ID, Orders.OrderNumber, Orders.Approve, Orders.ReportID, Orders.Documented, Orders.Size, Orders.OrderDate FROM Orders;
                 """;
         DBConnector conn = new DBConnector();
         try(PreparedStatement ps = conn.getConnection().prepareStatement(SQL)){
+            // udfør
             ResultSet rs = ps.executeQuery();
+            // gennemgå alt dataet
             while(rs.next()){
+                // hent rapport id
                 Report r = new Report(rs.getInt(4), null, null);
+                // hent hvorvidt den er godkendt
                 Approved approvedEnum;
                 boolean approvedColumn = rs.getBoolean(3);
                 if (rs.wasNull()) {
@@ -33,25 +43,31 @@ public class OrdersDAO implements Repository<Order, String>{
                     approvedEnum = Approved.NOT_APPROVED;
                 }
 
+                // opbyg et nydt objekt
                 Order current = new Order(rs.getInt(1), rs.getString(2), r, approvedEnum, rs.getBoolean(5));
+                // sæt ordre størrelsen
                 current.setOrderType(OrderType.getTypeFromIndex(rs.getInt(6)));
+                // hent / sæt datoen
                 current.setOrderDate(rs.getDate(7).toLocalDate());
+                // tilføj til retur listen
                 orders.add(current);
             }
         }
         catch(Exception e){
             throw new Exception("Failed to get all Orders: " + e.getMessage());
         }
+        // send returlisten tilbage
         return orders;
     }
 
     /**
-     * Denne metode bruger ordre nummeret som ligger
-     * @param orderNumber
-     * @return
+     * Denne metode bruger ordre nummeret som ligger på ordren / er givet med ordren
+     * @param orderNumber Dét ordrenummer som definerer ordren (ikke primærnøglen)
+     * @return Den ordre som ordrenummeret tilhører
      */
     @Override
     public Order getById(String orderNumber) throws Exception{
+        // sql-sætning som henter ordre-informationer baseret på ordrenummeret
         String sql = """
                 SELECT Orders.ID, Orders.ReportID, Orders.Approve, Orders.Documented, Orders.Size, Orders.OrderDate FROM Orders
                 FULL OUTER JOIN Reports ON Orders.ReportID = Reports.ID
@@ -63,10 +79,12 @@ public class OrdersDAO implements Repository<Order, String>{
             // udfør
             ps.setString(1, orderNumber);
             ResultSet rs = ps.executeQuery();
+            // hvis der ikke er noget resultat så skal den stoppe her
             if (!rs.next()) {
                 return null;
             }
 
+            // ordre status
             boolean approvedColumn = rs.getBoolean(3);
             Approved apr = rs.wasNull() ? Approved.NOT_REVIEWED : Approved.valueOfBoolean(approvedColumn);
 
@@ -93,6 +111,7 @@ public class OrdersDAO implements Repository<Order, String>{
 
     @Override
     public void update(Order entity) throws Exception {
+        // sql-sætning til at opdatere kolonner hvor id'et er mødt
         String sql = """
                 UPDATE Orders SET Approve = ?, ReportID = ?, Documented = ? WHERE ID = ?;
                 """;
@@ -104,7 +123,7 @@ public class OrdersDAO implements Repository<Order, String>{
             else
                 ps.setInt(2, entity.getReport().getId());
 
-            // set id
+            // sæt id
             ps.setInt(4, entity.getId());
 
             //Approve
@@ -115,10 +134,9 @@ public class OrdersDAO implements Repository<Order, String>{
             //Documented
             ps.setBoolean(3, entity.isDocumented());
             ps.executeUpdate();
-        }
-            catch(SQLServerException e){
+        } catch(Exception e){
             throw new Exception("Failed to update Orders: " + e.getMessage());
-            }
+        }
     }
 
     @Override
